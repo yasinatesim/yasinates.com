@@ -1,0 +1,54 @@
+@import '../../../assets/scss/base/variables';
+
+.container {
+  margin-top: 60px;
+  margin-bottom: 30px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+  padding: 30px;
+
+  figure {
+    text-align: center;
+    figcaption {
+      margin-top: 10px;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 30px;
+  }
+
+  p,
+  pre,
+  code,
+  figure,
+  blockquote {
+    margin-top: 15px;
+  }
+
+  pre,
+  code {
+    background-color: rgb(242, 242, 242);
+    padding: 15px;
+  }
+
+  blockquote {
+    background-color: white;
+    border-left: 2px solid $base-color;
+    display: inline-block;
+    padding: 15px;
+    line-height: 1.9;
+  }
+
+  a {
+    font-weight: 700;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

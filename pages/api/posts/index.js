@@ -1,0 +1,73 @@
+/* eslint-disable */
+import { postsDB } from '@/utils/db';
+import Comparer from '@/utils/diff';
+
+import { Fetch, Commit } from '@/utils/fetch';
+
+export async function allPosts() {
+  const mediumPostsAll = await Fetch(`${process.env.NEXT_PUBLIC_MEDIUM_URL}`);
+  const devPostsAll = await Fetch(`${process.env.NEXT_PUBLIC_DEV_URL}${process.env.NEXT_PUBLIC_DEV_USERNAME}`);
+
+  const mediumPosts = mediumPostsAll.map((item) => {
+    const {
+      guid, title, thumbnail, description,
+    } = item;
+
+    let id = guid.split('/');
+    id = id[id.length - 1];
+
+    return {
+      id,
+      title,
+      thumbnail,
+      description: description.match(/<(p)>(.*?)<\/p>/)[0].replace(/(<([^>]+)>)/gi, ''),
+      content: description.replace(/<img(.*?)(width=\"1\")(.*?)>/, ''),
+      source_website: 'medium',
+    };
+  });
+
+  const devPosts = await Promise.all(
+    devPostsAll.map(async (item) => {
+      const { id } = item;
+      const devPost = await Fetch(`${process.env.NEXT_PUBLIC_DEV_URL}/${id}`);
+      const {
+        title, description, cover_image, body_html,
+      } = devPost;
+
+      return {
+        id: id.toString(),
+        title,
+        thumbnail: cover_image,
+        description,
+        content: body_html,
+        source_website: 'dev',
+      };
+    }),
+  );
+
+  // Check the API call
+  let posts = [...mediumPosts, ...devPosts];
+  const cachedPosts = postsDB.get('posts').value();
+  const post = posts.filter(Comparer(cachedPosts, 'id'));
+
+  if (post.length > 0) {
+    posts = [...post, ...cachedPosts];
+
+    postsDB.set('posts', posts).write();
+
+    await Commit({ file: 'posts', content: posts, message: 'build(autocommit): add new post on github' });
+  } else {
+    posts.forEach((m) => {
+      const item = cachedPosts.find((n) => n.id === m.id);
+      if (item) {
+        return Object.assign(item, m);
+      }
+    });
+
+    postsDB.set('posts', cachedPosts).write();
+
+    await Commit({ file: 'posts', content: cachedPosts, message: 'build(autocommit): update the post on github' });
+  }
+}
+
+export default allPosts;

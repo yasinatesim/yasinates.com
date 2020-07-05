@@ -1,0 +1,68 @@
+@import '../../../assets/scss/base/variables';
+
+.item {
+  position: relative;
+  border: 1px solid $base-color;
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+  margin-top: 15px;
+  cursor: pointer;
+
+  @media (min-width: 768px) {
+    margin-top: 0;
+  }
+}
+
+.imageContainer {
+  position: relative;
+
+  img {
+    height: 146px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+  }
+
+  span {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: $base-color;
+    padding: 5px 15px;
+    color: $light-color;
+  }
+}
+
+.container {
+  display: block;
+}
+
+.title {
+  font-weight: 700;
+  margin: 15px;
+  display: block;
+}
+
+.content {
+  padding-bottom: 15px;
+  display: block;
+
+  p {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 15px;
+  }
+}
+
+.button {
+  position: absolute;
+  bottom: -18.5px;
+  left: 50px;
+  right: 50px;
+  background-color: $base-color;
+  color: $light-color;
+  padding: 10px;
+  text-align: center;
+  box-sizing: border-box;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.25);
+}

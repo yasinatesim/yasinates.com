@@ -1,0 +1,17 @@
+footer {
+  padding-top: 60px;
+  padding-bottom: 15px;
+  text-align: center;
+  @media (min-width: 992px) {
+    text-align: left;
+  }
+}
+
+.footer-social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media (min-width: 992px) {
+    justify-content: flex-end;
+  }
+}

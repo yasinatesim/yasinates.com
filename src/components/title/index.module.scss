@@ -1,0 +1,19 @@
+@import '../../../assets/scss/base/variables';
+
+.container {
+  margin-top: 60px;
+  padding-left: 15px;
+  border-left: 2px solid $base-color;
+  margin-bottom: 30px;
+
+  h2 {
+    font-size: 14px;
+  }
+
+  div {
+    color: $sub-title-color;
+    font-weight: 400;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+}
