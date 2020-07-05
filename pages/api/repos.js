@@ -9,6 +9,11 @@ export async function Repos() {
 
   let repos = [...githubRepos];
 
+  // reposDB
+  //   .get('repos')
+  //   .push(...repos)
+  //   .write();
+
   const cachedRepos = reposDB.get('repos').value();
   const repo = repos.filter(Comparer(cachedRepos, 'id'));
 

@@ -47,6 +47,12 @@ export async function allPosts() {
 
   // Check the API call
   let posts = [...mediumPosts, ...devPosts];
+
+  // postsDB
+  //   .get('posts')
+  //   .push(...posts)
+  //   .write();
+
   const cachedPosts = postsDB.get('posts').value();
   const post = posts.filter(Comparer(cachedPosts, 'id'));
 
