@@ -6,8 +6,8 @@ import About from '@/containers/about';
 import Projects from '@/containers/projects';
 import Posts from '@/containers/posts';
 
-import { posts } from './api/cache/posts.json';
-import { repos } from './api/cache/repos.json';
+import { posts } from '../public/api/cache/posts.json';
+import { repos } from '../public/api/cache/repos.json';
 
 function Home({ posts, repos }) {
   return (

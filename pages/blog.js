@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // Components
 import Posts from '@/containers/posts';
 
-import { posts } from './api/cache/posts.json';
+import { posts } from '../public/api/cache/posts.json';
 
 function AboutPage({ posts: articles }) {
   return (

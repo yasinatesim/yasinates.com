@@ -1,4 +1,4 @@
-import { posts } from '../cache/posts.json';
+import { posts } from '../../../public/api/cache/posts.json';
 
 function SinglePost({ query: { id } }, res) {
   const singlePost = posts.filter((p) => p.id === id.toString());

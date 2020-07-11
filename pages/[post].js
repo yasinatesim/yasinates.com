@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // Components
 import Post from '@/containers/post';
 
-import { posts } from './api/cache/posts.json';
+import { posts } from '../public/api/cache/posts.json';
 
 function PostPage({ post }) {
   const content = post ? post.content : null;
