@@ -20,7 +20,7 @@ async function Repos(req, res) {
   if (repo.length > 0) {
     repos = [...repo, ...cachedRepos];
 
-    await Promise.all(Commit({ file: 'repos', content: repos, message: 'build(autocommit): add new repository on github' }));
+    // await Commit({ file: 'repos', content: repos, message: 'build(autocommit): add new repository on github' });
 
     res.status(200).json({ repos });
   } else {
@@ -31,7 +31,7 @@ async function Repos(req, res) {
       }
     });
 
-    await Promise.all(Commit({ file: 'repos', content: cachedRepos, message: 'build(autocommit): update the repository on github' }));
+    // await Commit({ file: 'repos', content: cachedRepos, message: 'build(autocommit): update the repository on github' });
 
     res.status(200).json({ repos: cachedRepos });
   }
