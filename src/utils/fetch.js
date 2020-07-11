@@ -26,14 +26,14 @@ export async function Commit({ file, content, message }) {
     password: process.env.NEXT_PUBLIC_GH_TOKEN,
   };
 
-  const { data: fileSHAs } = await axios.get(`${process.env.NEXT_PUBLIC_GH_REPOSITORY}/contents/pages/api/cache`, {
+  const { data: fileSHAs } = await axios.get(`${process.env.NEXT_PUBLIC_GH_REPOSITORY}/contents/public/api/cache`, {
     auth,
   });
 
   const { sha } = fileSHAs.find((f) => f.path.includes(file));
 
   await axios.put(
-    `${process.env.NEXT_PUBLIC_GH_REPOSITORY}/contents/pages/api/cache/${file}.json`,
+    `${process.env.NEXT_PUBLIC_GH_REPOSITORY}/contents/public/api/cache/${file}.json`,
     {
       path: `pages/api/cache/${file}.json`,
       message,
