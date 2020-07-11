@@ -16,14 +16,13 @@ async function Repos(req, res) {
 
   const cachedRepos = reposDB.get('repos').value();
   const repo = repos.filter(Comparer(cachedRepos, 'id'));
-  const content = null
 
   if (repo.length > 0) {
     repos = [...repo, ...cachedRepos];
-    content = repos
 
-    // await Commit({ file: 'repos', content, message: 'build(autocommit): add new repository on github' });
+    await Commit({ file: 'repos', content: repos, message: 'build(autocommit): add new repository on github' });
 
+    res.status(200).json({ repos });
   } else {
     repos.forEach((m) => {
       const item = cachedRepos.find((n) => n.id === m.id);
@@ -32,16 +31,14 @@ async function Repos(req, res) {
       }
     });
 
-    content = cachedRepos
+    await Commit({
+      file: 'repos',
+      content: cachedRepos,
+      message: 'build(autocommit): update the repository on github',
+    });
 
-    // await Commit({
-    //   file: 'repos',
-    //   content,
-    //   message: 'build(autocommit): update the repository on github',
-    // });
+    res.status(200).json({ repos: cachedRepos });
   }
-
-  res.status(200).json({ repos: content });
 }
 
 export default Repos;
