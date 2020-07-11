@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 // Styles
 import styles from './index.module.scss';
 
-function Post({
-  title, thumbnail, content, sourceWebsite,
-}) {
+function Post({ title, thumbnail, content, sourceWebsite }) {
   return (
     <div className={styles.container}>
       {thumbnail && sourceWebsite === 'dev' && (

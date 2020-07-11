@@ -10,9 +10,7 @@ async function allPosts(req, res) {
   const devPostsAll = await Fetch(`${process.env.NEXT_PUBLIC_DEV_URL}${process.env.NEXT_PUBLIC_DEV_USERNAME}`);
 
   const mediumPosts = mediumPostsAll.map((item) => {
-    const {
-      guid, title, thumbnail, description,
-    } = item;
+    const { guid, title, thumbnail, description } = item;
 
     let id = guid.split('/');
     id = id[id.length - 1];
@@ -31,9 +29,7 @@ async function allPosts(req, res) {
     devPostsAll.map(async (item) => {
       const { id } = item;
       const devPost = await Fetch(`${process.env.NEXT_PUBLIC_DEV_URL}/${id}`);
-      const {
-        title, description, cover_image, body_html,
-      } = devPost;
+      const { title, description, cover_image, body_html } = devPost;
 
       return {
         id: id.toString(),
@@ -43,7 +39,7 @@ async function allPosts(req, res) {
         content: body_html,
         source_website: 'dev',
       };
-    }),
+    })
   );
 
   // Check the API call

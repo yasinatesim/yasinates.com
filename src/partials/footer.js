@@ -6,7 +6,10 @@ function Footer() {
     <footer>
       <div className="container">
         <div className="row">
-          <div className="col-md-6">Copyright &copy; {new Date().getFullYear()} | @yasinatesim</div>
+          <div className="col-md-6">
+            Copyright &copy;
+            {new Date().getFullYear()} | @yasinatesim
+          </div>
           <div className="col-md-6">
             <div className="footer-social-links">
               <SocialMedia />

@@ -18,7 +18,7 @@ export async function Fetch(url) {
 }
 
 export async function Commit({ file, content, message }) {
-  const fileContent = JSON.stringify({[file]: content});
+  const fileContent = JSON.stringify({ [file]: content });
   const encodedContent = Buffer.from(fileContent).toString('base64');
 
   const auth = {
