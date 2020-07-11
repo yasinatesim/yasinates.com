@@ -18,7 +18,8 @@ export async function Fetch(url) {
 }
 
 export async function Commit({ file, content, message }) {
-  const encodedContent = Buffer.from(JSON.stringify(content)).toString('base64');
+  const fileContent = JSON.stringify({[file]: content});
+  const encodedContent = Buffer.from(fileContent).toString('base64');
 
   const auth = {
     username: process.env.NEXT_PUBLIC_GH_USERNAME,
