@@ -44,19 +44,19 @@ I wanted to copy it, I wrote the data to static json files, using Next.js's [Sta
 </tr>
 <tr>
 <td>
-<a  href="https://github.com/conventional-changelog/commitlint">Commitlint</a>
+<a href="https://github.com/conventional-changelog/commitlint">Commitlint</a>
 </td>
 <td>Send commit messages to <a  href="https://www.conventionalcommits.org/en/v1.0.0/">conventional commits</a> rules</td>
 </tr>
 <tr>
 <td>
-<a  href="https://github.com/css-modules/css-modules">CSS Module</a>
+<a href="https://github.com/css-modules/css-modules">CSS Module</a>
 </td>
 <td>Class names and animation names are scoped locally CSS files</td>
 </tr>
 <tr>
 <td>
-<a  href="[https://sass-lang.com/](https://sass-lang.com/)">SASS</a>
+<a href="https://sass-lang.com/](https://sass-lang.com/">SASS</a>
 </td>
 <td>The most mature, stable, and powerful professional grade CSS extension language in the world</td>
 </tr>
