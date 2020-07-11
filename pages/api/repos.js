@@ -1,20 +1,15 @@
 /* eslint-disable */
-import { reposDB } from '@/utils/db';
 import Comparer from '@/utils/diff';
 
 import { Fetch, Commit } from '@/utils/fetch';
+
+import { repos as cachedRepos } from '../../public/api/cache/repos.json';
 
 async function Repos(req, res) {
   const githubRepos = await Fetch(`${process.env.NEXT_PUBLIC_GITHUB_URL}`);
 
   let repos = [...githubRepos];
 
-  reposDB
-    .get('repos')
-    .push(...repos)
-    .write();
-
-  const cachedRepos = reposDB.get('repos').value();
   const repo = repos.filter(Comparer(cachedRepos, 'id'));
 
   if (repo.length > 0) {

@@ -1,7 +1,7 @@
-import { posts } from '../../../public/api/cache/posts.json';
+import { posts as cachedPosts } from '../../../public/api/cache/posts.json';
 
 function SinglePost({ query: { id } }, res) {
-  const singlePost = posts.filter((p) => p.id === id.toString());
+  const singlePost = cachedPosts.filter((p) => p.id === id.toString());
 
   if (singlePost.length > 0) {
     res.status(200).json(singlePost[0]);

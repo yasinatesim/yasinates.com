@@ -1,8 +1,9 @@
 /* eslint-disable */
-import { postsDB } from '@/utils/db';
 import Comparer from '@/utils/diff';
 
 import { Fetch, Commit } from '@/utils/fetch';
+
+import { posts as cachedPosts } from '../../../public/api/cache/posts.json';
 
 async function allPosts(req, res) {
   const mediumPostsAll = await Fetch(`${process.env.NEXT_PUBLIC_MEDIUM_URL}`);
@@ -48,12 +49,6 @@ async function allPosts(req, res) {
   // Check the API call
   let posts = [...mediumPosts, ...devPosts];
 
-  // postsDB
-  //   .get('posts')
-  //   .push(...posts)
-  //   .write();
-
-  const cachedPosts = postsDB.get('posts').value();
   const post = posts.filter(Comparer(cachedPosts, 'id'));
 
   if (post.length > 0) {
