@@ -4,7 +4,7 @@ import Comparer from '@/utils/diff';
 
 import { Fetch, Commit } from '@/utils/fetch';
 
-export async function allPosts() {
+export async function allPosts(req, res) {
   const mediumPostsAll = await Fetch(`${process.env.NEXT_PUBLIC_MEDIUM_URL}`);
   const devPostsAll = await Fetch(`${process.env.NEXT_PUBLIC_DEV_URL}${process.env.NEXT_PUBLIC_DEV_USERNAME}`);
 
