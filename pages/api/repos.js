@@ -21,9 +21,6 @@ async function Repos(req, res) {
     repos = [...repo, ...cachedRepos];
 
     await Commit({ file: 'repos', content: repos, message: 'build(autocommit): add new repository on github' });
-
-    res.status(200).json({ repos });
-    return
   } else {
     repos.forEach((m) => {
       const item = cachedRepos.find((n) => n.id === m.id);
@@ -33,10 +30,9 @@ async function Repos(req, res) {
     });
 
     await Commit({ file: 'repos', content: cachedRepos, message: 'build(autocommit): update the repository on github' });
-
-    res.status(200).json({ repos: cachedRepos });
-    return
   }
+
+  res.status(200).json({});
 }
 
 export default Repos;
