@@ -4,7 +4,7 @@ import Comparer from '@/utils/diff';
 
 import { Fetch, Commit } from '@/utils/fetch';
 
-export async function Repos() {
+export async function Repos(req, res) {
   const githubRepos = await Fetch(`${process.env.NEXT_PUBLIC_GITHUB_URL}`);
 
   let repos = [...githubRepos];
@@ -21,6 +21,8 @@ export async function Repos() {
     repos = [...repo, ...cachedRepos];
 
     await Commit({ file: 'repos', content: repos, message: 'build(autocommit): add new repository on github' });
+
+    res.json({ repos });
   } else {
     repos.forEach((m) => {
       const item = cachedRepos.find((n) => n.id === m.id);
@@ -30,6 +32,8 @@ export async function Repos() {
     });
 
     await Commit({ file: 'repos', content: cachedRepos, message: 'build(autocommit): update the repository on github' });
+
+    res.json({ repos: cachedRepos });
   }
 }
 

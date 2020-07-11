@@ -60,6 +60,8 @@ export async function allPosts() {
     posts = [...post, ...cachedPosts];
 
     await Commit({ file: 'posts', content: posts, message: 'build(autocommit): add new post on github' });
+
+    res.json({ posts });
   } else {
     posts.forEach((m) => {
       const item = cachedPosts.find((n) => n.id === m.id);
@@ -69,6 +71,8 @@ export async function allPosts() {
     });
 
     await Commit({ file: 'posts', content: cachedPosts, message: 'build(autocommit): update the post on github' });
+
+    res.json({ posts: cachedPosts });
   }
 }
 
