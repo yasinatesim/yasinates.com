@@ -20,7 +20,9 @@ async function Repos(req, res) {
   if (repo.length > 0) {
     repos = [...repo, ...cachedRepos];
 
-    await Commit({ file: 'repos', content: repos, message: 'build(autocommit): add new repository on github' });
+    await Promise.all(Commit({ file: 'repos', content: repos, message: 'build(autocommit): add new repository on github' }));
+
+    res.status(200).json({ repos });
   } else {
     repos.forEach((m) => {
       const item = cachedRepos.find((n) => n.id === m.id);
@@ -29,10 +31,10 @@ async function Repos(req, res) {
       }
     });
 
-    await Commit({ file: 'repos', content: cachedRepos, message: 'build(autocommit): update the repository on github' });
-  }
+    await Promise.all(Commit({ file: 'repos', content: cachedRepos, message: 'build(autocommit): update the repository on github' }));
 
-  res.status(200).json({});
+    res.status(200).json({ repos: cachedRepos });
+  }
 }
 
 export default Repos;
