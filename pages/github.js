@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // Components
 import Projects from '@/containers/projects';
 
-import { repos } from './api/cache/repos.json';
+import { repos } from '../public/api/cache/repos.json';
 
 function AboutPage({ repos: repositories }) {
   return (
