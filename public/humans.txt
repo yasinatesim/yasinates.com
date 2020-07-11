@@ -1,0 +1,28 @@
+/* TEAM */
+
+Developer: Yasin ATEŞ
+Site: https://yasinates.com
+Mail: yasinatesim@gmail.com
+Instagram: https://instagram.com/codewith_yasinatesim
+Instagram: https://medium.com/@yasinatesim
+Instagram: https://dev.to/yasinatesim
+Linkedin: https://linkedin.com/in/yasinatesim
+Location: Istanbul, Turkey
+
+
+/* THANKS */
+
+Hosting: Vercel
+From: the World
+
+
+/* SITE */
+
+Site Name: Yasin ATEŞ - Frontend Developer
+Last update: 11/07/2020
+Site URL: https://yasinates.com
+Language: Turkish
+Doctype: HTML
+Standards: HTML5, CSS3
+Components: NextJs
+Software: VSCode, Figma

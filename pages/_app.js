@@ -13,7 +13,14 @@ function Layout({ Component, pageProps }) {
     <div>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>Yasin ATEŞ</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
+        <title>Yasin ATEŞ - Frontend Developer</title>
+        <meta
+          name="description"
+          content="Merhaba Ben Yasin ATEŞ, 2012 yılında başlayan yazlımcılık hikayeme, 2015 yılından beri Frontend Developer olarak devam ediyorum"
+        />
+
         <link rel="apple-touch-icon" sizes="57x57" href="/favicons/apple-icon-57x57.png" />
         <link rel="apple-touch-icon" sizes="60x60" href="/favicons/apple-icon-60x60.png" />
         <link rel="apple-touch-icon" sizes="72x72" href="/favicons/apple-icon-72x72.png" />
@@ -28,10 +35,32 @@ function Layout({ Component, pageProps }) {
         <link rel="icon" type="image/png" sizes="96x96" href="/favicons/favicon-96x96.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
+        <meta name="msapplication-TileColor" content="303036" />
         <meta name="msapplication-TileImage" content="/favicons/ms-icon-144x144.png" />
-        <meta name="theme-color" content="#ffffff" />
-        <link rel="canonical" href="http://mysite.com/example" />
+        <meta name="theme-color" content="303036" />
+        <link rel="canonical" href="https://yasinates.com/" />
+
+        <meta
+          name="description"
+          content="Merhaba Ben Yasin ATEŞ, 2012 yılında başlayan yazlımcılık hikayeme, 2015 yılından beri Frontend Developer olarak devam ediyorum"
+        />
+        <meta name="author" content="Yasin ATEŞ" />
+        <meta name="classification" content="yasin ateş, frontend developer yasin ateş" />
+        <meta name="copyright" content="11 Temmuz 2019 yasinates.com" />
+        <meta property="og:url" content="https://yasinates.com/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Yasin ATEŞ - Frontend Developer" />
+        <meta
+          property="og:description"
+          content="Merhaba Ben Yasin ATEŞ, 2012 yılında başlayan yazlımcılık hikayeme, 2015 yılından beri Frontend Developer olarak devam ediyorum"
+        />
+        <meta property="og:image" content="https://yasinates.com/favicons/apple-icon-180x180.png" />
+        <meta property="og:site_name" content="Yasin ATEŞ - Frontend Developer" />
+        <meta property="og:locale" content="tr-TR" />
+        <meta property="article:author" content="Yasin ATEŞ" />
+        <meta name="robots" content="index, follow" />
+        <meta name="googlebot" content="index, follow" />
+        <link type="text/plain" rel="author" href="https://yasinates.com/humans.txt" />
       </Helmet>
       <Header />
       <main>
