@@ -5,35 +5,39 @@ import Comparer from '@/utils/diff';
 import { Fetch, Commit } from '@/utils/fetch';
 
 async function Repos(req, res) {
-  const githubRepos = await Fetch(`${process.env.NEXT_PUBLIC_GITHUB_URL}`);
+  // const githubRepos = await Fetch(`${process.env.NEXT_PUBLIC_GITHUB_URL}`);
 
-  let repos = [...githubRepos];
+  // let repos = [...githubRepos];
 
   // reposDB
   //   .get('repos')
   //   .push(...repos)
   //   .write();
 
-  const cachedRepos = reposDB.get('repos').value();
-  const repo = repos.filter(Comparer(cachedRepos, 'id'));
+  // const cachedRepos = reposDB.get('repos').value();
+  // const repo = repos.filter(Comparer(cachedRepos, 'id'));
 
-  if (repo.length > 0) {
-    repos = [...repo, ...cachedRepos];
+  // if (repo.length > 0) {
+  const a = false
+  if (a) {
+    // repos = [...repo, ...cachedRepos];
 
     // await Commit({ file: 'repos', content: repos, message: 'build(autocommit): add new repository on github' });
 
-    res.status(200).json({ repos });
+    // res.status(200).json({ repos });
+    res.status(200).json({ repos: 'if' });
   } else {
-    repos.forEach((m) => {
-      const item = cachedRepos.find((n) => n.id === m.id);
-      if (item) {
-        return Object.assign(item, m);
-      }
-    });
+    // repos.forEach((m) => {
+      //   const item = cachedRepos.find((n) => n.id === m.id);
+      //   if (item) {
+        //     return Object.assign(item, m);
+        //   }
+        // });
 
-    // await Commit({ file: 'repos', content: cachedRepos, message: 'build(autocommit): update the repository on github' });
+        // await Commit({ file: 'repos', content: cachedRepos, message: 'build(autocommit): update the repository on github' });
 
-    res.status(200).json({ repos: cachedRepos });
+    res.status(200).json({ repos: 'else' });
+    // res.status(200).json({ repos: cachedRepos });
   }
 }
 
