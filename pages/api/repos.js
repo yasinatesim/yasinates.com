@@ -20,9 +20,9 @@ export async function Repos() {
   if (repo.length > 0) {
     repos = [...repo, ...cachedRepos];
 
-    reposDB.set('repos', repos).write();
+    const content = reposDB.set('repos', repos).write();
 
-    await Commit({ file: 'repos', content: repos, message: 'build(autocommit): add new repository on github' });
+    await Commit({ file: 'repos', content, message: 'build(autocommit): add new repository on github' });
   } else {
     repos.forEach((m) => {
       const item = cachedRepos.find((n) => n.id === m.id);
@@ -31,9 +31,9 @@ export async function Repos() {
       }
     });
 
-    reposDB.set('repos', cachedRepos).write();
+    const content = reposDB.set('repos', cachedRepos).write();
 
-    await Commit({ file: 'repos', content: cachedRepos, message: 'build(autocommit): update the repository on github' });
+    await Commit({ file: 'repos', content, message: 'build(autocommit): update the repository on github' });
   }
 }
 

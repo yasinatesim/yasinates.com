@@ -59,9 +59,9 @@ export async function allPosts() {
   if (post.length > 0) {
     posts = [...post, ...cachedPosts];
 
-    postsDB.set('posts', posts).write();
+    const content = postsDB.set('posts', posts).write();
 
-    await Commit({ file: 'posts', content: posts, message: 'build(autocommit): add new post on github' });
+    await Commit({ file: 'posts', content, message: 'build(autocommit): add new post on github' });
   } else {
     posts.forEach((m) => {
       const item = cachedPosts.find((n) => n.id === m.id);
@@ -70,9 +70,9 @@ export async function allPosts() {
       }
     });
 
-    postsDB.set('posts', cachedPosts).write();
+    const content = postsDB.set('posts', cachedPosts).write();
 
-    await Commit({ file: 'posts', content: cachedPosts, message: 'build(autocommit): update the post on github' });
+    await Commit({ file: 'posts', content, message: 'build(autocommit): update the post on github' });
   }
 }
 
