@@ -124,9 +124,31 @@ Go to the `pages/admin/index.js` file and write this in the render function
 ```bash
 yarn install
 ```
- 4. Develop awesome things
+**For Development**
 ```bash
 yarn dev
+```
+
+**For Production Build & Build Start**
+```bash
+yarn build
+```
+
+and
+
+```bash
+yarn start
+```
+
+**For Export [SSG](https://www.staticgen.com/)**
+```bash
+yarn export
+```
+
+**For Lint & Format**
+```bash
+yarn lint
+yarn format
 ```
 
 ## 🔑 License
