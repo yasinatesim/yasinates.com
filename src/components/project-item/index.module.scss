@@ -38,3 +38,12 @@
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
+.fork {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  opacity: 4%;
+}

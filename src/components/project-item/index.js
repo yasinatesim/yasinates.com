@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
 
+// Images
+import ForkIcon from '@/img/github-fork-icon.png';
+
 // Styles
 import styles from './index.module.scss';
 
-function ProjectItem({ title, link, description }) {
+function ProjectItem({ title, link, description, fork }) {
   return (
     <a href={link} className={styles.item} target="_blank" rel="noreferrer">
+      {fork && <img src={ForkIcon} alt="Katkı" className={styles.fork} />}
       <svg className={styles.arrow} width={75} height={75} viewBox="0 0 75 75" fill="none">
         <path transform="rotate(90 75 0)" fill="url(#prefix__pattern0)" d="M75 0h75v75H75z" />
         <defs>

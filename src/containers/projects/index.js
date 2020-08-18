@@ -15,6 +15,7 @@ function Projects({ repos }) {
               title={repo.full_name.replace('yasinatesim/', '')}
               link={`https://github.com/${repo.full_name}`}
               description={repo.description}
+              fork={repo.fork}
             />
           </div>
         ))}
