@@ -62,10 +62,16 @@ function Layout({ Component, pageProps }) {
         <meta name="googlebot" content="index, follow" />
         <link type="text/plain" rel="author" href="https://yasinates.com/humans.txt" />
       </Helmet>
+
+      {/* Header */}
       <Header />
+
+      {/* Page content */}
       <main>
         <Component {...pageProps} />
       </main>
+
+      {/* Footer */}
       <Footer />
     </div>
   );

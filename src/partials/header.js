@@ -1,10 +1,15 @@
 import Link from 'next/link';
 
+/**
+ * This is basic header component
+ */
+
 function Header() {
   return (
     <header>
       <div className="container">
         <nav>
+          {/* Logo */}
           <Link href="/">
             <a>
               <svg width="36" height="22" viewBox="0 0 36 22" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -16,6 +21,7 @@ function Header() {
             </a>
           </Link>
 
+          {/* Menu items */}
           <ul>
             <li>
               <Link href="/">

@@ -1,5 +1,11 @@
+// Data
 import { posts as cachedPosts } from '../../../public/api/cache/posts.json';
 
+/**
+ * This is single post function
+ * @param {Object} req - This is request object
+ * @param {Object} res - This is response object
+ */
 function SinglePost({ query: { id } }, res) {
   const singlePost = cachedPosts.filter((p) => p.id === id.toString());
 

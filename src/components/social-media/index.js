@@ -1,6 +1,9 @@
 // Styles
 import styles from './index.module.scss';
 
+/**
+ * This is social media component
+ */
 function SocialMedia() {
   return (
     <div className={styles.container}>

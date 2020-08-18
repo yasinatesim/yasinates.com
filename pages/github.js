@@ -5,7 +5,11 @@ import Projects from '@/containers/projects';
 
 import { repos } from '../public/api/cache/repos.json';
 
-function AboutPage({ repos: repositories }) {
+/**
+ * This page contains github projects
+ * @param {Array} repos - This is Github repos
+ */
+function GithubPage({ repos: repositories }) {
   return (
     <div>
       <Projects repos={repositories} />
@@ -21,8 +25,8 @@ export async function getStaticProps() {
   };
 }
 
-AboutPage.propTypes = {
+GithubPage.propTypes = {
   repos: PropTypes.array,
 };
 
-export default AboutPage;
+export default GithubPage;

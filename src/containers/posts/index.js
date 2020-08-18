@@ -5,8 +5,13 @@ import PropTypes from 'prop-types';
 import Title from '@/components/title';
 import PostItem from '@/components/post-item';
 
+// Styles
 import styles from './index.module.scss';
 
+/**
+ * This is posts container
+ ** This is main component include in the "pages"
+ */
 function Posts({ posts }) {
   return (
     <div className="container">

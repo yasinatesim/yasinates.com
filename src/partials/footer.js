@@ -1,6 +1,9 @@
 // Components
 import SocialMedia from '@/components/social-media';
 
+/**
+ * This is basic footer component
+ */
 function Footer() {
   return (
     <footer>
@@ -12,6 +15,7 @@ function Footer() {
           </div>
           <div className="col-md-6">
             <div className="footer-social-links">
+              {/* Social Media */}
               <SocialMedia />
             </div>
           </div>

@@ -5,6 +5,10 @@ import Posts from '@/containers/posts';
 
 import { posts } from '../public/api/cache/posts.json';
 
+/**
+ * This is posts page
+ * @param {Array} posts - This is Medium and DEV posts
+ */
 function AboutPage({ posts: articles }) {
   return (
     <div>

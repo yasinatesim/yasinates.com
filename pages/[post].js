@@ -5,6 +5,10 @@ import Post from '@/containers/post';
 
 import { posts } from '../public/api/cache/posts.json';
 
+/**
+ * This is post detail page
+ * @param {Object} post - This is single post data
+ */
 function PostPage({ post }) {
   const content = post ? post.content : null;
   // const content = post && typeof post.content === 'string' ? post.content.replace(/\r?\n|\r|\\"/g, '') : null;

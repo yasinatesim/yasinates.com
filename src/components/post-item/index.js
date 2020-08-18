@@ -5,6 +5,14 @@ import Link from 'next/link';
 // Styles
 import styles from './index.module.scss';
 
+/**
+ * This is posts item component
+ * @param {String} title          - This is post title
+ * @param {String} link           - This is post link
+ * @param {String} image          - This is post image
+ * @param {String} description    - This is post description
+ * @param {String} sourceWebsite - This value for "medium" or "dev" condition
+ */
 function PostItem({ title, link, image, description, sourceWebsite }) {
   // const router = useRouter();
   // const handleClick = (e) => {

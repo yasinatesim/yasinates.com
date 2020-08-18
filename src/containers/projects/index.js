@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 import Title from '@/components/title';
 import ProjectItem from '@/components/project-item';
 
+/**
+ * This is projects container
+ ** This is main component include in the "pages"
+ * @param {Array} repos - The array after the data is fetched
+ */
 function Projects({ repos }) {
   return (
     <div className="container">

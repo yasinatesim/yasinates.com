@@ -6,6 +6,12 @@ import ForkIcon from '@/img/github-fork-icon.png';
 // Styles
 import styles from './index.module.scss';
 
+/**
+ * This is project item component
+ * @param {String} title        - This is project title
+ * @param {String} link         - This is project link
+ * @param {String} description  - This is project description
+ */
 function ProjectItem({ title, link, description, fork }) {
   return (
     <a href={link} className={styles.item} target="_blank" rel="noreferrer">
@@ -59,6 +65,7 @@ ProjectItem.propTypes = {
   title: PropTypes.string,
   link: PropTypes.string,
   description: PropTypes.string,
+  fork: PropTypes.bool,
 };
 
 export default ProjectItem;
