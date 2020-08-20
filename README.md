@@ -74,7 +74,7 @@ I wanted to copy it, I wrote the data to static json files, using Next.js's [Sta
 </tr>
 <tr>
 <td>
-<a  href="https://eslint.org/">Prettier</a>
+<a  href="https://prettier.io/">Prettier</a>
 </td>
 <td>An opinionated code formatter</td>
 </tr>
