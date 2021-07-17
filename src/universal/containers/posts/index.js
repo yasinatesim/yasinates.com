@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // Components
-import Title from '@/components/title';
-import PostItem from '@/components/post-item';
+import Title from '@/universal/components/title';
+import PostItem from '@/universal/components/post-item';
 
 // Styles
 import styles from './index.module.scss';

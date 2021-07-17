@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 // Images
-import ForkIcon from '@/img/github-fork-icon.png';
+import ForkIcon from '@/assets/images/github-fork-icon.png';
 
 // Styles
 import styles from './index.module.scss';

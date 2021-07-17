@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 // Utilities
-import Encrypt from '@/utils/encrypt';
-import { Fetch } from '@/utils/fetch';
+import Encrypt from '@/universal/utils/encrypt';
+import { Fetch } from '@/universal/utils/fetch';
 
 function Admin() {
   const [value, setValue] = useState(null);

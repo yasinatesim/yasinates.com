@@ -1,9 +1,9 @@
 // Components
-import Title from '@/components/title';
-import SocialMedia from '@/components/social-media';
+import Title from '@/universal/components/title';
+import SocialMedia from '@/universal/components/social-media';
 
 // Images
-import AboutImage from '@/img/yasin-ates.jpg';
+import AboutImage from '@/assets/images/yasin-ates.jpg';
 
 // Styles
 import styles from './index.module.scss';

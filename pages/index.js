@@ -2,9 +2,9 @@
 import PropTypes from 'prop-types';
 
 // Components
-import About from '@/containers/about';
-import Projects from '@/containers/projects';
-import Posts from '@/containers/posts';
+import About from '@/universal/containers/about';
+import Projects from '@/universal/containers/projects';
+import Posts from '@/universal/containers/posts';
 
 import { posts } from '../public/api/cache/posts.json';
 import { repos } from '../public/api/cache/repos.json';

@@ -1,5 +1,5 @@
 // Components
-import SocialMedia from '@/components/social-media';
+import SocialMedia from '@/universal/components/social-media';
 
 /**
  * This is basic footer component

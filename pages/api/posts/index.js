@@ -1,8 +1,8 @@
 /* eslint-disable */
 
 // Utilities
-import Comparer from '@/utils/diff';
-import { Fetch, Commit } from '@/utils/fetch';
+import Comparer from '@/universal/utils/diff';
+import { Fetch, Commit } from '@/universal/utils/fetch';
 
 // Data
 import { posts as cachedPosts } from '../../../public/api/cache/posts.json';

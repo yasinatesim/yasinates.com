@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 // Components
-import Projects from '@/containers/projects';
+import Projects from '@/universal/containers/projects';
 
 import { repos } from '../public/api/cache/repos.json';
 

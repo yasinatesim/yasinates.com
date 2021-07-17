@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 // Components
-import Post from '@/containers/post';
+import Post from '@/universal/containers/post';
 
 import { posts } from '../public/api/cache/posts.json';
 
@@ -11,7 +11,8 @@ import { posts } from '../public/api/cache/posts.json';
  */
 function PostPage({ post }) {
   const content = post ? post.content : null;
-  // const content = post && typeof post.content === 'string' ? post.content.replace(/\r?\n|\r|\\"/g, '') : null;
+
+  con
 
   return (
     <div className="container">

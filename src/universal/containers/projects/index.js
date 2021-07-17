@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
 // Components
-import Title from '@/components/title';
-import ProjectItem from '@/components/project-item';
+import Title from '@/universal/components/title';
+import ProjectItem from '@/universal/components/project-item';
 
 /**
  * This is projects container

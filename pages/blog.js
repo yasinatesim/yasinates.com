@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 // Components
-import Posts from '@/containers/posts';
+import Posts from '@/universal/containers/posts';
 
 import { posts } from '../public/api/cache/posts.json';
 

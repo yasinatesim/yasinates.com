@@ -1,5 +1,5 @@
 // Components
-import About from '@/containers/about';
+import About from '@/universal/containers/about';
 
 /**
  * This is about page

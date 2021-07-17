@@ -2,11 +2,11 @@ import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 
 // Components
-import Header from '@/partials/header';
-import Footer from '@/partials/footer';
+import Header from '@/universal/partials/header';
+import Footer from '@/universal/partials/footer';
 
 // Styles
-import '@/scss/app.scss';
+import '@/assets/styles/app.scss';
 
 function Layout({ Component, pageProps }) {
   return (
