@@ -12,8 +12,6 @@ import { posts } from '../public/api/cache/posts.json';
 function PostPage({ post }) {
   const content = post ? post.content : null;
 
-  con
-
   return (
     <div className="container">
       {post ? (
