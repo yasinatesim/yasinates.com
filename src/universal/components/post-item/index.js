@@ -11,17 +11,11 @@ import styles from './index.module.scss';
  * @param {String} link           - This is post link
  * @param {String} image          - This is post image
  * @param {String} description    - This is post description
- * @param {String} sourceWebsite - This value for "medium" or "dev" condition
+ * @param {String} sourceWebsite  - This value for "medium" or "dev" condition
  */
 function PostItem({ title, link, image, description, sourceWebsite }) {
-  // const router = useRouter();
-  // const handleClick = (e) => {
-  //   e.preventDefault();
-  //   router.push(`/${link}`);
-  // };
-
   return (
-    <Link href={`/${link}`}>
+    <Link href="/[post]" as={`/${link}`}>
       <a className={styles.item}>
         <div className={styles.container}>
           <div className={styles.imageContainer}>
