@@ -1,8 +1,5 @@
 import PropTypes from 'prop-types';
 
-// Utils
-import axios from 'axios';
-
 // Components
 import Post from '@/universal/containers/post';
 
@@ -12,7 +9,7 @@ import { posts } from '../public/api/cache/posts.json';
  * This is post detail page
  * @param {Object} post - This is single post data
  */
-function PostPage({ post, githubGists }) {
+function PostPage({ post }) {
   const content = post ? post.content : null;
 
   return (
@@ -48,7 +45,6 @@ export async function getStaticProps({ params }) {
 
 PostPage.propTypes = {
   post: PropTypes.object,
-  githubGists: PropTypes.array,
 };
 
 export default PostPage;
