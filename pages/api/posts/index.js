@@ -65,7 +65,7 @@ async function allPosts(req, res) {
       title,
       thumbnail,
       description: description.match(/<(p)>(.*?)<\/p>/)[0].replace(/(<([^>]+)>)/gi, ''),
-      // content,
+      content,
       source_website: 'medium',
     };
   });
