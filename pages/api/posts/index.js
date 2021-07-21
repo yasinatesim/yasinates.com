@@ -124,7 +124,6 @@ async function allPosts(req, res) {
       return Object.assign(item, m);
     }
 
-
     return [];
   });
 
