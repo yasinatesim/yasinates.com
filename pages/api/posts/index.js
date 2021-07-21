@@ -93,10 +93,8 @@ async function allPosts(req, res) {
   // Merge the Medium posts and DEV posts
   let posts = [...mediumPosts, ...devPosts];
 
-  posts.filter(item => item);
-
   // Compare to new posts and old posts
-  const post = posts.filter(Comparer(cachedPosts, 'id'));
+  const post = posts.filter(Comparer(cachedPosts, 'id')).filter(item => item);
 
   /**
    * If there is a new post
@@ -114,7 +112,7 @@ async function allPosts(req, res) {
       message: 'build(autocommit): add new post on github',
     });
 
-    res.status(200).json({ posts });
+    return res.status(200).json({ posts });
   } else {
     /**
      *  If there is not new post
@@ -137,7 +135,7 @@ async function allPosts(req, res) {
       message: 'build(autocommit): update the post on github',
     });
 
-    res.status(200).json({ posts: cachedPosts });
+    return res.status(200).json({ posts: cachedPosts });
   }
 }
 
