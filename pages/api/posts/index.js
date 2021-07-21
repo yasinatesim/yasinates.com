@@ -57,7 +57,8 @@ async function allPosts(req, res) {
     content = githubGists.map(({ regex, gist }) => {
       const re = new RegExp(regex, 'gm');
       return content.replace(re, `<script src="${gist}"></script>`);
-    });
+    }).toString();
+    console.log('content:', content)
 
     return {
       id,
