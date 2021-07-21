@@ -29,7 +29,6 @@ async function allPosts(req, res) {
     let id = guid.split('/');
     id = id[id.length - 1];
 
-    /**/
     let content = description.replace(/<img(.*?)(width=\"1\")(.*?)>/, '')
     const mediaUrls = [...new Set(content.match(/https:\/\/medium\.com\/media\/(.*?)\/href/g))];
     const mediaIds = mediaUrls.map((url) => {
@@ -60,7 +59,6 @@ async function allPosts(req, res) {
       const re = new RegExp(regex,"gm");
       content = content.replace(re, `<script src="${gist}"></script>`);
   })
-    /**/
 
     return {
       id,
