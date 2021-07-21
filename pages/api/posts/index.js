@@ -38,12 +38,7 @@ async function allPosts(req, res) {
 
   const githubGists = await Promise.all(
     mediaIds.map(async (mediaIdItem) => {
-      const { data } = await axios.get(`https://medium.com/media/${mediaIdItem}/href`, {
-        headers: {
-          'Content-Type': 'text/html; charset=utf-8',
-          'Access-Control-Allow-Origin': '*',
-        },
-      });
+      const { data } = await axios.get(`https://medium.com/media/${mediaIdItem}/href`);
 
     const { groups: { gistId, file } } = /https:\/\/gist\.github.com\/yasinatesim\/(?<gistId>[a-z0-9]+)\?file=(?<file>[a-z0-9.]+)/g.exec(data)
 
@@ -95,7 +90,6 @@ async function allPosts(req, res) {
 
   // Compare to new posts and old posts
   const post = posts.filter(Comparer(cachedPosts, 'id')).filter(item => item !== {} || item !== null);
-  console.log('post:', post)
 
   /**
    * If there is a new post
