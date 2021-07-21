@@ -10,12 +10,12 @@
     "format": "prettier src pages --write"
   },
   "dependencies": {
-    "@commitlint/cli": "^9.0.1",
-    "@commitlint/config-conventional": "^9.0.1",
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
     "axios": "^0.21.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "husky": "^4.2.5",
+    "husky": "^7.0.1",
     "md5": "^2.2.1",
     "next": "9.4.4",
     "next-images": "^1.4.0",
