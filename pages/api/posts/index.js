@@ -23,7 +23,7 @@ async function allPosts(req, res) {
   /**
    * Manipulate the Medium posts
    */
-  const mediumPosts = mediumPostsAll.map(async (postItem) => {
+  const mediumPosts = await Promise.all(mediumPostsAll.map(async (postItem) => {
     const { guid, title, thumbnail, description } = postItem;
 
 
@@ -68,7 +68,7 @@ async function allPosts(req, res) {
       content: replacedContent,
       source_website: 'medium',
     };
-  });
+  }));
 
   /**
    * Manipulate the DEV posts
