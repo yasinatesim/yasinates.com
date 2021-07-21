@@ -29,8 +29,8 @@ async function allPosts(req, res) {
     let id = guid.split('/');
     id = id[id.length - 1];
 
-    let content = description.replace(/<img(.*?)(width=\"1\")(.*?)>/, '');
-    const mediaUrls = [...new Set(content.match(/https:\/\/medium\.com\/media\/(.*?)\/href/g))];
+    const content = description.replace(/<img(.*?)(width=\"1\")(.*?)>/, '');
+    const mediaUrls = Array.from(new Set(content.match(/https:\/\/medium\.com\/media\/(.*?)\/href/g)));
     const mediaIds = mediaUrls.map((url) => {
       const {
         groups: { mediaId },
@@ -54,18 +54,17 @@ async function allPosts(req, res) {
       })
     );
 
-    content = githubGists.map(({ regex, gist }) => {
+    const replacedContent = await githubGists.map(({ regex, gist }) => {
       const re = new RegExp(regex, 'gm');
       return content.replace(re, `<script src="${gist}"></script>`);
     }).toString();
-    console.log('content:', content)
 
     return {
       id,
       title,
       thumbnail,
       description: description.match(/<(p)>(.*?)<\/p>/)[0].replace(/(<([^>]+)>)/gi, ''),
-      content,
+      content: replacedContent,
       source_website: 'medium',
     };
   });
