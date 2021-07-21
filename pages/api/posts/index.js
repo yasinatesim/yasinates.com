@@ -89,23 +89,24 @@ async function allPosts(req, res) {
   let posts = [...mediumPosts, ...devPosts];
 
   // Compare to new posts and old posts
-  const post = posts.filter(Comparer(cachedPosts, 'id')).filter(item => item !== {} || item !== null);
+  const post = posts.filter(Comparer(cachedPosts, 'id'))
 
   /**
    * If there is a new post
    ** Add to top of other posts
    */
-  if (post.length > 0) {
+  if (1 == 2) {
+  // if (post.length > 0) {
     posts = [...post, ...cachedPosts];
 
     /**
      * Connect with Github API
      */
-    // await Commit({
-    //   file: 'posts',
-    //   content: posts,
-    //   message: 'build(autocommit): add new post on github',
-    // });
+    await Commit({
+      file: 'posts',
+      content: posts,
+      message: 'build(autocommit): add new post on github',
+    });
 
     return res.status(200).json({ posts });
   } else {
