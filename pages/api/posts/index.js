@@ -29,31 +29,35 @@ async function allPosts(req, res) {
     let id = guid.split('/');
     id = id[id.length - 1];
 
-    let content = description.replace(/<img(.*?)(width=\"1\")(.*?)>/, '')
+    let content = description.replace(/<img(.*?)(width=\"1\")(.*?)>/, '');
     const mediaUrls = [...new Set(content.match(/https:\/\/medium\.com\/media\/(.*?)\/href/g))];
     const mediaIds = mediaUrls.map((url) => {
-      const { groups: { mediaId } } = /https:\/\/medium\.com\/media\/(?<mediaId>[a-z0-9]+)\/href/g.exec(url)
+      const {
+        groups: { mediaId },
+      } = /https:\/\/medium\.com\/media\/(?<mediaId>[a-z0-9]+)\/href/g.exec(url);
       return mediaId;
     });
 
-  const githubGists = await Promise.all(
-    mediaIds.map(async (mediaIdItem) => {
-      const { data } = await axios.get(`https://medium.com/media/${mediaIdItem}/href`);
+    const githubGists = await Promise.all(
+      mediaIds.map(async (mediaIdItem) => {
+        const { data } = await axios.get(`https://medium.com/media/${mediaIdItem}/href`);
 
-    const { groups: { gistId, file } } = /https:\/\/gist\.github.com\/yasinatesim\/(?<gistId>[a-z0-9]+)\?file=(?<file>[a-z0-9.]+)/g.exec(data)
+        const {
+          groups: { gistId, file },
+        } = /https:\/\/gist\.github.com\/yasinatesim\/(?<gistId>[a-z0-9]+)\?file=(?<file>[a-z0-9.]+)/g.exec(data);
 
-      return {
-        id: mediaIdItem,
-        regex: `<a href=\"https:\/\/medium\.com\/media\/${mediaIdItem}\/href\">https:\/\/medium\.com\/media\/${mediaIdItem}\/href<\/a>`,
-        gist: `https://gist.github.com/yasinatesim/${gistId}.js?file=${file}`,
-      };
-    }),
-  );
+        return {
+          id: mediaIdItem,
+          regex: `<a href=\"https:\/\/medium\.com\/media\/${mediaIdItem}\/href\">https:\/\/medium\.com\/media\/${mediaIdItem}\/href<\/a>`,
+          gist: `https://gist.github.com/yasinatesim/${gistId}.js?file=${file}`,
+        };
+      })
+    );
 
-    githubGists.forEach(({ regex, gist }) => {
-      const re = new RegExp(regex,"gm");
-      content = content.replace(re, `<script src="${gist}"></script>`);
-  })
+    content = githubGists.map(({ regex, gist }) => {
+      const re = new RegExp(regex, 'gm');
+      return content.replace(re, `<script src="${gist}"></script>`);
+    });
 
     return {
       id,
@@ -89,14 +93,13 @@ async function allPosts(req, res) {
   let posts = [...mediumPosts, ...devPosts];
 
   // Compare to new posts and old posts
-  const post = posts.filter(Comparer(cachedPosts, 'id'))
+  const post = posts.filter(Comparer(cachedPosts, 'id'));
 
   /**
    * If there is a new post
    ** Add to top of other posts
    */
-  if (1 == 2) {
-  // if (post.length > 0) {
+  if (post.length > 0) {
     posts = [...post, ...cachedPosts];
 
     /**
