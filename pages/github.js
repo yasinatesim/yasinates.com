@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 
 // Components
@@ -12,6 +13,13 @@ import { repos } from '../public/api/cache/repos.json';
 function GithubPage({ repos: repositories }) {
   return (
     <div>
+      <Helmet>
+        <title>Github | Yasin ATEŞ - Frontend Developer</title>
+        <meta name="description" content="Open source projelerime Github sayfamdan ulaşabilirsiniz." />
+
+        <meta property="og:title" content="Github | Yasin ATEŞ - Frontend Developer" />
+        <meta property="og:description" content="Open source projelerime Github sayfamdan ulaşabilirsiniz." />
+      </Helmet>
       <Projects repos={repositories} />
     </div>
   );

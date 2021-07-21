@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 
 // Components
@@ -12,6 +13,20 @@ import { posts } from '../public/api/cache/posts.json';
 function AboutPage({ posts: articles }) {
   return (
     <div>
+      <Helmet>
+        <title>Blog | Yasin ATEŞ - Frontend Developer</title>
+        <meta
+          name="description"
+          content="Yazdığım makalelere blog sayfamdan ulaşabilirsiniz."
+        />
+
+        <meta property="og:title" content="Blog | Yasin ATEŞ - Frontend Developer" />
+        <meta
+          property="og:description"
+          content="Yazdığım makalelere blog sayfamdan ulaşabilirsiniz."
+        />
+      </Helmet>
+
       <Posts posts={articles} />
     </div>
   );

@@ -1,3 +1,4 @@
+import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
 
 // Components
@@ -16,6 +17,13 @@ function PostPage({ post }) {
     <div className="container">
       {post ? (
         <>
+          <Helmet>
+            <title>{post.title} | Yasin ATEŞ - Frontend Developer</title>
+            <meta name="description" content={post.description} />
+
+            <meta property="og:title" content={`${post.title} | Yasin ATEŞ - Frontend Developer`} />
+            <meta property="og:description" content={post.description} />
+          </Helmet>
           <Post sourceWebsite={post.source_website} thumbnail={post.thumbnail} title={post.title} content={content} />
         </>
       ) : (
