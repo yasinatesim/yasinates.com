@@ -15,16 +15,10 @@ function AboutPage({ posts: articles }) {
     <div>
       <Helmet>
         <title>Blog | Yasin ATEŞ - Frontend Developer</title>
-        <meta
-          name="description"
-          content="Yazdığım makalelere blog sayfamdan ulaşabilirsiniz."
-        />
+        <meta name="description" content="Yazdığım makalelere blog sayfamdan ulaşabilirsiniz." />
 
         <meta property="og:title" content="Blog | Yasin ATEŞ - Frontend Developer" />
-        <meta
-          property="og:description"
-          content="Yazdığım makalelere blog sayfamdan ulaşabilirsiniz."
-        />
+        <meta property="og:description" content="Yazdığım makalelere blog sayfamdan ulaşabilirsiniz." />
       </Helmet>
 
       <Posts posts={articles} />
