@@ -123,6 +123,8 @@ async function allPosts(req, res) {
     if (item) {
       return Object.assign(item, m);
     }
+
+    return [];
   });
 
   /**
