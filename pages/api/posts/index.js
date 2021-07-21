@@ -93,6 +93,8 @@ async function allPosts(req, res) {
   // Merge the Medium posts and DEV posts
   let posts = [...mediumPosts, ...devPosts];
 
+  posts.filter(item => item);
+
   // Compare to new posts and old posts
   const post = posts.filter(Comparer(cachedPosts, 'id'));
 
