@@ -26,6 +26,7 @@ async function allPosts(req, res) {
   const mediumPosts = mediumPostsAll.map(async (postItem) => {
     const { guid, title, thumbnail, description } = postItem;
 
+
     let id = guid.split('/');
     id = id[id.length - 1];
 
