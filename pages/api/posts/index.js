@@ -31,7 +31,7 @@ async function allPosts(req, res) {
 
     /**/
     let content = description.replace(/<img(.*?)(width=\"1\")(.*?)>/, '')
-    const mediaUrls = [new Set(content.match(/https:\/\/medium\.com\/media\/(.*?)\/href/g))];
+    const mediaUrls = [...new Set(content.match(/https:\/\/medium\.com\/media\/(.*?)\/href/g))];
     const mediaIds = mediaUrls.map((url) => {
       const { groups: { mediaId } } = /https:\/\/medium\.com\/media\/(?<mediaId>[a-z0-9]+)\/href/g.exec(url)
       return mediaId;
