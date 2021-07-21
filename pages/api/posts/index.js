@@ -95,13 +95,14 @@ async function allPosts(req, res) {
 
   // Compare to new posts and old posts
   const post = posts.filter(Comparer(cachedPosts, 'id')).filter(item => item !== {} || item !== null);
+  console.log('post:', post)
 
   /**
    * If there is a new post
    ** Add to top of other posts
    */
   if (post.length > 0) {
-    // posts = [...post, ...cachedPosts];
+    posts = [...post, ...cachedPosts];
 
     /**
      * Connect with Github API
