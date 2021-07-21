@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 // Utilities
 import axios from 'axios';
 import Comparer from '@/universal/utils/diff';
@@ -23,52 +21,53 @@ async function allPosts(req, res) {
   /**
    * Manipulate the Medium posts
    */
-  const mediumPosts = await Promise.all(mediumPostsAll.map(async (postItem) => {
-    const { guid, title, thumbnail, description } = postItem;
+  const mediumPosts = await Promise.all(
+    mediumPostsAll.map(async (postItem) => {
+      const { guid, title, thumbnail, description } = postItem;
 
+      let id = guid.split('/');
+      id = id[id.length - 1];
 
-    let id = guid.split('/');
-    id = id[id.length - 1];
-
-    let content = description.replace(/<img(.*?)(width=\"1\")(.*?)>/, '');
-    const mediaUrls = Array.from(new Set(content.match(/https:\/\/medium\.com\/media\/(.*?)\/href/g)));
-    const mediaIds = mediaUrls.map((url) => {
-      const {
-        groups: { mediaId },
-      } = /https:\/\/medium\.com\/media\/(?<mediaId>[a-z0-9]+)\/href/g.exec(url);
-      return mediaId;
-    });
-
-    const githubGists = await Promise.all(
-      mediaIds.map(async (mediaIdItem) => {
-        const { data } = await axios.get(`https://medium.com/media/${mediaIdItem}/href`);
-
+      let content = description.replace(/<img(.*?)(width=\"1\")(.*?)>/, '');
+      const mediaUrls = Array.from(new Set(content.match(/https:\/\/medium\.com\/media\/(.*?)\/href/g)));
+      const mediaIds = mediaUrls.map((url) => {
         const {
-          groups: { gistId, file },
-        } = /https:\/\/gist\.github.com\/yasinatesim\/(?<gistId>[a-z0-9]+)\?file=(?<file>[a-z0-9.]+)/g.exec(data);
+          groups: { mediaId },
+        } = /https:\/\/medium\.com\/media\/(?<mediaId>[a-z0-9]+)\/href/g.exec(url);
+        return mediaId;
+      });
 
-        return {
-          id: mediaIdItem,
-          regex: `<a href=\"https:\/\/medium\.com\/media\/${mediaIdItem}\/href\">https:\/\/medium\.com\/media\/${mediaIdItem}\/href<\/a>`,
-          gist: `https://gist.github.com/yasinatesim/${gistId}.js?file=${file}`,
-        };
-      })
-    );
+      const githubGists = await Promise.all(
+        mediaIds.map(async (mediaIdItem) => {
+          const { data } = await axios.get(`https://medium.com/media/${mediaIdItem}/href`);
 
-    githubGists.forEach(({ regex, gist }) => {
-      const re = new RegExp(regex, 'gm');
-      content = content.replace(re, `<script src="${gist}"></script>`);
+          const {
+            groups: { gistId, file },
+          } = /https:\/\/gist\.github.com\/yasinatesim\/(?<gistId>[a-z0-9]+)\?file=(?<file>[a-z0-9.]+)/g.exec(data);
+
+          return {
+            id: mediaIdItem,
+            regex: `<a href=\"https:\/\/medium\.com\/media\/${mediaIdItem}\/href\">https:\/\/medium\.com\/media\/${mediaIdItem}\/href<\/a>`,
+            gist: `https://gist.github.com/yasinatesim/${gistId}.js?file=${file}`,
+          };
+        })
+      );
+
+      githubGists.forEach(({ regex, gist }) => {
+        const re = new RegExp(regex, 'gm');
+        content = content.replace(re, `<script src="${gist}"></script>`);
+      });
+
+      return {
+        id,
+        title,
+        thumbnail,
+        description: description.match(/<(p)>(.*?)<\/p>/)[0].replace(/(<([^>]+)>)/gi, ''),
+        content,
+        source_website: 'medium',
+      };
     })
-
-    return {
-      id,
-      title,
-      thumbnail,
-      description: description.match(/<(p)>(.*?)<\/p>/)[0].replace(/(<([^>]+)>)/gi, ''),
-      content,
-      source_website: 'medium',
-    };
-  }));
+  );
 
   /**
    * Manipulate the DEV posts
@@ -113,30 +112,29 @@ async function allPosts(req, res) {
     });
 
     return res.status(200).json({ posts });
-  } else {
-    /**
-     *  If there is not new post
-     ** If the process is an "update process"
-     ** Update the specified data
-     */
-    posts.forEach((m) => {
-      const item = cachedPosts.find((n) => n.id === m.id);
-      if (item) {
-        return Object.assign(item, m);
-      }
-    });
-
-    /**
-     * Connect with Github API
-     */
-    await Commit({
-      file: 'posts',
-      content: cachedPosts,
-      message: 'build(autocommit): update the post on github',
-    });
-
-    return res.status(200).json({ posts: cachedPosts });
   }
+  /**
+   *  If there is not new post
+   ** If the process is an "update process"
+   ** Update the specified data
+   */
+  posts.forEach((m) => {
+    const item = cachedPosts.find((n) => n.id === m.id);
+    if (item) {
+      return Object.assign(item, m);
+    }
+  });
+
+  /**
+   * Connect with Github API
+   */
+  await Commit({
+    file: 'posts',
+    content: cachedPosts,
+    message: 'build(autocommit): update the post on github',
+  });
+
+  return res.status(200).json({ posts: cachedPosts });
 }
 
 export default allPosts;

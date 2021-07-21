@@ -1,4 +1,4 @@
-@import "../base/variables";
+@import '../base/variables';
 
 img {
   display: block;
@@ -47,30 +47,29 @@ img {
   align-items: center;
 }
 
-
 .label-before {
-	line-height: 20px;
-	font-size: 12px;
-	top: -10px;
-	background: $light-color;
-	padding: 0 6px;
-	left: 9px;
+  line-height: 20px;
+  font-size: 12px;
+  top: -10px;
+  background: $light-color;
+  padding: 0 6px;
+  left: 9px;
 }
 
 .field {
-	position: relative;
-	margin-bottom: 15px;
-	label::before {
-		content: attr(title);
-		position: absolute;
-		top: 0;
-		left: 15px;
-		line-height: 40px;
-		font-size: 14px;
-		color: $base-color;
-		transition: 300ms all;
-	}
-	input {
+  position: relative;
+  margin-bottom: 15px;
+  label::before {
+    content: attr(title);
+    position: absolute;
+    top: 0;
+    left: 15px;
+    line-height: 40px;
+    font-size: 14px;
+    color: $base-color;
+    transition: 300ms all;
+  }
+  input {
     width: 100%;
     line-height: 40px;
     padding: 0 15px;
@@ -79,17 +78,17 @@ img {
     color: $text-color;
     border: 1px solid $base-color;
     border-radius: 3px;
-		&:focus {
-			outline: 0;
-		}
-		&:valid + label::before {
-			@extend .label-before;
-			content: attr(data-title);
-		}
-		&:focus + label::before {
-			@extend .label-before;
-		}
-	}
+    &:focus {
+      outline: 0;
+    }
+    &:valid + label::before {
+      @extend .label-before;
+      content: attr(data-title);
+    }
+    &:focus + label::before {
+      @extend .label-before;
+    }
+  }
 }
 
 .form-btn {

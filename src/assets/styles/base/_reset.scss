@@ -1,6 +1,5 @@
-
 * {
-	margin: 0;
+  margin: 0;
   padding: 0;
 
   &,
@@ -22,27 +21,50 @@ body {
 }
 
 a {
-	text-decoration: none;
-	color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
 img {
   vertical-align: middle;
 }
 
-blockquote, dl, dd, h1, h2, h3, h4, h5, h6, figure, p, pre, fieldset, ul, ol, menu, form {
+blockquote,
+dl,
+dd,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+figure,
+p,
+pre,
+fieldset,
+ul,
+ol,
+menu,
+form {
   margin: 0;
 }
 
-button, fieldset, iframe {
+button,
+fieldset,
+iframe {
   border: 0;
 }
 
-fieldset, ul, ol, button, menu {
+fieldset,
+ul,
+ol,
+button,
+menu {
   padding: 0;
 }
 
-ol, ul {
+ol,
+ul {
   list-style: none;
 }
 
