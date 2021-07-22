@@ -14,7 +14,7 @@ import styles from './index.module.scss';
  */
 function PostItem({ title, link, image, description, sourceWebsite }) {
   return (
-    <Link href="/[post]" as={`/${link}`}>
+    <Link href={`/${link}`}>
       <a className={styles.item}>
         <div className={styles.container}>
           <div className={styles.imageContainer}>
