@@ -16,14 +16,13 @@ function SocialMedia() {
         </svg>
       </a>
 
-<a href="https://linkedin.com/in/yasinatesim">
+      <a href="https://linkedin.com/in/yasinatesim">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           xmlnsXlink="http://www.w3.org/1999/xlink"
           width={30}
           height={30}
-          viewBox="0 0 512 512"
-        >
+          viewBox="0 0 512 512">
           <linearGradient id="a" x1="169.994" x2="299.493" y1="71.986" y2="349.055" gradientUnits="userSpaceOnUse">
             <stop offset="0" stopColor="#0077b5" />
             <stop offset="1" stopColor="#0066b2" />
