@@ -3,9 +3,9 @@
 Developer: Yasin ATEŞ
 Site: https://yasinates.com
 Mail: yasinatesim@gmail.com
-Instagram: https://instagram.com/codewith_yasinatesim
-Instagram: https://medium.com/@yasinatesim
-Instagram: https://dev.to/yasinatesim
+Instagram: https://instagram.com/yasinatesim
+Medium: https://medium.com/@yasinatesim
+DEV.to: https://dev.to/yasinatesim
 Linkedin: https://linkedin.com/in/yasinatesim
 Location: Istanbul, Turkey
 
