@@ -14,8 +14,6 @@
     <img src="https://img.shields.io/github/license/yasinatesim/yasinates.com?color=%23303036&style=flat-square"
          alt="License">
 <a href="https://www.linkedin.com/in/yasinatesim"><img src="https://img.shields.io/badge/Linkedin-%23303036?logo=linkedin&color=%23303036&style=flat-square"></a>
-<a href="https://www.instagram.com/codewith_yasinatesim"><img src="https://img.shields.io/badge/Instagram-%23303036?logo=instagram&color=%23303036&style=flat-square"></a>
-</p>
 
   <p align="center">
     · <a href="http://yasinates.com/">View Website</a>
