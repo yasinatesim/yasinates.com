@@ -1,6 +1,6 @@
 {
 	"is_unfollowers_enabled": false,
-	"is_stories_enabled": true,
+	"is_stories_enabled": false,
 	"is_private_website_enabled": true,
 	"api_url": "https://api.peekifyinsta.com",
 	"ios_minimum_version": "1.0.0",
