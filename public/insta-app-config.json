@@ -3,7 +3,7 @@
 	"is_stories_enabled": true,
   "is_download_enabled": true,
 	"is_private_website_enabled": false,
-	"api_url": "https://api.peekifyinsta.com",
+	"api_url": "http://localhost:8000",
 	"ios_minimum_version": "1.0.0",
 	"ios_latest_version": "1.0.0",
 	"android_minimum_version": "1.0.0",
