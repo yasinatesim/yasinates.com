@@ -13,6 +13,8 @@ import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary'
 import { NotFound } from '~/components/NotFound'
 import appCss from '~/styles/app.css?url'
 import { seo } from '~/utils/seo'
+import Header from '~/components/Header'
+import Footer from '~/components/Footer'
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
@@ -53,6 +55,11 @@ export const Route = createRootRouteWithContext<{
       },
       { rel: 'manifest', href: '/site.webmanifest', color: '#fffff' },
       { rel: 'icon', href: '/favicon.ico' },
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Pacifico&display=swap' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap' },
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css' } // @TODO: update this
     ],
   }),
   errorComponent: (props) => {
@@ -80,61 +87,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body>
-        <div className="p-2 flex gap-2 text-lg">
-          <Link
-            to="/"
-            activeProps={{
-              className: 'font-bold',
-            }}
-            activeOptions={{ exact: true }}
-          >
-            Home
-          </Link>{' '}
-          <Link
-            to="/posts"
-            activeProps={{
-              className: 'font-bold',
-            }}
-          >
-            Posts
-          </Link>{' '}
-          <Link
-            to="/users"
-            activeProps={{
-              className: 'font-bold',
-            }}
-          >
-            Users
-          </Link>{' '}
-          <Link
-            to="/route-a"
-            activeProps={{
-              className: 'font-bold',
-            }}
-          >
-            Pathless Layout
-          </Link>{' '}
-          <Link
-            to="/deferred"
-            activeProps={{
-              className: 'font-bold',
-            }}
-          >
-            Deferred
-          </Link>{' '}
-          <Link
-            // @ts-expect-error
-            to="/this-route-does-not-exist"
-            activeProps={{
-              className: 'font-bold',
-            }}
-          >
-            This Route Does Not Exist
-          </Link>
-        </div>
-        <hr />
+      <body className='bg-gray-50'>
+        <Header />
         {children}
+        <Footer />
         <TanStackRouterDevtools position="bottom-right" />
         <ReactQueryDevtools buttonPosition="bottom-left" />
         <Scripts />

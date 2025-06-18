@@ -3,20 +3,51 @@
 @tailwind utilities;
 
 @layer base {
-  html {
+  /* html {
     color-scheme: light dark;
   }
 
-  * {
-    @apply border-gray-200 dark:border-gray-800;
-  }
-
-  html,
-  body {
-    @apply text-gray-900 bg-gray-50 dark:bg-gray-950 dark:text-gray-200;
-  }
 
   .using-mouse * {
     outline: none !important;
-  }
+  } */
 }
+
+body {
+  font-family: 'Inter', sans-serif;
+  }
+  .hero-gradient {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
+  }
+  .text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #3b82f6, #6366f1);
+  }
+  .card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+  .nav-link {
+  position: relative;
+  }
+  .nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #3b82f6;
+  transition: width 0.3s ease;
+  }
+  .nav-link:hover::after {
+  width: 100%;
+  }
+  .nav-link.active::after {
+  width: 100%;
+  }

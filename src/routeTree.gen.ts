@@ -12,7 +12,10 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as RedirectImport } from './routes/redirect'
+import { Route as IletisimImport } from './routes/iletisim'
+import { Route as HakkimdaImport } from './routes/hakkimda'
 import { Route as DeferredImport } from './routes/deferred'
+import { Route as BlogImport } from './routes/blog'
 import { Route as PathlessLayoutImport } from './routes/_pathlessLayout'
 import { Route as UsersRouteImport } from './routes/users.route'
 import { Route as PostsRouteImport } from './routes/posts.route'
@@ -34,9 +37,27 @@ const RedirectRoute = RedirectImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const IletisimRoute = IletisimImport.update({
+  id: '/iletisim',
+  path: '/iletisim',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const HakkimdaRoute = HakkimdaImport.update({
+  id: '/hakkimda',
+  path: '/hakkimda',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const DeferredRoute = DeferredImport.update({
   id: '/deferred',
   path: '/deferred',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const BlogRoute = BlogImport.update({
+  id: '/blog',
+  path: '/blog',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -146,11 +167,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PathlessLayoutImport
       parentRoute: typeof rootRoute
     }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogImport
+      parentRoute: typeof rootRoute
+    }
     '/deferred': {
       id: '/deferred'
       path: '/deferred'
       fullPath: '/deferred'
       preLoaderRoute: typeof DeferredImport
+      parentRoute: typeof rootRoute
+    }
+    '/hakkimda': {
+      id: '/hakkimda'
+      path: '/hakkimda'
+      fullPath: '/hakkimda'
+      preLoaderRoute: typeof HakkimdaImport
+      parentRoute: typeof rootRoute
+    }
+    '/iletisim': {
+      id: '/iletisim'
+      path: '/iletisim'
+      fullPath: '/iletisim'
+      preLoaderRoute: typeof IletisimImport
       parentRoute: typeof rootRoute
     }
     '/redirect': {
@@ -284,7 +326,10 @@ export interface FileRoutesByFullPath {
   '/posts': typeof PostsRouteRouteWithChildren
   '/users': typeof UsersRouteRouteWithChildren
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
+  '/blog': typeof BlogRoute
   '/deferred': typeof DeferredRoute
+  '/hakkimda': typeof HakkimdaRoute
+  '/iletisim': typeof IletisimRoute
   '/redirect': typeof RedirectRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
@@ -298,7 +343,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof PathlessLayoutNestedLayoutRouteWithChildren
+  '/blog': typeof BlogRoute
   '/deferred': typeof DeferredRoute
+  '/hakkimda': typeof HakkimdaRoute
+  '/iletisim': typeof IletisimRoute
   '/redirect': typeof RedirectRoute
   '/posts/$postId': typeof PostsPostIdRoute
   '/users/$userId': typeof UsersUserIdRoute
@@ -315,7 +363,10 @@ export interface FileRoutesById {
   '/posts': typeof PostsRouteRouteWithChildren
   '/users': typeof UsersRouteRouteWithChildren
   '/_pathlessLayout': typeof PathlessLayoutRouteWithChildren
+  '/blog': typeof BlogRoute
   '/deferred': typeof DeferredRoute
+  '/hakkimda': typeof HakkimdaRoute
+  '/iletisim': typeof IletisimRoute
   '/redirect': typeof RedirectRoute
   '/_pathlessLayout/_nested-layout': typeof PathlessLayoutNestedLayoutRouteWithChildren
   '/posts/$postId': typeof PostsPostIdRoute
@@ -334,7 +385,10 @@ export interface FileRouteTypes {
     | '/posts'
     | '/users'
     | ''
+    | '/blog'
     | '/deferred'
+    | '/hakkimda'
+    | '/iletisim'
     | '/redirect'
     | '/posts/$postId'
     | '/users/$userId'
@@ -347,7 +401,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | ''
+    | '/blog'
     | '/deferred'
+    | '/hakkimda'
+    | '/iletisim'
     | '/redirect'
     | '/posts/$postId'
     | '/users/$userId'
@@ -362,7 +419,10 @@ export interface FileRouteTypes {
     | '/posts'
     | '/users'
     | '/_pathlessLayout'
+    | '/blog'
     | '/deferred'
+    | '/hakkimda'
+    | '/iletisim'
     | '/redirect'
     | '/_pathlessLayout/_nested-layout'
     | '/posts/$postId'
@@ -380,7 +440,10 @@ export interface RootRouteChildren {
   PostsRouteRoute: typeof PostsRouteRouteWithChildren
   UsersRouteRoute: typeof UsersRouteRouteWithChildren
   PathlessLayoutRoute: typeof PathlessLayoutRouteWithChildren
+  BlogRoute: typeof BlogRoute
   DeferredRoute: typeof DeferredRoute
+  HakkimdaRoute: typeof HakkimdaRoute
+  IletisimRoute: typeof IletisimRoute
   RedirectRoute: typeof RedirectRoute
   PostsPostIdDeepRoute: typeof PostsPostIdDeepRoute
 }
@@ -390,7 +453,10 @@ const rootRouteChildren: RootRouteChildren = {
   PostsRouteRoute: PostsRouteRouteWithChildren,
   UsersRouteRoute: UsersRouteRouteWithChildren,
   PathlessLayoutRoute: PathlessLayoutRouteWithChildren,
+  BlogRoute: BlogRoute,
   DeferredRoute: DeferredRoute,
+  HakkimdaRoute: HakkimdaRoute,
+  IletisimRoute: IletisimRoute,
   RedirectRoute: RedirectRoute,
   PostsPostIdDeepRoute: PostsPostIdDeepRoute,
 }
@@ -409,7 +475,10 @@ export const routeTree = rootRoute
         "/posts",
         "/users",
         "/_pathlessLayout",
+        "/blog",
         "/deferred",
+        "/hakkimda",
+        "/iletisim",
         "/redirect",
         "/posts_/$postId/deep"
       ]
@@ -437,8 +506,17 @@ export const routeTree = rootRoute
         "/_pathlessLayout/_nested-layout"
       ]
     },
+    "/blog": {
+      "filePath": "blog.tsx"
+    },
     "/deferred": {
       "filePath": "deferred.tsx"
+    },
+    "/hakkimda": {
+      "filePath": "hakkimda.tsx"
+    },
+    "/iletisim": {
+      "filePath": "iletisim.tsx"
     },
     "/redirect": {
       "filePath": "redirect.tsx"
