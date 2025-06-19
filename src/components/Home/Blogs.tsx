@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router"
 import { useDevtoPosts } from "~/hooks/useDevtoPosts"
 import { useMediumPosts } from "~/hooks/useMediumPosts"
 
@@ -26,6 +27,7 @@ const Blogs = () => {
                 img = imgMatch[1]
               }
               const imageUrl = post.thumbnail || img
+              const id = post.guid?.split('/').pop()
               return (
                 <article key={post.guid} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
                   <div className="h-48 overflow-hidden">
@@ -42,9 +44,9 @@ const Blogs = () => {
                     </div>
                     <h3 className="text-xl font-semibold mb-3 line-clamp-2">{post.title}</h3>
                     <p className="text-gray-600 mb-4 line-clamp-2">{post.description?.replace(/<[^>]+>/g, '').slice(0, 120) + '...'}</p>
-                    <a href={post.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all">
+                    <Link to="/$postId"  params={{ postId: String(id) }}  className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all">
                       Devamını Oku <i className="ri-arrow-right-line"></i>
-                    </a>
+                    </Link>
                   </div>
                 </article>
               )
@@ -68,9 +70,9 @@ const Blogs = () => {
                   </div>
                   <h3 className="text-xl font-semibold mb-3 line-clamp-2">{post.title}</h3>
                   <p className="text-gray-600 mb-4 line-clamp-2">{post.description?.slice(0, 120) + '...'}</p>
-                  <a href={post.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all">
+                  <Link to="/$postId" params={{ postId: String(post.id) }} className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all">
                     Devamını Oku <i className="ri-arrow-right-line"></i>
-                  </a>
+                  </Link>
                 </div>
               </article>
             ))}

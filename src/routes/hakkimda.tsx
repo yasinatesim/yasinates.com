@@ -8,103 +8,474 @@ function Hakkimda() {
   return (
     <>
       <section className="py-20 bg-white">
-<div className="container mx-auto px-4">
-<div className="text-center mb-16">
-<h2 className="text-3xl md:text-4xl font-bold mb-4">Hakkımda</h2>
-<p className="text-gray-600 max-w-2xl mx-auto">Frontend geliştirici olarak deneyimlerim ve müzik tutkumla birlikte profesyonel yolculuğum.</p>
-</div>
-<div className="max-w-4xl mx-auto">
-<div className="flex flex-col items-center mb-12">
-<div className="w-40 h-40 rounded-full overflow-hidden mb-8 border-4 border-primary">
-<img src="https://readdy.ai/api/search-image?query=professional%20portrait%20of%20a%20male%20software%20developer%20in%20his%2030s%2C%20casual%20smart%20attire%2C%20friendly%20smile%2C%20clean%20background%2C%20high%20quality%20professional%20headshot&width=400&height=400&seq=portrait-alt&orientation=squarish" alt="Yasin Ateşim" className="w-full h-full object-cover" />
-</div>
-<h3 className="text-2xl font-semibold mb-2">Yasin Ateşim</h3>
-<p className="text-lg text-gray-600 mb-6">Frontend Developer & Müzik Tutkunu</p>
-<div className="flex flex-wrap gap-4 mb-8">
-<a href="https://github.com/yasinatesim" target="_blank" className="px-4 py-2 bg-gray-800 text-white rounded-button flex items-center gap-2 hover:bg-gray-900 transition-colors whitespace-nowrap">
-<i className="ri-github-fill"></i> GitHub
-</a>
-<a href="https://linkedin.com/in/yasinatesim" target="_blank" className="px-4 py-2 bg-blue-700 text-white rounded-button flex items-center gap-2 hover:bg-blue-800 transition-colors whitespace-nowrap">
-<i className="ri-linkedin-fill"></i> LinkedIn
-</a>
-<a href="https://instagram.com/yasinatesim" target="_blank" className="px-4 py-2 bg-pink-600 text-white rounded-button flex items-center gap-2 hover:bg-pink-700 transition-colors whitespace-nowrap">
-<i className="ri-instagram-fill"></i> Instagram
-</a>
-<a href="https://twitter.com/yasinatesim" target="_blank" className="px-4 py-2 bg-blue-400 text-white rounded-button flex items-center gap-2 hover:bg-blue-500 transition-colors whitespace-nowrap">
-<i className="ri-twitter-fill"></i> Twitter
-</a>
-<a href="https://medium.com/@yasinatesim" target="_blank" className="px-4 py-2 bg-gray-700 text-white rounded-button flex items-center gap-2 hover:bg-gray-800 transition-colors whitespace-nowrap">
-<i className="ri-medium-fill"></i> Medium
-</a>
-<a href="https://dev.to/yasinatesim" target="_blank" className="px-4 py-2 bg-black text-white rounded-button flex items-center gap-2 hover:bg-gray-900 transition-colors whitespace-nowrap">
-<i className="ri-code-box-fill"></i> Dev.to
-</a>
-</div>
-</div>
-<div className="mb-12">
-<p className="text-lg text-gray-700 mb-6">
-2012 yılında başlayan yazılımcılık hikayeme, 2015 yılından beri Frontend Developer olarak devam ediyorum. Genellikle frontend ağırlıklı olmak üzere, yazılımla ilgili güncel teknolojileri takip etmeye çalışıyorum.
-</p>
-<p className="text-lg text-gray-700 mb-6">
-Medium'da paylaşmış olduğum Türkçe içerikleri, İngilizce olarak dev.to'da paylaşıyorum. Yazılım geliştirmenin yanı sıra müzikle de ilgileniyorum ve YouTube kanalımda müzik içerikleri paylaşıyorum.
-</p>
-</div>
-<div>
-<h3 className="text-xl font-semibold mb-6 text-center">Teknolojiler</h3>
-<div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-<div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
-<div className="w-16 h-16 flex items-center justify-center text-orange-500 mb-4">
-<i className="ri-html5-fill ri-3x"></i>
-</div>
-<h4 className="text-lg font-medium">HTML5</h4>
-</div>
-<div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
-<div className="w-16 h-16 flex items-center justify-center text-blue-500 mb-4">
-<i className="ri-css3-fill ri-3x"></i>
-</div>
-<h4 className="text-lg font-medium">CSS3</h4>
-</div>
-<div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
-<div className="w-16 h-16 flex items-center justify-center text-pink-500 mb-4">
-<i className="ri-sass-fill ri-3x"></i>
-</div>
-<h4 className="text-lg font-medium">SASS</h4>
-</div>
-<div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
-<div className="w-16 h-16 flex items-center justify-center text-yellow-500 mb-4">
-<i className="ri-javascript-fill ri-3x"></i>
-</div>
-<h4 className="text-lg font-medium">JavaScript</h4>
-</div>
-<div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
-<div className="w-16 h-16 flex items-center justify-center text-yellow-600 mb-4">
-<i className="ri-javascript-fill ri-3x"></i>
-</div>
-<h4 className="text-lg font-medium">ES6</h4>
-</div>
-<div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
-<div className="w-16 h-16 flex items-center justify-center text-blue-400 mb-4">
-<i className="ri-reactjs-fill ri-3x"></i>
-</div>
-<h4 className="text-lg font-medium">React</h4>
-</div>
-<div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
-<div className="w-16 h-16 flex items-center justify-center text-purple-500 mb-4">
-<i className="ri-redux-fill ri-3x"></i>
-</div>
-<h4 className="text-lg font-medium">Redux</h4>
-</div>
-<div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
-<div className="w-16 h-16 flex items-center justify-center text-blue-600 mb-4">
-<i className="ri-git-branch-fill ri-3x"></i>
-</div>
-<h4 className="text-lg font-medium">Git</h4>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-4">Kısaca Ben</span>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Hakkımda</h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Frontend geliştirici olarak deneyimlerim
+            </p>
+          </div>
+          <div className="max-w-4xl mx-auto">
+            <div className="flex flex-col items-center mb-12">
+              <div className="w-40 h-40 rounded-full overflow-hidden mb-8 border-4 border-primary">
+                <img
+                  src="yasin-ates-hakkimda.jpg"
+                  alt="Yasin Ateş Hakkımda Resmi"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <h3 className="text-2xl font-semibold mb-2">Yasin Ateş</h3>
+              <p className="text-lg text-gray-600 mb-6">Frontend Developer</p>
+              <div className="flex flex-wrap gap-4 mb-8">
+                {/* GitHub */}
+                <a
+                  href="https://github.com/yasinatesim"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub"
+                  className="group w-12 h-12 flex items-center justify-center rounded-full bg-white text-gray-800 border border-gray-200 shadow transition-all duration-200 hover:bg-gray-900 hover:text-white hover:scale-105"
+                >
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" className="transition-all duration-200" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.5 2.87 8.32 6.84 9.66.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.61-3.37-1.35-3.37-1.35-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1.01.07 1.53 1.04 1.53 1.04.89 1.54 2.34 1.09 2.91.83.09-.65.35-1.09.64-1.34-2.22-.25-4.56-1.12-4.56-4.96 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.6 9.6 0 0 1 12 6.85c.85.01 1.7.12 2.5.34 1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.86 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48C19.13 20.58 22 16.76 22 12.26 22 6.58 17.52 2 12 2Z" fill="currentColor" />
+                  </svg>
+                </a>
+                {/* LinkedIn */}
+                <a
+                  href="https://linkedin.com/in/yasinatesim"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  className="group w-12 h-12 flex items-center justify-center rounded-full bg-white text-blue-700 border border-gray-200 shadow transition-all duration-200 hover:bg-blue-700 hover:text-white hover:scale-105"
+                >
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" className="transition-all duration-200" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 0h-14C2.24 0 0 2.24 0 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5V5c0-2.76-2.24-5-5-5zm-11 19H5v-10h3v10zm-1.5-11.27c-.97 0-1.75-.79-1.75-1.76 0-.97.78-1.76 1.75-1.76s1.75.79 1.75 1.76c0 .97-.78 1.76-1.75 1.76zm13.5 11.27h-3v-5.6c0-1.34-.03-3.07-1.87-3.07-1.87 0-2.16 1.46-2.16 2.97v5.7h-3v-10h2.89v1.36h.04c.4-.76 1.38-1.56 2.84-1.56 3.04 0 3.6 2 3.6 4.59v5.61z" fill="currentColor" />
+                  </svg>
+                </a>
+                {/* Instagram */}
+                <a
+                  href="https://instagram.com/yasinatesim"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  className="group w-12 h-12 flex items-center justify-center rounded-full bg-white text-pink-600 border border-gray-200 shadow transition-all duration-200 hover:bg-pink-600 hover:text-white hover:scale-105"
+                >
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" className="transition-all duration-200" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="20" height="20" rx="6" fill="none" stroke="currentColor" strokeWidth="2" />
+                    <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2" fill="none" />
+                    <circle cx="17" cy="7" r="1.2" fill="currentColor" />
+                  </svg>
+                </a>
+                {/* Twitter/X */}
+                <a
+                  href="https://twitter.com/yasinatesim"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="X"
+                  className="group w-12 h-12 flex items-center justify-center rounded-full bg-white text-black border border-gray-200 shadow transition-all duration-200 hover:bg-black hover:text-white hover:scale-105"
+                >
+                  <svg width="26" height="26" viewBox="0 0 32 32" fill="none" className="transition-all duration-200" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19.615 14.953 29.344 4h-2.24l-8.5 9.555L11.02 4H4.5l10.09 14.36L4.5 28h2.24l9.01-10.13 7.89 10.13h6.52l-10.545-13.047zm-3.19 3.59-.418-.59L6.13 5.69h3.98l6.44 9.09.418.59 9.99 14.09h-3.98l-6.44-9.09z" fill="currentColor" />
+                  </svg>
+                </a>
+                {/* Medium */}
+                <a
+                  href="https://medium.com/@yasinatesim"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Medium"
+                  className="group w-12 h-12 flex items-center justify-center rounded-full bg-white text-gray-900 border border-gray-200 shadow transition-all duration-200 hover:bg-gray-900 hover:text-white hover:scale-105"
+                >
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" className="transition-all duration-200" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse cx="5.5" cy="12" rx="4.5" ry="7" fill="currentColor" />
+                    <ellipse cx="18" cy="12" rx="2" ry="7" fill="currentColor" />
+                    <ellipse cx="12" cy="12" rx="2.5" ry="7" fill="currentColor" />
+                  </svg>
+                </a>
+                {/* Dev.to */}
+                <a
+                  href="https://dev.to/yasinatesim"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Dev.to"
+                  className="group w-12 h-12 flex items-center justify-center rounded-full bg-white text-gray-900 border border-gray-200 shadow transition-all duration-200 hover:bg-gray-900 hover:text-white hover:scale-105"
+                >
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7.826 10.083a.784.784 0 0 0-.468-.175h-.701v4.198h.701a.786.786 0 0 0 .469-.175c.155-.117.233-.292.233-.525v-2.798c.001-.233-.079-.408-.234-.525zM19.236 3H4.764C3.791 3 3.002 3.787 3 4.76v14.48c.002.973.791 1.76 1.764 1.76h14.473c.973 0 1.762-.787 1.764-1.76V4.76A1.765 1.765 0 0 0 19.236 3zM9.195 13.414c0 .755-.466 1.901-1.942 1.898H5.389V8.665h1.903c1.424 0 1.902 1.144 1.903 1.899v2.85zm4.045-3.562H11.1v1.544h1.309v1.188H11.1v1.543h2.142v1.188h-2.498a.813.813 0 0 1-.833-.792V9.497a.813.813 0 0 1 .792-.832h2.539l-.002 1.187zm4.165 4.632c-.531 1.235-1.481.99-1.906 0l-1.548-5.818h1.309l1.193 4.569 1.188-4.569h1.31l-1.546 5.818z"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div className="mb-12">
+              <p className="text-lg text-gray-700 mb-6 text-center">
+                2012 yılında başlayan yazılımcılık hikayeme, 2015 yılından beri Frontend Developer olarak devam ediyorum. Genellikle frontend ağırlıklı olmak üzere, yazılımla ilgili güncel teknolojileri takip etmeye çalışıyorum.
+              </p>
+              <p className="text-lg text-gray-700 mb-6 text-center">
+                Medium'da paylaşmış olduğum Türkçe içerikleri, İngilizce olarak dev.to'da paylaşıyorum. Yazılım geliştirmenin yanı sıra müzikle de ilgileniyorum ve YouTube kanalımda müzik içerikleri paylaşıyorum.
+              </p>
+            </div>
+            {/* Modern ve şık teknoloji ikonları */}
+            <div>
+              <h3 className="text-xl font-semibold mb-8 text-center">Kullandığım Teknolojiler</h3>
+              <div className="flex flex-wrap justify-center gap-8">
+                {/* HTML5 */}
+                <TechItem name="HTML5" icon={<i className="ri-html5-fill ri-3x"></i>} color="orange-500" bg="orange-50" hover="orange-600" />
+                {/* CSS3 */}
+                <TechItem name="CSS3" icon={<i className="ri-css3-fill ri-3x"></i>} color="blue-500" bg="blue-50" hover="blue-600" />
+                {/* SASS */}
+                <TechItem name="SASS" icon={
+                  <svg xmlns="http://www.w3.org/2000/svg" width={40} height={40} viewBox="0 0 32 32" className="fill-current">
+                    <path d="M31.641 21.161c-.109-.911-.578-1.618-1.286-2.172-.82-.641-1.78-.905-2.803-.947a6.327 6.327 0 0 0-2.437.376c-.224.081-.444.177-.67.268-.03-.055-.062-.107-.088-.162-.232-.474-.512-.927-.573-1.47-.044-.386-.098-.772-.006-1.153.088-.367.204-.728.312-1.091.056-.187.017-.291-.161-.375a.724.724 0 0 0-.197-.065 3.04 3.04 0 0 0-1.293.096c-.15.044-.259.128-.292.294-.019.095-.058.186-.084.28-.111.391-.189.789-.368 1.161-.449.934-.96 1.832-1.485 2.724-.057.096-.116.191-.188.308-.184-.385-.38-.73-.44-1.136-.067-.458-.12-.915-.006-1.37.085-.339.196-.672.298-1.006.049-.159.026-.242-.118-.326a.696.696 0 0 0-.237-.092 2.904 2.904 0 0 0-1.338.11c-.136.044-.207.132-.249.272-.122.413-.226.836-.397 1.229a429.556 429.556 0 0 1-2.12 4.753c-.149.33-.323.649-.491.97-.043.082-.104.153-.157.23-.043-.05-.059-.085-.059-.119.001-.203-.023-.413.016-.609.117-.594.252-1.186.395-1.775.117-.486.254-.968.385-1.452.044-.162.045-.313-.072-.449-.195-.228-.603-.278-.845-.102-.026.019-.057.032-.107.061.009-.077.014-.125.021-.173.051-.37.061-.738-.04-1.103-.127-.454-.45-.715-.921-.701a1.98 1.98 0 0 0-.653.124c-.855.335-1.512.928-2.071 1.642a.64.64 0 0 1-.189.163c-.723.401-1.449.797-2.174 1.195l-.807.442c-.216-.207-.413-.421-.637-.603-.682-.556-1.375-1.098-2.061-1.648-.608-.487-1.198-.995-1.649-1.64-.336-.48-.552-1.005-.572-1.599-.026-.756.188-1.447.573-2.091.493-.823 1.164-1.483 1.903-2.082.781-.633 1.626-1.17 2.502-1.66 1.225-.686 2.486-1.293 3.837-1.694 1.386-.411 2.791-.646 4.241-.482.57.064 1.123.195 1.632.474.389.213.708.492.857.929.146.43.142.865.04 1.301-.206.883-.69 1.612-1.299 2.263-.998 1.067-2.216 1.793-3.588 2.273a9.843 9.843 0 0 1-2.441.521c-.682.057-1.35-.003-1.996-.241a2.597 2.597 0 0 1-1.1-.747c-.054-.063-.122-.13-.222-.072-.098.057-.115.151-.082.245.055.157.105.319.191.459.214.351.527.606.871.825.661.42 1.399.561 2.165.594 1.162.05 2.296-.123 3.413-.435 1.596-.445 2.983-1.231 4.096-2.471.927-1.032 1.588-2.198 1.73-3.605.069-.687-.004-1.36-.326-1.986-.349-.679-.903-1.147-1.566-1.494-.964-.506-2.006-.705-3.081-.763H14a12.844 12.844 0 0 0-3.786.782c-.926.337-1.835.717-2.717 1.157-1.921.96-3.71 2.108-5.179 3.699-.732.793-1.352 1.663-1.708 2.693-.104.302-.168.622-.243.934-.006.026.023.051-.041.077v.44c.064.113.071.225.1.338.189.733.578 1.363 1.06 1.937.687.818 1.518 1.476 2.38 2.096.747.537 1.505 1.062 2.255 1.595.129.091.248.197.388.309-.12.065-.221.122-.325.175-.99.502-1.942 1.065-2.82 1.747-.529.411-1.041.848-1.402 1.418-.581.918-.787 1.896-.354 2.94.127.305.32.569.592.763a.863.863 0 0 0 .29.15c.264.062.534.103.802.152h.758a4.714 4.714 0 0 0 2.291-.838c1.078-.744 1.804-1.741 2.117-3.022.227-.93.236-1.862-.031-2.788-.025-.086-.056-.17-.089-.253s-.071-.164-.116-.268l1.719-.989.026.022c-.031.102-.064.204-.093.308-.204.746-.34 1.505-.291 2.279.052.825.282 1.597.765 2.287.39.558 1.321.578 1.736.019a4 4 0 0 0 .397-.628c.28-.579.54-1.168.807-1.753l.047-.107c-.019.277-.042.52-.052.764-.016.38.006.758.136 1.12.111.31.3.541.655.581.242.028.436-.083.614-.224.279-.22.505-.491.673-.8.475-.873.963-1.74 1.394-2.635.466-.968.873-1.964 1.306-2.948.024-.054.045-.109.072-.175.102.402.174.795.305 1.168.152.432.341.854.547 1.264.097.194.086.32-.049.482-.564.68-1.118 1.368-1.673 2.056a4.542 4.542 0 0 0-.347.472.915.915 0 0 0-.12.341.434.434 0 0 0 .346.493c.219.047.453.065.677.048a3.972 3.972 0 0 0 2.099-.789c.805-.597 1.064-1.41.869-2.375-.053-.262-.146-.517-.237-.769-.041-.114-.043-.194.031-.3.644-.919 1.194-1.895 1.705-2.892a.613.613 0 0 1 .076-.121c.166.863.415 1.694.862 2.448-.228.22-.454.419-.658.639-.45.483-.84 1.009-1.043 1.649-.087.276-.155.556-.116.852.061.458.436.755.886.651.963-.223 1.795-.677 2.403-1.481.409-.541.446-1.145.275-1.778-.047-.172-.103-.341-.163-.539.238-.074.47-.162.709-.217 1.245-.284 2.476-.234 3.675.215.7.262 1.266.702 1.601 1.393.41.845.183 1.646-.613 2.18-.074.05-.159.089-.221.151a.216.216 0 0 0-.051.167c.005.031.087.069.133.069.262-.002.474-.139.678-.28.511-.353.848-.829.928-1.454.002-.018-.024-.035.04-.052v-.416c-.064-.017-.037-.034-.039-.052zm-24.355 1.69c-.083 1.115-.588 2.019-1.414 2.75-.465.412-.997.705-1.618.808-.225.037-.455.046-.674-.047-.311-.133-.381-.409-.387-.704-.009-.469.155-.893.38-1.296.294-.526.725-.927 1.185-1.301.725-.59 1.512-1.09 2.317-1.561.013-.008.029-.012.061-.025.124.46.184.914.149 1.377zm6.29-4.845a8.45 8.45 0 0 1-.236 1.057c-.36 1.194-.821 2.352-1.32 3.493-.092.211-.226.404-.343.604-.018.031-.045.058-.071.084-.144.143-.282.135-.355-.052a3.93 3.93 0 0 1-.182-.679c-.03-.154-.023-.316-.032-.474.01-1.123.352-2.145.934-3.095.24-.392.501-.765.899-1.014a1.62 1.62 0 0 1 .399-.177c.212-.06.343.039.308.252zm4.291 5.467 1.542-1.801c.064.669-1.072 2.004-1.542 1.801zm4.926-1.211c-.109.062-.228.108-.34.165-.102.053-.136 0-.139-.088a.61.61 0 0 1 .023-.18 3.866 3.866 0 0 1 1.162-1.871c.008-.008.021-.011.04-.021a1.651 1.651 0 0 1-.747 1.995z" />
+                  </svg>
+                } color="pink-500" bg="pink-50" hover="pink-600" />
+                {/* JavaScript */}
+                <TechItem name="JavaScript" icon={<i className="ri-javascript-fill ri-3x"></i>} color="yellow-500" bg="yellow-50" hover="yellow-600" />
+                {/* ES6 */}
+                <TechItem name="ES6" icon={<i className="ri-javascript-fill ri-3x"></i>} color="yellow-600" bg="yellow-50" hover="yellow-700" />
+                {/* Babel */}
+                <TechItem
+                  name="Babel"
+                  icon={
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={40}
+                    height={40}
+                      viewBox="0 0 32 32"
+                      fill='currentColor'
+                  >
+                    <path
+                      d="M13.016 4.025A26.109 26.109 0 0 1 10.17 5.82V6a.762.762 0 0 0 .281-.11c.123 0 .2.037.2.158l.2-.11h.1v.086A10.967 10.967 0 0 1 8.95 7.58l.11.171h-.1l-.209-.072c0 .062-.086.1-.281.11v.1l.219.243a.781.781 0 0 1-.289-.063 1.9 1.9 0 0 0-1.271.942l.11.171a2.611 2.611 0 0 1 .634-.5l.024.267a.851.851 0 0 0-.281.11l.233.342A6.837 6.837 0 0 1 9.3 8.192c.267.072.4.147.4.243h.2a15.493 15.493 0 0 1 4.25-2.3v.185c-.267.391-.439.586-.535.6a.741.741 0 0 0 .134.353 32.729 32.729 0 0 1-1.9 4.815 136.039 136.039 0 0 1-7.364 15.34.725.725 0 0 0 .11.267 2.557 2.557 0 0 0 .942-.353h.11v.185h.185l.206-.142c0 .062.072.086.2.072v.185a1.642 1.642 0 0 1-.318.843 4.395 4.395 0 0 0-.647 1.428V30h.185a11.737 11.737 0 0 0 1.819-2.627 29.214 29.214 0 0 0 5.35-2.017 5.013 5.013 0 0 0 2.822-.966v-.1l-.465.134h-.11v-.1a4.237 4.237 0 0 0 1.872-.61c1.771-1.367 3.1-2.332 4.012-2.908 2.8-2.052 4.117-4.031 3.959-5.911a11.058 11.058 0 0 0-1.846-2.308c-.024-.267.4-.623 1.257-1.113l2.431-2.14a6.315 6.315 0 0 0 .976-3.37l-.051-.364c-.1-1.086-.88-1.966-2.37-2.637a9.2 9.2 0 0 0-4.721-.942 28.928 28.928 0 0 0-7.366 2Zm2.14 7.682c.185-1 .391-1.575.623-1.709l2.028-4.548c-.024-.281.4-.5 1.295-.647l.294-.024.024.267c.88-.134 1.418-.209 1.624-.233 1.6-.134 2.442.185 2.517.976h.185l-.037-.465h.2a1.217 1.217 0 0 1 .757.952 1.426 1.426 0 0 1-.415.952c-.123 0-.2-.072-.209-.267h-.2l-.048.551c-.818 1.222-1.4 1.846-1.771 1.872q-.495.677-.623.7a11.181 11.181 0 0 1-2.1 1.565 27.388 27.388 0 0 0-4.216 1.637.7.7 0 0 0-.391-.062v-.174a2.263 2.263 0 0 1 .476-1.337Zm-6.6-3.443v.086a.851.851 0 0 0-.281.11h-.1v-.172Zm5.879-.136.024.267c-.086 0-.209.134-.353.391V8.6a.907.907 0 0 0 .267-.476Zm-.9 1.9.037.366h-.1l-.029-.364Zm-.233.661c-.024.3-.1.465-.267.476h-.1a.934.934 0 0 0 .158-.465Zm-.4.952v.086l-.171.294h-.185v-.081a.243.243 0 0 0 .267-.294h.088Zm-.415.856-.048.452h-.1l-.037-.452Zm2.14 1.367v.171l-.38.037v-.171Zm-1.817 2.617A21.476 21.476 0 0 0 18 14.943l.575-.048a3.325 3.325 0 0 1 2.675.685l.037.366c-.439 1.271-.928 2-1.452 2.236l-2.442 1.942a23.881 23.881 0 0 1-2.942 1.808 21.859 21.859 0 0 1-5.4 2.48h-.11c.1-.342 1.38-2.98 3.873-7.942Zm2.637-1.038v.086l-.391.037v-.086Zm-6.083 5.9c-.123.623-.267.942-.391.952v-.086a1.041 1.041 0 0 1 .4-.867Zm2.442 3.445a31.3 31.3 0 0 0 5.839-3.055v.171c0 .072-.267.3-.818.709a14.845 14.845 0 0 0-2.859 1.624c-1.76.61-2.627.99-2.613 1.137a29.423 29.423 0 0 0-3.079 1.356 1.126 1.126 0 0 1-.5-.134.8.8 0 0 1 .428-.781 1.554 1.554 0 0 1 .781.123 7.543 7.543 0 0 1 1.514-.489v-.185l-.575.048a8.223 8.223 0 0 1 1.674-.781l.294-.024v.093c-.489.037-.77.2-.832.452a.16.16 0 0 0 .2.158 2.362 2.362 0 0 0 .535-.415Zm-3-2.22v.086a.171.171 0 0 1-.171.209v-.086a.182.182 0 0 1 .153-.207Zm4.569 1.246a4.336 4.336 0 0 0-1.308.575h-.1v-.185a1.854 1.854 0 0 0 1.2-.551.183.183 0 0 1 .209.169Zm-4.751 1.331.294-.024v.1a.762.762 0 0 0-.281.11h-.184a.212.212 0 0 1 .171-.186Z"
+                    />
+                  </svg>
+                  }
+                  color="yellow-500"
+                  bg="yellow-50"
+                  hover="yellow-600"
+                />
+                {/* React */}
+                <TechItem name="React" icon={<i className="ri-reactjs-fill ri-3x"></i>} color="blue-400" bg="blue-50" hover="blue-500" />
+                {/* Redux */}
+                <TechItem name="Redux" icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={35}
+                    height={35}
+                    preserveAspectRatio="xMidYMid"
+                    viewBox="0 -6 256 256"
+                    className="fill-current"
+                  >
+                    <path
+                      d="M177.381 169.733c9.447-.978 16.614-9.122 16.288-18.896-.325-9.773-8.47-17.592-18.243-17.592h-.651c-10.1.326-17.918 8.796-17.592 18.895.326 4.887 2.28 9.122 5.212 12.054-11.076 21.828-28.016 37.791-53.426 51.148-17.266 9.122-35.183 12.38-53.1 10.1-14.66-1.955-26.062-8.47-33.23-19.222-10.424-15.963-11.401-33.23-2.605-50.496 6.19-12.38 15.962-21.502 22.152-26.063-1.303-4.235-3.258-11.402-4.235-16.614-47.237 34.207-42.35 80.468-28.016 102.295 10.75 16.29 32.577 26.389 56.684 26.389 6.515 0 13.03-.652 19.546-2.28 41.699-8.145 73.299-32.905 91.216-69.718zm57.336-40.397c-24.759-28.995-61.245-44.958-102.944-44.958h-5.212c-2.932-5.864-9.122-9.774-15.963-9.774h-.652C99.848 74.93 92.03 83.4 92.355 93.5c.326 9.773 8.47 17.592 18.243 17.592h.651c7.167-.326 13.357-4.887 15.963-11.077h5.864c24.759 0 48.214 7.167 69.39 21.176 16.288 10.751 28.016 24.76 34.531 41.7 5.538 13.683 5.212 27.04-.652 38.443-9.121 17.266-24.432 26.714-44.63 26.714-13.031 0-25.41-3.91-31.926-6.842-3.583 3.258-10.099 8.47-14.66 11.729 14.009 6.515 28.343 10.099 42.025 10.099 31.274 0 54.404-17.267 63.2-34.533 9.447-18.896 8.795-51.474-15.637-79.165zM69.225 175.27c.326 9.774 8.47 17.592 18.243 17.592h.652c10.099-.325 17.917-8.796 17.591-18.895-.325-9.774-8.47-17.592-18.243-17.592h-.651c-.652 0-1.63 0-2.28.325-13.357-22.153-18.895-46.26-16.94-72.323 1.302-19.547 7.818-36.488 19.22-50.497 9.447-12.054 27.69-17.918 40.07-18.243 34.531-.652 49.19 42.351 50.168 59.618 4.235.977 11.402 3.258 16.289 4.887C189.434 27.366 156.857 0 125.584 0c-29.32 0-56.359 21.176-67.11 52.451-14.985 41.7-5.212 81.771 13.031 113.372-1.628 2.28-2.606 5.864-2.28 9.448z"
+                    />
+                  </svg>
+                } color="purple-500" bg="purple-50" hover="purple-600" />
+                {/* Vuejs */}
+                <TechItem name="Vue.js" icon={
+                  <svg width="40" height="40" viewBox="0 0 261.76 226.69" fill="none" xmlns="http://www.w3.org/2000/svg" className="fill-current">
+                    <g>
+                      <path d="M33.97 0L0 0 130.88 226.69 261.76 0 227.79 0 130.88 165.06z" fill="#41B883" />
+                      <path d="M33.97 0L130.88 165.06 227.79 0 182.47 0 130.88 85.13 79.29 0z" fill="#34495E" />
+                    </g>
+                  </svg>
+                } color="emerald-500" bg="emerald-50" hover="emerald-600" />
+                {/* Nextjs */}
+                <TechItem name="Next.js" icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={40}
+                    height={40}
+                    viewBox="0 0 32 32"
+                  >
+                    <path d="M23.749 30.005c-.119.063-.109.083.005.025a.31.31 0 0 0 .095-.061c0-.021 0-.021-.1.036zm.24-.13c-.057.047-.057.047.011.016a.249.249 0 0 0 .068-.047c0-.027-.016-.021-.079.031zm.156-.094c-.057.047-.057.047.011.016a.246.246 0 0 0 .068-.048c0-.025-.016-.02-.079.032zm.158-.093c-.057.047-.057.047.009.015.037-.02.068-.041.068-.047 0-.025-.016-.02-.077.032zm.213-.141c-.109.073-.147.12-.047.068.067-.041.181-.131.161-.131-.043.016-.079.043-.115.063zM14.953.011c-.073.005-.292.025-.484.041-4.548.412-8.803 2.86-11.5 6.631a15.828 15.828 0 0 0-2.824 6.989c-.129.88-.145 1.14-.145 2.333 0 1.192.016 1.448.145 2.328.871 6.011 5.147 11.057 10.943 12.927 1.043.333 2.136.563 3.381.704.484.052 2.577.052 3.061 0 2.152-.24 3.969-.771 5.767-1.688.276-.14.328-.177.291-.208a340.89 340.89 0 0 1-2.609-3.495l-2.557-3.453-3.203-4.745a416.396 416.396 0 0 0-3.229-4.744c-.011 0-.025 2.109-.031 4.681-.011 4.505-.011 4.688-.068 4.792a.572.572 0 0 1-.276.287c-.099.047-.188.057-.661.057h-.541l-.141-.088a.595.595 0 0 1-.208-.229l-.068-.141.005-6.271.011-6.271.099-.125a.753.753 0 0 1 .229-.187c.131-.063.183-.073.724-.073.635 0 .74.025.907.208a602.855 602.855 0 0 1 3.859 5.812c2.079 3.152 4.917 7.453 6.312 9.563l2.537 3.839.125-.083a16.346 16.346 0 0 0 3.285-2.885 15.935 15.935 0 0 0 3.767-8.177c.129-.88.145-1.141.145-2.333 0-1.193-.016-1.448-.145-2.328C30.985 7.668 26.709 2.622 20.913.751a16.983 16.983 0 0 0-3.328-.697c-.303-.031-2.371-.068-2.631-.041zM21.5 9.688a.623.623 0 0 1 .317.364c.027.084.032 1.823.027 5.74l-.011 5.624-.989-1.52-.995-1.521v-4.083c0-2.647.011-4.131.025-4.204a.67.67 0 0 1 .313-.395c.124-.063.172-.068.667-.068.463 0 .541.005.645.063z" />
+                  </svg>
+                } color="black" bg="gray-50" hover="black" />
+                {/* Remix */}
+                <TechItem name="Remix" icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={40}
+                    height={40}
+                    viewBox="0 0 800 800"
+                  >
+                    <path
+                      stroke="#000"
+                      strokeWidth={4}
+                      d="m589.94 527.613-.001-.018-.002-.018c-2.662-27.764-11.246-48.9-25.534-64.343-12.347-13.346-28.818-22.294-49.031-27.668C569.234 424.272 608 379.587 608 313.42c0-46.717-15.403-84.928-46.495-111.423C530.461 175.543 484.047 161 422.456 161H193v100.41h206.889c26.834 0 46.64 5.764 59.697 15.991 12.982 10.169 19.544 24.946 19.544 43.61 0 21.361-6.599 35.679-19.465 44.774-13.023 9.206-32.816 13.324-59.776 13.324H193v102.525h200.871c21.345 0 37.272 3.018 48.362 12.318 11.045 9.262 17.734 25.143 19.6 52.005l.001.008v.007c2.839 36.892 2.483 55.139 2.141 72.661v.025c-.11 5.645-.219 11.232-.219 17.342v2h130.445v-2c0-27.995 0-53.669-4.261-108.387Z"
+                      className="fill-current"
+                    />
+                    <path
+                      stroke="#000"
+                      strokeWidth={4}
+                      d="M193 636v2h164.878v-49.006c0-5.207-1.269-12.288-5.612-18.12-4.419-5.933-11.838-10.321-23.569-10.321H193V636Z"
+                      className="fill-current"
+                    />
+                  </svg>
+                } color="fuchsia-600" bg="fuchsia-50" hover="fuchsia-700" />
+                {/* TanStack */}
+                <TechItem name="TanStack" icon={
+                  <svg width="40" height="40" viewBox="0 0 256 256" fill="none" className="fill-current">
+                    <g>
+                      <rect width="256" height="256" fill="none" />
+                      <path d="M128 32l96 48-96 48-96-48 96-48zm0 64l96 48-96 48-96-48 96-48zm0 64l96 48-96 48-96-48 96-48z" fill="currentColor" />
+                    </g>
+                  </svg>
+                } color="rose-600" bg="rose-50" hover="rose-700" />
+                {/* Storybook */}
+                <TechItem name="Storybook" icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    width={40}
+                    height={40}
+                    preserveAspectRatio="xMidYMid"
+                    viewBox="-31.5 0 319 319"
+                  >
+                    <defs>
+                      <path
+                        id="a"
+                        d="M9.872 293.324.012 30.574C-.315 21.895 6.338 14.54 15.005 14L238.494.032c8.822-.552 16.42 6.153 16.972 14.975.02.332.031.665.031.998v286.314c0 8.839-7.165 16.004-16.004 16.004-.24 0-.48-.005-.718-.016l-213.627-9.595c-8.32-.373-14.963-7.065-15.276-15.388Z"
+                      />
+                    </defs>
+                    <mask id="b" fill="#fff">
+                      <use xlinkHref="#a" />
+                    </mask>
+                    <use xlinkHref="#a" fill="#FF4785" />
+                    <path
+                      fill="#FFF"
+                      d="m188.665 39.127 1.527-36.716L220.884 0l1.322 37.863a2.387 2.387 0 0 1-3.864 1.96l-11.835-9.325-14.013 10.63a2.387 2.387 0 0 1-3.829-2.001Zm-39.251 80.853c0 6.227 41.942 3.243 47.572-1.131 0-42.402-22.752-64.684-64.415-64.684-41.662 0-65.005 22.628-65.005 56.57 0 59.117 79.78 60.249 79.78 92.494 0 9.052-4.433 14.426-14.184 14.426-12.705 0-17.729-6.49-17.138-28.552 0-4.786-48.458-6.278-49.936 0-3.762 53.466 29.548 68.887 67.665 68.887 36.935 0 65.892-19.687 65.892-55.326 0-63.36-80.961-61.663-80.961-93.06 0-12.728 9.455-14.425 15.07-14.425 5.909 0 16.546 1.042 15.66 24.801Z"
+                      mask="url(#b)"
+                    />
+                  </svg>
+                } color="pink-400" bg="pink-50" hover="pink-500" />
+                {/* TypeScript */}
+                <TechItem name="TypeScript" icon={
+                  <svg width="40" height="40" viewBox="0 0 32 32" fill="none" className="fill-current">
+                    <rect width="32" height="32" rx="6" fill="currentColor" />
+                    <text x="7" y="25" fontSize="16" fontWeight="bold" fill="#fff" fontFamily="Arial, Helvetica, sans-serif">TS</text>
+                  </svg>
+                } color="blue-700" bg="blue-50" hover="blue-800" />
+                {/* Yarn */}
+                <TechItem name="Yarn" icon={<svg
+                  width={40}
+                  height={40}
+                  viewBox="0 0 32 32"
+                >
+                  <path
+                    d="M28.208 24.409a10.493 10.493 0 0 0-3.959 1.822 23.743 23.743 0 0 1-5.835 2.642 1.632 1.632 0 0 1-.983.55 62.228 62.228 0 0 1-6.447.577c-1.163.009-1.876-.3-2.074-.776a1.573 1.573 0 0 1 .866-2.074 3.759 3.759 0 0 1-.514-.379c-.171-.171-.352-.514-.406-.388-.225.55-.343 1.894-.947 2.5-.83.839-2.4.559-3.328.072-1.019-.541.072-1.813.072-1.813a.73.73 0 0 1-.992-.343 4.847 4.847 0 0 1-.667-2.949 5.374 5.374 0 0 1 1.749-2.895 9.334 9.334 0 0 1 .658-4.4 10.445 10.445 0 0 1 3.165-3.661S6.628 10.747 7.35 8.817c.469-1.262.658-1.253.812-1.308a3.633 3.633 0 0 0 1.452-.857 5.265 5.265 0 0 1 4.41-1.7S15.2 1.4 16.277 2.09a18.349 18.349 0 0 1 1.533 2.886s1.281-.748 1.425-.469a11.334 11.334 0 0 1 .523 6.132 14.01 14.01 0 0 1-2.6 5.411c-.135.225 1.551.938 2.615 3.887.983 2.7.108 4.96.262 5.212.027.045.036.063.036.063s1.127.09 3.391-1.308a8.5 8.5 0 0 1 4.277-1.604 1.081 1.081 0 0 1 .469 2.11Z"
+                    style={{
+                      fill: "#3488b6",
+                    }}
+                  />
+                </svg>} color="blue-400" bg="blue-50" hover="blue-500" />
+                {/* Pnpm */}
+                <TechItem name="Pnpm" icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlnsXlink="http://www.w3.org/1999/xlink"
+                    width={40}
+                    height={40}
+                    viewBox="66.092 33.5 184.5 184.5"
+                  >
+                    <defs>
+                      <path id="a" d="M67.59 35h180v180h-180V35Z" />
+                      <path id="b" d="M237.6 95h-50V45h50v50Z" />
+                      <path id="c" d="M182.59 95h-50V45h50v50Z" />
+                      <path id="d" d="M127.59 95h-50V45h50v50Z" />
+                      <path id="e" d="M237.6 150h-50v-50h50v50Z" />
+                      <path id="f" d="M182.59 150h-50v-50h50v50Z" />
+                      <path id="g" d="M182.59 205h-50v-50h50v50Z" />
+                      <path id="h" d="M237.6 205h-50v-50h50v50Z" />
+                      <path id="i" d="M127.59 205h-50v-50h50v50Z" />
+                    </defs>
+                    <use xlinkHref="#a" fill="#fff" />
+                    <use xlinkHref="#b" fill="#f9ad00" />
+                    <use xlinkHref="#c" fill="#f9ad00" />
+                    <use xlinkHref="#d" fill="#f9ad00" />
+                    <use xlinkHref="#e" fill="#f9ad00" />
+                    <use xlinkHref="#f" fill="#4e4e4e" />
+                    <use xlinkHref="#g" fill="#4e4e4e" />
+                    <use xlinkHref="#h" fill="#4e4e4e" />
+                    <use xlinkHref="#i" fill="#4e4e4e" />
+                  </svg>
+                } color="amber-600" bg="amber-50" hover="amber-700" />
+                {/* Tailwind */}
+                <TechItem name="Tailwind" icon={
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 54 33"
+                    width={40}
+                    height={40}
+                  >
+                    <g clipPath="url(#a)">
+                      <path
+                        fill="#38bdf8"
+                        fillRule="evenodd"
+                        d="M27 0c-7.2 0-11.7 3.6-13.5 10.8 2.7-3.6 5.85-4.95 9.45-4.05 2.054.513 3.522 2.004 5.147 3.653C30.744 13.09 33.808 16.2 40.5 16.2c7.2 0 11.7-3.6 13.5-10.8-2.7 3.6-5.85 4.95-9.45 4.05-2.054-.513-3.522-2.004-5.147-3.653C36.756 3.11 33.692 0 27 0zM13.5 16.2C6.3 16.2 1.8 19.8 0 27c2.7-3.6 5.85-4.95 9.45-4.05 2.054.514 3.522 2.004 5.147 3.653C17.244 29.29 20.308 32.4 27 32.4c7.2 0 11.7-3.6 13.5-10.8-2.7 3.6-5.85 4.95-9.45 4.05-2.054-.513-3.522-2.004-5.147-3.653C23.256 19.31 20.192 16.2 13.5 16.2z"
+                        clipRule="evenodd"
+                      />
+                    </g>
+                    <defs>
+                      <clipPath id="a">
+                        <path fill="#fff" d="M0 0h54v32.4H0z" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                } color="sky-500" bg="sky-50" hover="sky-600" />
+                {/* BEM */}
+                <TechItem name="BEM" icon={<span className="text-2xl font-bold">BEM</span>} color="gray-700" bg="gray-50" hover="gray-800" />
+                {/* Webpack */}
+                <TechItem name="Webpack" icon={<svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={40}
+                  height={40}
+                  viewBox="0 0 24 24"
+                  fill='currentColor'
+                >
+                  <path fill="none" d="M0 0h24v24H0z" />
+                  <path d="M21 16.5a1 1 0 0 1-.53.88l-7.9 4.44a1 1 0 0 1-1.14 0l-7.9-4.44A1 1 0 0 1 3 16.5v-9a1 1 0 0 1 .53-.88l7.9-4.44a1 1 0 0 1 1.14 0l7.9 4.44a1 1 0 0 1 .53.88v9M12 4.15 5 8.09v7.82l7 3.94 7-3.94V8.09l-7-3.94m0 2.08 4.9 2.83-4.9 2.83-4.9-2.83L12 6.23m5 8.66-4 2.31v-3.58l4-2.31v3.58m-6 2.31-4-2.31v-3.58l4 2.31Z" />
+                </svg>} color="blue-600" bg="blue-50" hover="blue-700" />
+
+                        {/* Gulp */}
+                        <TechItem
+                  name="Gulp"
+                  icon={
+                    <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={50}
+                    height={50}
+                      viewBox="-6.5 0 24 24"
+                      fill='currentColor'
+                  >
+                    <path d="M9.288 18.319a9.777 9.777 0 0 1-3.89.61l.02.001a10.331 10.331 0 0 1-3.992-.633l.072.023.703 1.173.282 3.753q0 .328.868.539a8.742 8.742 0 0 0 1.955.216L5.448 24h-.007l.149.001c.687 0 1.356-.077 1.998-.224l-.06.012q.868-.211.868-.539l.234-3.753zm-8.585-6c.171-.571.411-1.07.716-1.52l-.012.019a3.132 3.132 0 0 1 1.156-1.071l.017-.008a.995.995 0 0 1 .896.049l-.005-.003a.94.94 0 0 1 .326.279l.002.003c.07.076.12.172.14.278l.001.004a.383.383 0 0 1-.025.307l.001-.002a.212.212 0 0 1-.188.118q-.118 0-.305-.328-.282-.516-.8-.141a2.706 2.706 0 0 0-.793.945l-.007.015c-.215.375-.405.81-.547 1.267l-.013.047a1.447 1.447 0 0 0-.105.549c0 .147.021.288.061.422l-.003-.01a.275.275 0 0 0 .24.142c.297-.059.549-.22.725-.443l.002-.003c.239-.226.448-.48.624-.758l.01-.016.234-.703q.094-.234.282-.234t.188.258a2.111 2.111 0 0 1-.194.74l.006-.013a6.135 6.135 0 0 0-.271.798l-.011.047-.378 1.216a1.274 1.274 0 0 1-.121.263l.003-.006a.198.198 0 0 1-.159.118H2.387a.159.159 0 0 1-.132-.07v-.001a.467.467 0 0 1-.023-.285l-.001.003a9.23 9.23 0 0 1 .373-1.264l-.021.064-.328.328c-.249.28-.594.47-.982.52l-.008.001-.033.001a.665.665 0 0 1-.345-.096l.003.002.375 3.705q.047.234 1.219.516c.85.209 1.826.328 2.83.328h.082-.004.078c1.004 0 1.98-.12 2.915-.345l-.084.017q1.126-.282 1.219-.516l.516-4.409-.094.047c-.226.252-.49.463-.785.626l-.015.008a.984.984 0 0 1-.566.07l.006.001q-.285-.047-.285-.282c.098-.335.277-.62.515-.843l.001-.001.141-.234q.234-.234.234-.352T9 12.389a.71.71 0 0 0-.375.188c-.15.138-.282.292-.394.46l-.006.009a4.416 4.416 0 0 0-.389.699l-.011.028-.188.375-.46 1.312a.62.62 0 0 1-.231.21l-.003.002a.213.213 0 0 1-.235 0h.001a.204.204 0 0 1-.091-.164l.047-.141c.122-.354.249-.648.394-.932l-.019.041.328-.703q.047-.188.047-.141c-.183.2-.401.365-.644.487l-.013.006a.757.757 0 0 1-.474.07l.005.001a.303.303 0 0 1-.234-.232v-.002l-.047-.094c-.197.201-.47.326-.773.328q-.305-.047-.16-.703c-.174.41-.569.694-1.031.703h-.001a.401.401 0 0 1-.421-.232l-.001-.003a1.974 1.974 0 0 1 .23-1.09l-.005.011v-.047q.141-.328.328-.75.141-.282.375-.188h.047q.141.094.047.375l-.141.188c-.11.205-.22.452-.314.708l-.014.043q-.094.422.07.422a.79.79 0 0 0 .356-.096l-.004.002c.209-.152.376-.349.489-.577l.004-.009c.107-.182.195-.393.254-.616l.004-.018.094-.24q.094-.234.211-.234a.296.296 0 0 1 .211.093q.094.094 0 .328l-.328.75a1.736 1.736 0 0 0-.14.553v.007q0 .188.328.047c.126-.049.234-.112.33-.19l-.002.002q.047-.188.75-2.017l.469-1.173a.333.333 0 0 1 .318-.235h.011-.001c.055.01.103.035.141.071q.094.07.047.258l-.847 2.026q-.328.844-.4 1.076t.028.24q.328 0 1.079-.8l.047-.047.141-.328c.033-.162.098-.305.189-.428l-.002.003q.094-.094.141-.094.188 0 .188.16v.007a.954.954 0 0 1-.049.304l.002-.007.234-.234a1.006 1.006 0 0 1 .824-.352h-.003a.38.38 0 0 1 .353.378l-.001.023v-.001a2.256 2.256 0 0 1-.609 1.079l-.094.047a1.024 1.024 0 0 0-.139.274l-.002.007q0 .047.094.047c.129-.034.24-.1.328-.188l.8-.703.703-6.379a8.93 8.93 0 0 1-3.022.516H7.69h.004a36.826 36.826 0 0 1-4.61-.006l.106.005h-.075A9.084 9.084 0 0 1 .03 6.428l.063.02zm10.179-6.286h-.047q0-.188-.868-.375a15.556 15.556 0 0 0-2.234-.28l-.042-.002.469-1.92L10.834.594Q10.975.5 10.6.172a.527.527 0 0 0-.278-.159l-.004-.001q-.141-.023-.188.023L7.271 3.028l-.61 2.298-1.219-.048a27.17 27.17 0 0 0-3.987.25l.14-.016q-1.594.234-1.594.516 0 .469 2.814.657a37.31 37.31 0 0 0 5.375-.007l-.121.007q2.814-.186 2.814-.656zm-3.28.234q0 .047-.188.118a1.238 1.238 0 0 1-.418.071h-.029.001-.028c-.15 0-.293-.026-.427-.073l.009.003q-.188-.07-.188-.118t.141-.094l-.047.047q0 .094.516.094t.516-.094l.047-.047q.091.044.091.09z" />
+                  </svg>
+                  }
+                  color="red-600"
+                  bg="gray-50"
+                  hover="gray-800"
+                />
+
+                <TechItem name="GraphQL" icon={<svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={40}
+                  height={40}
+                  viewBox="-1.5 0 24 24"
+                  fill='currentColor'
+                >
+                  <path d="M12.731 2.751 17.666 5.6a2.138 2.138 0 1 1 2.07 3.548l-.015.003v5.7a2.14 2.14 0 1 1-2.098 3.502l-.002-.002-4.905 2.832a2.14 2.14 0 1 1-4.079.054l-.004.015-4.941-2.844a2.14 2.14 0 1 1-2.067-3.556l.015-.003V9.15a2.14 2.14 0 1 1 1.58-3.926l-.01-.005c.184.106.342.231.479.376l.001.001 4.938-2.85a2.14 2.14 0 1 1 4.096.021l.004-.015zm-.515.877a.766.766 0 0 1-.057.057l-.001.001 6.461 11.19c.026-.009.056-.016.082-.023V9.146a2.14 2.14 0 0 1-1.555-2.603l-.003.015.019-.072zm-3.015.059-.06-.06-4.946 2.852A2.137 2.137 0 0 1 2.749 9.12l-.015.004-.076.021v5.708l.084.023 6.461-11.19zm2.076.507a2.164 2.164 0 0 1-1.207-.004l.015.004-6.46 11.189c.286.276.496.629.597 1.026l.003.015h12.911c.102-.413.313-.768.599-1.043l.001-.001L11.28 4.194zm.986 16.227 4.917-2.838a1.748 1.748 0 0 1-.038-.142H4.222l-.021.083 4.939 2.852c.39-.403.936-.653 1.54-.653.626 0 1.189.268 1.581.696l.001.002z" />
+                </svg>} color="pink-600" bg="pink-50" hover="pink-700" />
+                {/* PWA */}
+                <TechItem name="PWA" icon={<span className="text-2xl font-bold">PWA</span>} color="indigo-700" bg="indigo-50" hover="indigo-800" />
+                {/* React Native */}
+                <TechItem name="React Native" icon={<i className="ri-reactjs-fill ri-3x"></i>} color="blue-500" bg="blue-50" hover="blue-600" />
+                {/* Nodejs */}
+                <TechItem name="Node.js" icon={<svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width={40}
+                  height={40}
+                  fill="none"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill="currentColor"
+                    d="M7.586.102a.75.75 0 0 1 .756 0l6.214 3.625a.75.75 0 0 1 .373.648v7.25a.75.75 0 0 1-.373.648l-6.214 3.625a.75.75 0 0 1-.756 0l-1.553-.906a.75.75 0 0 1 .756-1.296l1.175.686 5.465-3.188V4.806L7.964 1.618 2.5 4.806v6.388l1.117.652c.344.11.77.137 1.069.005a.75.75 0 0 0 .364-.34c.104-.188.2-.501.2-1.011V5.25a.75.75 0 0 1 1.5 0v5.25c0 .69-.129 1.272-.39 1.74a2.25 2.25 0 0 1-1.068.983c-.806.356-1.697.21-2.242.014a.75.75 0 0 1-.124-.058l-1.554-.906A.75.75 0 0 1 1 11.625v-7.25a.75.75 0 0 1 .372-.648L7.586.102Zm.66 5.181c.397-.472 1.017-.783 1.858-.783.78 0 1.375.268 1.778.693a.75.75 0 1 1-1.09 1.03C10.703 6.132 10.52 6 10.103 6c-.442 0-.624.148-.709.248a.642.642 0 0 0-.145.377c0 .083.036.247.145.377.085.1.267.248.71.248a.75.75 0 0 1 .212.03c.62.09 1.092.368 1.416.753.372.443.496.967.496 1.342 0 .375-.124.899-.496 1.342-.397.472-1.017.783-1.858.783-.78 0-1.375-.268-1.777-.693a.75.75 0 0 1 1.09-1.03c.087.092.271.223.687.223.442 0 .625-.148.71-.248a.642.642 0 0 0 .144-.377.642.642 0 0 0-.145-.377c-.084-.1-.267-.248-.709-.248a.75.75 0 0 1-.213-.03c-.62-.09-1.092-.368-1.415-.753a2.137 2.137 0 0 1-.497-1.342c0-.375.124-.899.497-1.342Z"
+                  />
+                </svg>} color="green-600" bg="green-50" hover="green-700" />
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
+  )
+}
+
+
+function TechItem({ name, icon, color, bg, hover }: { name: string, icon: React.ReactNode, color: string, bg: string, hover: string }) {
+  const colorClass = {
+    "orange-500": "border-orange-500 text-orange-500",
+    "blue-500": "border-blue-500 text-blue-500",
+    "pink-500": "border-pink-500 text-pink-500",
+    "yellow-500": "border-yellow-500 text-yellow-500",
+    "yellow-600": "border-yellow-600 text-yellow-600",
+    "blue-400": "border-blue-400 text-blue-400",
+    "purple-500": "border-purple-500 text-purple-500",
+    "emerald-500": "border-emerald-500 text-emerald-500",
+    "black": "border-black text-black",
+    "fuchsia-600": "border-fuchsia-600 text-fuchsia-600",
+    "rose-600": "border-rose-600 text-rose-600",
+    "pink-400": "border-pink-400 text-pink-400",
+    "blue-700": "border-blue-700 text-blue-700",
+    "blue-200": "border-blue-200 text-blue-200",
+    "amber-600": "border-amber-600 text-amber-600",
+    "sky-500": "border-sky-500 text-sky-500",
+    "gray-700": "border-gray-700 text-gray-700",
+    "purple-400": "border-purple-400 text-purple-400",
+    "blue-600": "border-blue-600 text-blue-600",
+    "rose-700": "border-rose-700 text-rose-700",
+    "emerald-700": "border-emerald-700 text-emerald-700",
+    "green-700": "border-green-700 text-green-700",
+    "pink-600": "border-pink-600 text-pink-600",
+    "indigo-700": "border-indigo-700 text-indigo-700",
+    "gray-800": "border-gray-800 text-gray-800",
+    "green-600": "border-green-600 text-green-600",
+    "red-600": "border-red-600 text-red-600",
+    // ... diğer renkler
+  }[color] || "";
+
+  const bgClass = {
+    "orange-50": "bg-orange-50",
+    "blue-50": "bg-blue-50",
+    "pink-50": "bg-pink-50",
+    "yellow-50": "bg-yellow-50",
+    "purple-50": "bg-purple-50",
+    "emerald-50": "bg-emerald-50",
+    "gray-50": "bg-gray-50",
+    "fuchsia-50": "bg-fuchsia-50",
+    "rose-50": "bg-rose-50",
+    "amber-50": "bg-amber-50",
+    "sky-50": "bg-sky-50",
+    "green-50": "bg-green-50",
+    "indigo-50": "bg-indigo-50",
+    // ... diğer bg renkler
+  }[bg] || "";
+
+  const hoverClass = {
+    "orange-600": "group-hover:text-orange-600",
+    "blue-600": "group-hover:text-blue-600",
+    "pink-600": "group-hover:text-pink-600",
+    "yellow-600": "group-hover:text-yellow-600",
+    "yellow-700": "group-hover:text-yellow-700",
+    "blue-500": "group-hover:text-blue-500",
+    "purple-600": "group-hover:text-purple-600",
+    "emerald-600": "group-hover:text-emerald-600",
+    "black": "group-hover:text-black",
+    "fuchsia-700": "group-hover:text-fuchsia-700",
+    "rose-700": "group-hover:text-rose-700",
+    "pink-500": "group-hover:text-pink-500",
+    "blue-800": "group-hover:text-blue-800",
+    "amber-700": "group-hover:text-amber-700",
+    "sky-600": "group-hover:text-sky-600",
+    "gray-800": "group-hover:text-gray-800",
+    "purple-500": "group-hover:text-purple-500",
+    "blue-700": "group-hover:text-blue-700",
+    "rose-800": "group-hover:text-rose-800",
+    "emerald-800": "group-hover:text-emerald-800",
+    "green-800": "group-hover:text-green-800",
+    "pink-700": "group-hover:text-pink-700",
+    "indigo-800": "group-hover:text-indigo-800",
+    "gray-900": "group-hover:text-gray-900",
+    "green-700": "group-hover:text-green-700",
+    // ... diğer hover renkler
+  }[hover] || "";
+
+  return (
+    <div className="flex flex-col items-center group transition-all">
+      <div className={`w-16 h-16 flex items-center justify-center border-2 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-200 ${colorClass} ${bgClass}`}>
+        {icon}
+      </div>
+      <span className={`mt-3 text-base font-medium text-gray-700 transition-colors ${hoverClass}`}>{name}</span>
+    </div>
   )
 }

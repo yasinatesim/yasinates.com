@@ -11,7 +11,7 @@ const About = () => {
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="w-full md:w-2/5">
               <div className="rounded-lg  shadow-lg relative after:rounded-lg after:absolute after:w-full after:h-full after:bg-stone-800 after:top-1 after:left-1 after:z-0">
-                <img src="/366954855_635793308531598_5149023022025183389_n.jpg" alt="Yasin Ateş Hakkında" className="w-full h-auto object-cover z-10 relative rounded-lg" />
+                <img src="/yasin-ates-hakkimda.jpg" alt="Yasin Ateş Hakkında" className="w-full h-auto object-cover z-10 relative rounded-lg" />
               </div>
             </div>
             <div className="w-full md:w-3/5">
@@ -86,26 +86,90 @@ const About = () => {
                   </div>
                   <span className="text-sm text-gray-700">Redux</span>
                 </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-14 h-14 flex items-center justify-center border border-black text-black bg-gray-100 rounded-lg mb-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width={28}
+                      height={28}
+                      viewBox="0 0 32 32"
+                    >
+                      <path d="M23.749 30.005c-.119.063-.109.083.005.025a.31.31 0 0 0 .095-.061c0-.021 0-.021-.1.036zm.24-.13c-.057.047-.057.047.011.016a.249.249 0 0 0 .068-.047c0-.027-.016-.021-.079.031zm.156-.094c-.057.047-.057.047.011.016a.246.246 0 0 0 .068-.048c0-.025-.016-.02-.079.032zm.158-.093c-.057.047-.057.047.009.015.037-.02.068-.041.068-.047 0-.025-.016-.02-.077.032zm.213-.141c-.109.073-.147.12-.047.068.067-.041.181-.131.161-.131-.043.016-.079.043-.115.063zM14.953.011c-.073.005-.292.025-.484.041-4.548.412-8.803 2.86-11.5 6.631a15.828 15.828 0 0 0-2.824 6.989c-.129.88-.145 1.14-.145 2.333 0 1.192.016 1.448.145 2.328.871 6.011 5.147 11.057 10.943 12.927 1.043.333 2.136.563 3.381.704.484.052 2.577.052 3.061 0 2.152-.24 3.969-.771 5.767-1.688.276-.14.328-.177.291-.208a340.89 340.89 0 0 1-2.609-3.495l-2.557-3.453-3.203-4.745a416.396 416.396 0 0 0-3.229-4.744c-.011 0-.025 2.109-.031 4.681-.011 4.505-.011 4.688-.068 4.792a.572.572 0 0 1-.276.287c-.099.047-.188.057-.661.057h-.541l-.141-.088a.595.595 0 0 1-.208-.229l-.068-.141.005-6.271.011-6.271.099-.125a.753.753 0 0 1 .229-.187c.131-.063.183-.073.724-.073.635 0 .74.025.907.208a602.855 602.855 0 0 1 3.859 5.812c2.079 3.152 4.917 7.453 6.312 9.563l2.537 3.839.125-.083a16.346 16.346 0 0 0 3.285-2.885 15.935 15.935 0 0 0 3.767-8.177c.129-.88.145-1.141.145-2.333 0-1.193-.016-1.448-.145-2.328C30.985 7.668 26.709 2.622 20.913.751a16.983 16.983 0 0 0-3.328-.697c-.303-.031-2.371-.068-2.631-.041zM21.5 9.688a.623.623 0 0 1 .317.364c.027.084.032 1.823.027 5.74l-.011 5.624-.989-1.52-.995-1.521v-4.083c0-2.647.011-4.131.025-4.204a.67.67 0 0 1 .313-.395c.124-.063.172-.068.667-.068.463 0 .541.005.645.063z" />
+                    </svg>
+                  </div>
+                  <span className="text-sm text-gray-700">Next.js</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-14 h-14 flex items-center justify-center border border-pink-400 text-pink-400 bg-pink-100 rounded-lg mb-2">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                      width={28}
+                      height={28}
+                      preserveAspectRatio="xMidYMid"
+                      viewBox="-31.5 0 319 319"
+                    >
+                      <defs>
+                        <path
+                          id="a"
+                          d="M9.872 293.324.012 30.574C-.315 21.895 6.338 14.54 15.005 14L238.494.032c8.822-.552 16.42 6.153 16.972 14.975.02.332.031.665.031.998v286.314c0 8.839-7.165 16.004-16.004 16.004-.24 0-.48-.005-.718-.016l-213.627-9.595c-8.32-.373-14.963-7.065-15.276-15.388Z"
+                        />
+                      </defs>
+                      <mask id="b" fill="#fff">
+                        <use xlinkHref="#a" />
+                      </mask>
+                      <use xlinkHref="#a" fill="#FF4785" />
+                      <path
+                        fill="#FFF"
+                        d="m188.665 39.127 1.527-36.716L220.884 0l1.322 37.863a2.387 2.387 0 0 1-3.864 1.96l-11.835-9.325-14.013 10.63a2.387 2.387 0 0 1-3.829-2.001Zm-39.251 80.853c0 6.227 41.942 3.243 47.572-1.131 0-42.402-22.752-64.684-64.415-64.684-41.662 0-65.005 22.628-65.005 56.57 0 59.117 79.78 60.249 79.78 92.494 0 9.052-4.433 14.426-14.184 14.426-12.705 0-17.729-6.49-17.138-28.552 0-4.786-48.458-6.278-49.936 0-3.762 53.466 29.548 68.887 67.665 68.887 36.935 0 65.892-19.687 65.892-55.326 0-63.36-80.961-61.663-80.961-93.06 0-12.728 9.455-14.425 15.07-14.425 5.909 0 16.546 1.042 15.66 24.801Z"
+                        mask="url(#b)"
+                      />
+                    </svg>
+                  </div>
+                  <span className="text-sm text-gray-700">Storybook</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <div className="w-14 h-14 flex items-center justify-center border border-blue-700 text-blue-700 bg-blue-100 rounded-lg mb-2">
+                    <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+                      <rect width="32" height="32" rx="6" fill="currentColor" />
+                      <text x="7" y="25" fontSize="16" fontWeight="bold" fill="#fff" fontFamily="Arial, Helvetica, sans-serif">TS</text>
+                    </svg>
+                  </div>
+                  <span className="text-sm text-gray-700">TypeScript</span>
+                </div>
               </div>
               <h3 className="text-xl font-semibold mb-4">Sosyal Medya</h3>
-              <div className="flex flex-wrap gap-4">
-                <a href="https://github.com/yasinatesim" target="_blank" className="px-4 py-2 bg-gray-800 text-white rounded-button flex items-center gap-2 hover:bg-gray-900 transition-colors whitespace-nowrap">
-                  <i className="ri-github-fill"></i> GitHub
+              <div className="flex flex-wrap gap-6">
+                <a href="https://github.com/yasinatesim" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
+                  className="w-14 h-14 flex items-center justify-center rounded-full bg-white/30 backdrop-blur-md border border-white/40 shadow-md transition-all duration-300 group hover:bg-white/70 hover:border-gray-900 hover:shadow-lg hover:scale-110 hover:-translate-y-1">
+                  <i className="ri-github-line text-2xl text-gray-800 group-hover:text-gray-900 transition-colors duration-200 group-hover:animate-bounce-short"></i>
                 </a>
-                <a href="https://linkedin.com/in/yasinatesim" target="_blank" className="px-4 py-2 bg-blue-700 text-white rounded-button flex items-center gap-2 hover:bg-blue-800 transition-colors whitespace-nowrap">
-                  <i className="ri-linkedin-fill"></i> LinkedIn
+                <a href="https://linkedin.com/in/yasinatesim" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+                  className="w-14 h-14 flex items-center justify-center rounded-full bg-white/30 backdrop-blur-md border border-white/40 shadow-md transition-all duration-300 group hover:bg-white/70 hover:border-blue-700 hover:shadow-lg hover:scale-110 hover:-translate-y-1">
+                  <i className="ri-linkedin-line text-2xl text-blue-700 group-hover:text-blue-800 transition-colors duration-200 group-hover:animate-bounce-short"></i>
                 </a>
-                <a href="https://instagram.com/yasinatesim" target="_blank" className="px-4 py-2 bg-pink-600 text-white rounded-button flex items-center gap-2 hover:bg-pink-700 transition-colors whitespace-nowrap">
-                  <i className="ri-instagram-fill"></i> Instagram
+                <a href="https://instagram.com/yasinatesim" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                  className="w-14 h-14 flex items-center justify-center rounded-full bg-white/30 backdrop-blur-md border border-white/40 shadow-md transition-all duration-300 group hover:bg-white/70 hover:border-pink-500 hover:shadow-lg hover:scale-110 hover:-translate-y-1">
+                  <i className="ri-instagram-line text-2xl text-pink-500 group-hover:text-pink-600 transition-colors duration-200 group-hover:animate-bounce-short"></i>
                 </a>
-                <a href="https://twitter.com/yasinatesim" target="_blank" className="px-4 py-2 bg-blue-400 text-white rounded-button flex items-center gap-2 hover:bg-blue-500 transition-colors whitespace-nowrap">
-                  <i className="ri-twitter-fill"></i> Twitter
+                <a href="https://twitter.com/yasinatesim" target="_blank" rel="noopener noreferrer" aria-label="X"
+                  className="w-14 h-14 flex items-center justify-center rounded-full bg-white/30 backdrop-blur-md border border-white/40 shadow-md transition-all duration-300 group hover:bg-white/70 hover:border-black hover:shadow-lg hover:scale-110 hover:-translate-y-1">
+                  <i className="ri-twitter-x-line text-2xl text-black group-hover:text-gray-900 transition-colors duration-200 group-hover:animate-bounce-short"></i>
                 </a>
-                <a href="https://medium.com/@yasinatesim" target="_blank" className="px-4 py-2 bg-gray-700 text-white rounded-button flex items-center gap-2 hover:bg-gray-800 transition-colors whitespace-nowrap">
-                  <i className="ri-medium-fill"></i> Medium
+                <a href="https://medium.com/@yasinatesim" target="_blank" rel="noopener noreferrer" aria-label="Medium"
+                  className="w-14 h-14 flex items-center justify-center rounded-full bg-white/30 backdrop-blur-md border border-white/40 shadow-md transition-all duration-300 group hover:bg-white/70 hover:border-gray-900 hover:shadow-lg hover:scale-110 hover:-translate-y-1">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:animate-bounce-short">
+                    <ellipse cx="5.5" cy="12" rx="4.5" ry="7" fill="#222" />
+                    <ellipse cx="18" cy="12" rx="2" ry="7" fill="#222" />
+                    <ellipse cx="12" cy="12" rx="2.5" ry="7" fill="#222" />
+                  </svg>
                 </a>
-                <a href="https://dev.to/yasinatesim" target="_blank" className="px-4 py-2 bg-black text-white rounded-button flex items-center gap-2 hover:bg-gray-900 transition-colors whitespace-nowrap">
-                  <i className="ri-code-box-fill"></i> Dev.to
+                <a href="https://dev.to/yasinatesim" target="_blank" rel="noopener noreferrer" aria-label="Dev.to"
+                  className="w-14 h-14 flex items-center justify-center rounded-full bg-white/30 backdrop-blur-md border border-white/40 shadow-md transition-all duration-300 group hover:bg-white/70 hover:border-black hover:shadow-lg hover:scale-110 hover:-translate-y-1">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="transition-all duration-300 group-hover:animate-bounce-short">
+                    <rect x="2" y="2" width="20" height="20" rx="4" fill="#171717" />
+                    <text x="12" y="16" fontSize="10" fontWeight="bold" fill="white" fontFamily="Arial, Helvetica, sans-serif" textAnchor="middle" dominantBaseline="middle">DEV</text>
+                  </svg>
                 </a>
               </div>
             </div>

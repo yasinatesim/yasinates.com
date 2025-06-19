@@ -1,0 +1,12 @@
+{
+	"is_unfollowers_enabled": false,
+	"is_stories_enabled": false,
+  "is_download_enabled": true,
+	"is_private_website_enabled": false,
+	"api_url": "https://api.peekifyinsta.com",
+	"ios_minimum_version": "1.0.0",
+	"ios_latest_version": "1.0.0",
+	"android_minimum_version": "1.0.0",
+	"android_latest_version": "1.0.0",
+	"website_url": "https://peekifyinsta.com"
+}
