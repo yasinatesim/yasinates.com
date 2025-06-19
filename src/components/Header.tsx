@@ -4,7 +4,7 @@ const Header = () => {
 	return (
 		<header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
 			<div className="container mx-auto px-4 py-4 flex justify-between items-center">
-				<a href="#" className="text-2xl font-['Pacifico'] text-primary">Yasin Ateşim</a>
+				<a href="#" className="text-2xl font-['Pacifico'] text-primary">Yasin Ateş</a>
 				<nav className="hidden md:flex items-center space-x-8">
 
 					<Link to="/" className="nav-link text-gray-800 font-medium hover:text-primary transition-colors">Anasayfa</Link>

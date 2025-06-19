@@ -5,7 +5,7 @@ const Footer = () => {
 			<div className="container mx-auto px-4">
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 					<div>
-						<h3 className="text-xl font-['Pacifico'] mb-4">Yasin Ateşim</h3>
+						<h3 className="text-xl font-['Pacifico'] mb-4">Yasin Ateş</h3>
 						<p className="text-gray-400 mb-4">
 							Frontend Developer & Müzik Tutkunu
 						</p>

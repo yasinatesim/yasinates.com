@@ -2,6 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useSuspenseQuery, queryOptions } from '@tanstack/react-query'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import xml2js from 'xml2js'
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -75,20 +76,35 @@ function useYoutubeFeed() {
       queryKey: ['youtube-feed', 'UCMBBlJsFiUYu2akYvmdi99g'],
       queryFn: async () => {
         const res = await axios.get('https://www.youtube.com/feeds/videos.xml?channel_id=UCMBBlJsFiUYu2akYvmdi99g')
-        // XML'i parse et
-        const parser = new window.DOMParser()
-        const xml = parser.parseFromString(res.data, 'text/xml')
-        const entries = Array.from(xml.querySelectorAll('entry')).map((entry) => {
-          const title = entry.querySelector('title')?.textContent || ''
-          const link = entry.querySelector('link')?.getAttribute('href') || ''
-          const published = entry.querySelector('published')?.textContent || ''
-          // media:group içinden thumbnail, description, views
-          const mediaGroup = entry.getElementsByTagName('media:group')[0]
-          const mediaThumbnail = mediaGroup?.getElementsByTagName('media:thumbnail')[0]?.getAttribute('url') || ''
-          const description = mediaGroup?.getElementsByTagName('media:description')[0]?.textContent || ''
-          const views = mediaGroup?.getElementsByTagName('media:statistics')[0]?.getAttribute('views') || ''
-          return { title, link, published, mediaThumbnail, description, views }
-        })
+        let entries: any[] = []
+
+        if (typeof window !== 'undefined') {
+          // Client-side: window.DOMParser
+          const parser = new window.DOMParser()
+          const xml = parser.parseFromString(res.data, 'text/xml')
+          entries = Array.from(xml.querySelectorAll('entry')).map((entry) => {
+            const title = entry.querySelector('title')?.textContent || ''
+            const link = entry.querySelector('link')?.getAttribute('href') || ''
+            const published = entry.querySelector('published')?.textContent || ''
+            // media:group içinden thumbnail, description, views
+            const mediaGroup = entry.getElementsByTagName('media:group')[0]
+            const mediaThumbnail = mediaGroup?.getElementsByTagName('media:thumbnail')[0]?.getAttribute('url') || ''
+            const description = mediaGroup?.getElementsByTagName('media:description')[0]?.textContent || ''
+            const views = mediaGroup?.getElementsByTagName('media:statistics')[0]?.getAttribute('views') || ''
+            return { title, link, published, mediaThumbnail, description, views }
+          })
+        } else {
+          // Server-side: xml2js
+          const parsed = await xml2js.parseStringPromise(res.data)
+          entries = (parsed.feed.entry || []).map((entry: any) => ({
+            title: entry.title?.[0] || '',
+            link: entry.link?.[0]?.$.href || '',
+            published: entry.published?.[0] || '',
+            mediaThumbnail: entry['media:group']?.[0]['media:thumbnail']?.[0]?.$.url || '',
+            description: entry['media:group']?.[0]['media:description']?.[0] || '',
+            views: entry['media:group']?.[0]['media:statistics']?.[0]?.$.views || '',
+          }))
+        }
         return entries
       },
       staleTime: 1000 * 60 * 60 * 24 * 14,
@@ -262,7 +278,7 @@ function Home() {
 
         <div className="absolute bottom-0 -rotate-180 left-0 right-0">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full h-auto -mt-1">
-            <path fill="#ffffff" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+            <path fill="#ffffff" fillOpacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
           </svg>
         </div>
       </section>
@@ -568,7 +584,7 @@ function Home() {
               return (
                 <article key={post.guid} className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col">
                   <div className="h-48 overflow-hidden">
-                    <img src={imageUrl} alt={post.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                    <img src={imageUrl} alt={post.title} className="w-full h-full object-contain hover:scale-105 transition-transform duration-300 " />
                   </div>
                   <div className="p-6 flex-1 flex flex-col">
                     <div className="flex items-center gap-4 mb-4">
@@ -634,7 +650,7 @@ function Home() {
                 <p className="text-lg text-gray-700 mb-6">
                   Projeleriniz, işbirliği teklifleriniz veya sorularınız için benimle iletişime geçebilirsiniz.
                 </p>
-                <a href="mailto:info@yasinatesim.com" className="text-xl font-medium text-primary hover:underline">info@yasinatesim.com</a>
+                <a href="mailto:yasinatesim@gmail.com" className="text-xl font-medium text-primary hover:underline">yasinatesim@gmail.com</a>
               </div>
               <div className="flex flex-col items-center">
                 <h3 className="text-xl font-semibold mb-6">Sosyal Medya</h3>

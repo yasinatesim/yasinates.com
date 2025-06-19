@@ -31,7 +31,7 @@ function Iletisim() {
                         </div>
                         <div>
                           <p className="text-sm text-gray-500 mb-1">E-posta</p>
-                          <a href="mailto:info@yasinatesim.com" className="text-lg font-medium text-gray-900 hover:text-primary transition-colors">info@yasinatesim.com</a>
+                          <a href="mailto:yasinatesim@gmail.com" className="text-lg font-medium text-gray-900 hover:text-primary transition-colors">yasinatesim@gmail.com</a>
                         </div>
                       </div>
                       <div className="flex items-center gap-4 group">
