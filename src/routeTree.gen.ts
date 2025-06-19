@@ -11,13 +11,21 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as YoutubeImport } from './routes/youtube'
 import { Route as IletisimImport } from './routes/iletisim'
 import { Route as HakkimdaImport } from './routes/hakkimda'
+import { Route as GithubImport } from './routes/github'
 import { Route as BlogImport } from './routes/blog'
 import { Route as PostIdImport } from './routes/$postId'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
+
+const YoutubeRoute = YoutubeImport.update({
+  id: '/youtube',
+  path: '/youtube',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IletisimRoute = IletisimImport.update({
   id: '/iletisim',
@@ -28,6 +36,12 @@ const IletisimRoute = IletisimImport.update({
 const HakkimdaRoute = HakkimdaImport.update({
   id: '/hakkimda',
   path: '/hakkimda',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const GithubRoute = GithubImport.update({
+  id: '/github',
+  path: '/github',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -74,6 +88,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogImport
       parentRoute: typeof rootRoute
     }
+    '/github': {
+      id: '/github'
+      path: '/github'
+      fullPath: '/github'
+      preLoaderRoute: typeof GithubImport
+      parentRoute: typeof rootRoute
+    }
     '/hakkimda': {
       id: '/hakkimda'
       path: '/hakkimda'
@@ -88,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IletisimImport
       parentRoute: typeof rootRoute
     }
+    '/youtube': {
+      id: '/youtube'
+      path: '/youtube'
+      fullPath: '/youtube'
+      preLoaderRoute: typeof YoutubeImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -97,16 +125,20 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$postId': typeof PostIdRoute
   '/blog': typeof BlogRoute
+  '/github': typeof GithubRoute
   '/hakkimda': typeof HakkimdaRoute
   '/iletisim': typeof IletisimRoute
+  '/youtube': typeof YoutubeRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$postId': typeof PostIdRoute
   '/blog': typeof BlogRoute
+  '/github': typeof GithubRoute
   '/hakkimda': typeof HakkimdaRoute
   '/iletisim': typeof IletisimRoute
+  '/youtube': typeof YoutubeRoute
 }
 
 export interface FileRoutesById {
@@ -114,16 +146,40 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$postId': typeof PostIdRoute
   '/blog': typeof BlogRoute
+  '/github': typeof GithubRoute
   '/hakkimda': typeof HakkimdaRoute
   '/iletisim': typeof IletisimRoute
+  '/youtube': typeof YoutubeRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$postId' | '/blog' | '/hakkimda' | '/iletisim'
+  fullPaths:
+    | '/'
+    | '/$postId'
+    | '/blog'
+    | '/github'
+    | '/hakkimda'
+    | '/iletisim'
+    | '/youtube'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$postId' | '/blog' | '/hakkimda' | '/iletisim'
-  id: '__root__' | '/' | '/$postId' | '/blog' | '/hakkimda' | '/iletisim'
+  to:
+    | '/'
+    | '/$postId'
+    | '/blog'
+    | '/github'
+    | '/hakkimda'
+    | '/iletisim'
+    | '/youtube'
+  id:
+    | '__root__'
+    | '/'
+    | '/$postId'
+    | '/blog'
+    | '/github'
+    | '/hakkimda'
+    | '/iletisim'
+    | '/youtube'
   fileRoutesById: FileRoutesById
 }
 
@@ -131,16 +187,20 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   PostIdRoute: typeof PostIdRoute
   BlogRoute: typeof BlogRoute
+  GithubRoute: typeof GithubRoute
   HakkimdaRoute: typeof HakkimdaRoute
   IletisimRoute: typeof IletisimRoute
+  YoutubeRoute: typeof YoutubeRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   PostIdRoute: PostIdRoute,
   BlogRoute: BlogRoute,
+  GithubRoute: GithubRoute,
   HakkimdaRoute: HakkimdaRoute,
   IletisimRoute: IletisimRoute,
+  YoutubeRoute: YoutubeRoute,
 }
 
 export const routeTree = rootRoute
@@ -156,8 +216,10 @@ export const routeTree = rootRoute
         "/",
         "/$postId",
         "/blog",
+        "/github",
         "/hakkimda",
-        "/iletisim"
+        "/iletisim",
+        "/youtube"
       ]
     },
     "/": {
@@ -169,11 +231,17 @@ export const routeTree = rootRoute
     "/blog": {
       "filePath": "blog.tsx"
     },
+    "/github": {
+      "filePath": "github.tsx"
+    },
     "/hakkimda": {
       "filePath": "hakkimda.tsx"
     },
     "/iletisim": {
       "filePath": "iletisim.tsx"
+    },
+    "/youtube": {
+      "filePath": "youtube.tsx"
     }
   }
 }

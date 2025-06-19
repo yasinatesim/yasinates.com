@@ -133,7 +133,7 @@ function pascalCase(str: string) {
             </div>
             <div className="text-center mt-8">
               <Link to="/youtube" target="_blank" className="px-6 py-3 bg-red-600 text-white font-medium rounded-button shadow-md hover:bg-red-700 transition-colors inline-flex items-center gap-2 whitespace-nowrap">
-                YouTube Kanalıma Git <i className="ri-arrow-right-line"></i>
+                Tüm Youtube İçeriklerimi Gör <i className="ri-arrow-right-line"></i>
               </Link>
             </div>
           </div>
