@@ -6,8 +6,8 @@ function YoutubeCard({ video }: { video: any }) {
   return (
     <div className="bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden hover:scale-[1.03]">
       <div className="w-full h-56 overflow-hidden">
-        <a href={video.link} target="_blank" rel="noopener noreferrer">
-          <img src={video.mediaThumbnail} alt={video.title} className="w-full h-full object-cover object-top rounded-t-xl transition-transform duration-300 hover:scale-105" />
+        <a href={video.url} target="_blank" rel="noopener noreferrer">
+          <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover rounded-t-xl transition-transform duration-300 hover:scale-105" />
         </a>
       </div>
       <div className="flex-1 flex flex-col p-5">
@@ -16,18 +16,23 @@ function YoutubeCard({ video }: { video: any }) {
           <p className="text-gray-600 mb-4 text-sm line-clamp-3">{video.description}</p>
         )}
         <div className="flex-1"></div>
-        <div className="flex items-center justify-between mt-2">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col gap-3 mt-2 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
             <span className="flex items-center gap-1 text-xs bg-zinc-100 text-zinc-700 px-2 py-1 rounded-full">
-              <i className="ri-calendar-line"></i> {new Date(video.published).toLocaleDateString('tr-TR')}
+              <i className="ri-calendar-line"></i> {video.published}
             </span>
             {video.views && (
-              <span className="flex items-center gap-1 text-xs bg-red-50 text-red-700 px-2 py-1 rounded-full">
-                <i className="ri-eye-line"></i> {Number(video.views).toLocaleString('tr-TR', { notation: 'compact', maximumFractionDigits: 1 })}
+              <span className="whitespace-nowrap flex items-center gap-1 text-xs bg-red-50 text-red-700 px-2 py-1 rounded-full">
+                <i className="ri-eye-line"></i> {video.views}
               </span>
             )}
           </div>
-          <a href={video.link} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 bg-red-600 text-white text-xs font-medium px-3 py-2 rounded-lg shadow hover:bg-red-700 hover:scale-105 transition-all">
+          <a
+            href={video.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="whitespace-nowrap flex items-center gap-1 bg-red-600 text-white text-xs font-medium px-3 py-2 rounded-lg shadow hover:bg-red-700 hover:scale-105 transition-all w-full sm:w-auto justify-center"
+          >
             <i className="ri-youtube-fill"></i> YouTube'da Aç
           </a>
         </div>
@@ -49,7 +54,7 @@ function YoutubePage() {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {youtubeFeed.data?.map((video: any, i: number) => (
-            <YoutubeCard key={video.link} video={video} />
+            <YoutubeCard key={video.url} video={video} />
           ))}
         </div>
       </div>

@@ -97,13 +97,13 @@ function pascalCase(str: string) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 blog-container">
               {youtubeFeed.data?.slice(0, 3).map((video, i) => (
-                <div key={i} className="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden card-hover flex flex-col relative">
+                <div key={video.videoId} className="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden card-hover flex flex-col relative">
                   <div className="h-48 overflow-hidden relative group">
                     <span className="absolute top-3 right-3 bg-gray-100/80 text-gray-700 text-xs font-semibold px-3 py-1 rounded-full shadow z-10">
-                      {new Date(video.published).toLocaleDateString('tr-TR')}
+                      {video.published}
                     </span>
-                    <a href={video.link} target="_blank" rel="noopener noreferrer">
-                      <img src={video.mediaThumbnail} alt={video.title} className="w-full h-full object-cover object-top" />
+                    <a href={video.url} target="_blank" rel="noopener noreferrer">
+                      <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover object-top" />
                       <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                         <div className="w-16 h-16 flex items-center justify-center bg-red-600 rounded-full">
                           <i className="ri-play-fill ri-2x text-white"></i>
@@ -120,10 +120,10 @@ function pascalCase(str: string) {
                     <div className="flex items-center justify-between mt-2">
                       {video.views && (
                         <span className="flex items-center gap-1 text-gray-500 text-sm">
-                          <i className="ri-eye-line"></i> {Number(video.views).toLocaleString('tr-TR', { notation: 'compact', maximumFractionDigits: 1 })} görüntülenme
+                          <i className="ri-eye-line"></i> {video.views}
                         </span>
                       )}
-                      <a href={video.link} target="_blank" rel="noopener noreferrer" className="text-red-600 font-medium hover:underline flex items-center gap-1">
+                      <a href={video.url} target="_blank" rel="noopener noreferrer" className="text-red-600 font-medium hover:underline flex items-center gap-1">
                         İzle <i className="ri-youtube-fill"></i>
                       </a>
                     </div>
