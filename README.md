@@ -1,72 +1,106 @@
-# Welcome to TanStack.com!
+<h3 align="center">
+  <br />
+  <a href="https://yasinates.com/"><img src="https://yasinates.com/yasin-ates-hakkimda.jpg" alt="Yasin Ateş Personal Website" width="200" /></a>
+  <br />
+  Yasin Ateş - Personal Website
+  <br />
+</h3>
 
-This site is built with TanStack Router!
+<hr />
 
-- [TanStack Router Docs](https://tanstack.com/router)
+<p align="center">This project is the <b>personal website of Yasin Ateş</b>. You can find frontend development, projects, blog posts, music, and more here!</p>
 
-It's deployed automagically with Netlify!
+<p align="center">
+  · <a href="https://yasinates.com/">View Website</a> ·
+  <a href="https://github.com/yasinatesim/yasinates.com">Source Code</a> ·
+</p>
 
-- [Netlify](https://netlify.com/)
+---
 
-## Development
+## 📖 About
 
-From your terminal:
+This project is a modern portfolio and content platform for Yasin Ateş. It showcases portfolio, blog posts, GitHub projects, YouTube content, and contact information with a stylish interface. Built with the latest technologies like TanStack Router, React, and Tailwind CSS.
+
+### 💡 Purpose
+
+To gather and share my projects, articles, and content in a single platform. I aim to present my work in frontend development, music, and content creation in a modern and accessible way.
+
+## 🚀 Tech Stack
+
+<table>
+<tr>
+  <td><a href="https://react.dev/">React</a></td>
+  <td>Main library for building modern user interfaces</td>
+</tr>
+<tr>
+  <td><a href="https://tanstack.com/router">TanStack Router</a></td>
+  <td>Advanced, type-safe routing for React</td>
+</tr>
+<tr>
+  <td><a href="https://tailwindcss.com/">Tailwind CSS</a></td>
+  <td>Utility-first CSS framework for rapid UI development</td>
+</tr>
+<tr>
+  <td><a href="https://vitejs.dev/">Vite</a></td>
+  <td>Next-generation frontend tooling and dev server</td>
+</tr>
+<tr>
+  <td><a href="https://netlify.com/">Netlify</a></td>
+  <td>Automatic deployment and hosting</td>
+</tr>
+<tr>
+  <td><a href="https://axios-http.com/">Axios</a></td>
+  <td>Popular HTTP client for API requests</td>
+</tr>
+</table>
+
+## 🧐 What's Inside?
+
+- 📝 **Blog**: My Medium and Dev.to articles
+- 💻 **Projects**: My GitHub and other projects
+- 🎬 **YouTube**: Videos from my channel
+- 📬 **Contact**: Social media and email to reach me
+- 👨‍💻 **About**: Technologies I use and my experience
+
+## ⚡️ Getting Started
+
+### 📦 Prerequisites
+
+- Node.js (v18+)
+- npm (v9+)
+
+### 🚀 Installation & Development
 
 ```sh
-pnpm install
-pnpm dev
+npm install
+npm run dev
 ```
 
-This starts your app in development mode, rebuilding assets on file changes.
+The app will run at `http://localhost:3000` by default.
 
-## Editing and previewing the docs of TanStack projects locally
+## 📚 Features
 
-The documentations for all TanStack projects except for `React Charts` are hosted on [https://tanstack.com](https://tanstack.com), powered by this TanStack Router app.
-In production, the markdown doc pages are fetched from the GitHub repos of the projects, but in development they are read from the local file system.
+- Modern and responsive UI
+- SEO-friendly meta tags and social sharing support
+- Automatic blog and project updates
+- YouTube and GitHub API integration
+- Comprehensive contact and social media links
 
-Follow these steps if you want to edit the doc pages of a project (in these steps we'll assume it's [`TanStack/form`](https://github.com/tanstack/form)) and preview them locally :
+## 🔗 Social & Contact
 
-1. Create a new directory called `tanstack`.
+- [GitHub](https://github.com/yasinatesim)
+- [LinkedIn](https://linkedin.com/in/yasinatesim)
+- [Twitter/X](https://twitter.com/yasinatesim)
+- [Instagram](https://instagram.com/yasinatesim)
+- [Medium](https://medium.com/@yasinatesim)
+- [Dev.to](https://dev.to/yasinatesim)
 
-```sh
-mkdir tanstack
-```
+## 🔑 License
 
-2. Enter the directory and clone this repo and the repo of the project there.
+MIT License © 2025 Yasin Ateş
 
-```sh
-cd tanstack
-git clone git@github.com:TanStack/tanstack.com.git
-git clone git@github.com:TanStack/form.git
-```
+See [LICENSE](./LICENSE) for more information.
 
-> [!NOTE]
-> Your `tanstack` directory should look like this:
->
-> ```
-> tanstack/
->    |
->    +-- form/
->    |
->    +-- tanstack.com/
-> ```
+---
 
-> [!WARNING]
-> Make sure the name of the directory in your local file system matches the name of the project's repo. For example, `tanstack/form` must be cloned into `form` (this is the default) instead of `some-other-name`, because that way, the doc pages won't be found.
-
-3. Enter the `tanstack/tanstack.com` directory, install the dependencies and run the app in dev mode:
-
-```sh
-cd tanstack.com
-pnpm i
-# The app will run on https://localhost:3000 by default
-pnpm dev
-```
-
-4. Now you can visit http://localhost:3000/form/latest/docs/overview in the browser and see the changes you make in `tanstack/form/docs`.
-
-> [!NOTE]
-> The updated pages need to be manually reloaded in the browser.
-
-> [!WARNING]
-> You will need to update the `docs/config.json` file (in the project's repo) if you add a new doc page!
+_✨ This README was generated by [markdown-manager](https://github.com/yasinatesim/markdown-manager)._
