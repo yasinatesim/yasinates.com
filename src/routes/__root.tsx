@@ -29,10 +29,22 @@ export const Route = createRootRouteWithContext<{
         content: 'width=device-width, initial-scale=1',
       },
       ...seo({
-        title:
-          'TanStack Start | Type-Safe, Client-First, Full-Stack React Framework',
-        description: `TanStack Start is a type-safe, client-first, full-stack React framework. `,
+        title: 'Yasin Ateş | Frontend Developer, Web & Müzik',
+        description: `Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri.`,
       }),
+
+      { name: 'keywords', content: 'frontend, yazılım, web, müzik, yasin ateş, developer, react, blog, proje' },
+      { name: 'twitter:creator', content: '@yasinatesim' },
+      { name: 'twitter:site', content: '@yasinatesim' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:title', content: 'Yasin Ateş | Frontend Developer, Web & Müzik' },
+      { property: 'og:description', content: "Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri." },
+      { property: 'og:image', content: 'https://yasinates.com/og-image.jpg' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: 'Yasin Ateş | Frontend Developer, Web & Müzik' },
+      { name: 'twitter:description', content: "Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri." },
+      { name: 'twitter:image', content: 'https://yasinates.com/og-image.jpg' },
+      { name: 'canonical', content: 'https://yasinates.com/' },
     ],
     links: [
       { rel: 'stylesheet', href: appCss },
@@ -59,7 +71,7 @@ export const Route = createRootRouteWithContext<{
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Pacifico&display=swap' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap' },
-      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css' } // @TODO: update this
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css' }
     ],
   }),
   errorComponent: (props) => {
@@ -85,6 +97,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html>
       <head>
+        <title id="main-title">Yasin Ateş | Frontend Developer, Web & Müzik</title>
         <HeadContent />
       </head>
       <body className='bg-gray-50'>

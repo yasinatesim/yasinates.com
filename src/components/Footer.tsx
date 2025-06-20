@@ -9,20 +9,20 @@ const navLinks = [
 		)
 	},
 	{
-		href: "/blog",
-		label: "Blog",
-		icon: (
-			<svg width="20" height="20" fill="none" className="text-primary mr-2" viewBox="0 0 20 20">
-				<path d="M4 3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4Zm0 2h12v10H4V5Zm2 2v2h8V7H6Zm0 4v2h5v-2H6Z" fill="currentColor"/>
-			</svg>
-		)
-	},
-	{
 		href: "/projeler",
 		label: "Projeler",
 		icon: (
 			<svg width="20" height="20" fill="none" className="text-primary mr-2" viewBox="0 0 20 20">
 				<path d="M2 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6Zm2 0v8h12V6H4Zm3 2h2v4H7V8Zm4 0h2v4h-2V8Z" fill="currentColor"/>
+			</svg>
+		)
+	},
+	{
+		href: "/blog",
+		label: "Blog",
+		icon: (
+			<svg width="20" height="20" fill="none" className="text-primary mr-2" viewBox="0 0 20 20">
+				<path d="M4 3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4Zm0 2h12v10H4V5Zm2 2v2h8V7H6Zm0 4v2h5v-2H6Z" fill="currentColor"/>
 			</svg>
 		)
 	},
@@ -169,7 +169,7 @@ const Footer = () => {
 				</div>
 				<div className="border-t border-gray-800 mt-12 pt-7 text-center">
 					<p className="text-gray-400 text-sm tracking-wide">
-						&copy; 2025 Yasin Ateş. Tüm hakları saklıdır.
+						&copy; {new Date().getFullYear()} Yasin Ateş. Tüm hakları saklıdır.
 					</p>
 				</div>
 			</div>

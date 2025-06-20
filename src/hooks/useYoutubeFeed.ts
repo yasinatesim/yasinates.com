@@ -95,6 +95,28 @@ async function getBestThumbnail(thumbnails: any[], videoId: string): Promise<str
   return '';
 }
 
+function turkishViews(views: string) {
+  if (!views) return '';
+  let v = views.replace(/ views?/, '').replace(/,/g, '.').trim();
+  if (v.endsWith('görüntüleme')) return v;
+  return v + ' görüntüleme';
+}
+
+function turkishPublished(published: string) {
+  if (!published) return '';
+  // İngilizce zaman ifadelerini Türkçeye çevir
+  return published
+    .replace('ago', 'önce')
+    .replace('year', 'yıl').replace('years', 'yıl')
+    .replace('month', 'ay').replace('months', 'ay')
+    .replace('week', 'hafta').replace('weeks', 'hafta')
+    .replace('day', 'gün').replace('days', 'gün')
+    .replace('hour', 'saat').replace('hours', 'saat')
+    .replace('minute', 'dakika').replace('minutes', 'dakika')
+    .replace('second', 'saniye').replace('seconds', 'saniye')
+    .replace('Streamed', 'Yayınlandı');
+}
+
 async function extractVideosFromYtData(ytData: any) {
   const videos = [];
 
@@ -149,8 +171,8 @@ async function extractVideosFromYtData(ytData: any) {
                   title: videoRenderer.title?.runs?.[0]?.text || videoRenderer.title?.simpleText || '',
                   thumbnail: '',
                   description: videoRenderer.descriptionSnippet?.runs?.[0]?.text || '',
-                  views: videoRenderer.viewCountText?.simpleText || videoRenderer.shortViewCountText?.simpleText || '',
-                  published: videoRenderer.publishedTimeText?.simpleText || '',
+                  views: turkishViews(videoRenderer.viewCountText?.simpleText || videoRenderer.shortViewCountText?.simpleText || ''),
+                  published: turkishPublished(videoRenderer.publishedTimeText?.simpleText || ''),
                   url: `https://www.youtube.com/watch?v=${videoRenderer.videoId}`,
                 };
 
@@ -177,8 +199,8 @@ async function extractVideosFromYtData(ytData: any) {
                   title: videoRenderer.title?.runs?.[0]?.text || videoRenderer.title?.simpleText || '',
                   thumbnail: '',
                   description: '',
-                  views: videoRenderer.viewCountText?.simpleText || videoRenderer.shortViewCountText?.simpleText || '',
-                  published: videoRenderer.publishedTimeText?.simpleText || '',
+                  views: turkishViews(videoRenderer.viewCountText?.simpleText || videoRenderer.shortViewCountText?.simpleText || ''),
+                  published: turkishPublished(videoRenderer.publishedTimeText?.simpleText || ''),
                   url: `https://www.youtube.com/watch?v=${videoRenderer.videoId}`,
                 };
 

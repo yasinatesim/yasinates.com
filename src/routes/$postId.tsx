@@ -4,9 +4,44 @@ import { useDevtoPosts } from '~/hooks/useDevtoPosts'
 import React from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import { seo } from '~/utils/seo'
 
 export const Route = createFileRoute('/$postId')({
   component: PostDetail,
+  head: ({ params }) => {
+    const title = 'Blog Yazısı Başlığı';
+    const description = 'Blog yazısının kısa özeti veya ilk 150 karakteri.';
+    const url = `https://yasinates.com/${params.postId}`;
+    return {
+      title: `${title} | Yasin Ateş`,
+      meta: [
+        ...seo({
+          title: `${title} | Yasin Ateş`,
+          description,
+          image: 'https://yasinates.com/og-image.jpg',
+          keywords: 'blog, yazı, medium, devto, yasin ateş, frontend, developer'
+        }),
+        { name: 'canonical', content: url },
+      ],
+      script: [
+        {
+          type: 'application/ld+json',
+          children: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            headline: title,
+            description: description,
+            url: url,
+            author: {
+              '@type': 'Person',
+              name: 'Yasin Ateş',
+              url: 'https://yasinates.com/hakkimda'
+            }
+          })
+        }
+      ]
+    }
+  },
 })
 
 // Kod bloklarını hem <pre><code> hem de <pre> veya <code> için yakala

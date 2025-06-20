@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useYoutubeFeed } from '~/hooks/useYoutubeFeed';
 import React from 'react';
+import { seo } from '~/utils/seo';
 
 function YoutubeCard({ video }: { video: any }) {
   return (
@@ -64,4 +65,29 @@ function YoutubePage() {
 
 export const Route = createFileRoute('/youtube')({
   component: YoutubePage,
+  head: () => ({
+    title: 'YouTube Videoları | Yasin Ateş',
+    meta: [
+      ...seo({
+        title: 'YouTube Videoları | Yasin Ateş',
+        description:
+          "Yasin Ateş'in YouTube kanalında yayınladığı tüm videolar.",
+        image: 'https://yasinates.com/og-image.jpg',
+        keywords: 'youtube, video, içerik, yasin ateş, frontend, müzik'
+      }),
+      { name: 'canonical', content: 'https://yasinates.com/youtube' },
+    ],
+    script: [
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'VideoGallery',
+          name: 'YouTube Videoları',
+          url: 'https://yasinates.com/youtube',
+          description: "Yasin Ateş'in YouTube kanalında yayınladığı tüm videolar."
+        })
+      }
+    ]
+  }),
 });

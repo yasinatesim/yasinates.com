@@ -9,8 +9,8 @@ const Header = () => {
 
 					<Link to="/" className="nav-link text-gray-800 font-medium hover:text-primary transition-colors">Anasayfa</Link>
 					<Link to="/hakkimda" className="nav-link text-gray-800 font-medium hover:text-primary transition-colors">Hakkımda</Link>
+					<Link to="/projeler" className="nav-link text-gray-800 font-medium hover:text-primary transition-colors">Projeler</Link>
 					<Link to="/blog" className="nav-link text-gray-800 font-medium hover:text-primary transition-colors">Blog Yazıları</Link>
-					{/* <Link to="/projects" className="nav-link text-gray-800 font-medium hover:text-primary transition-colors">Projelerim</Link> */}
 					<Link to="/iletisim" className="nav-link text-gray-800 font-medium hover:text-primary transition-colors">İletişim</Link>
 
 

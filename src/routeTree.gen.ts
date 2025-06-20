@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as YoutubeImport } from './routes/youtube'
+import { Route as ProjelerImport } from './routes/projeler'
 import { Route as IletisimImport } from './routes/iletisim'
 import { Route as HakkimdaImport } from './routes/hakkimda'
 import { Route as GithubImport } from './routes/github'
@@ -24,6 +25,12 @@ import { Route as IndexImport } from './routes/index'
 const YoutubeRoute = YoutubeImport.update({
   id: '/youtube',
   path: '/youtube',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ProjelerRoute = ProjelerImport.update({
+  id: '/projeler',
+  path: '/projeler',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -109,6 +116,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IletisimImport
       parentRoute: typeof rootRoute
     }
+    '/projeler': {
+      id: '/projeler'
+      path: '/projeler'
+      fullPath: '/projeler'
+      preLoaderRoute: typeof ProjelerImport
+      parentRoute: typeof rootRoute
+    }
     '/youtube': {
       id: '/youtube'
       path: '/youtube'
@@ -128,6 +142,7 @@ export interface FileRoutesByFullPath {
   '/github': typeof GithubRoute
   '/hakkimda': typeof HakkimdaRoute
   '/iletisim': typeof IletisimRoute
+  '/projeler': typeof ProjelerRoute
   '/youtube': typeof YoutubeRoute
 }
 
@@ -138,6 +153,7 @@ export interface FileRoutesByTo {
   '/github': typeof GithubRoute
   '/hakkimda': typeof HakkimdaRoute
   '/iletisim': typeof IletisimRoute
+  '/projeler': typeof ProjelerRoute
   '/youtube': typeof YoutubeRoute
 }
 
@@ -149,6 +165,7 @@ export interface FileRoutesById {
   '/github': typeof GithubRoute
   '/hakkimda': typeof HakkimdaRoute
   '/iletisim': typeof IletisimRoute
+  '/projeler': typeof ProjelerRoute
   '/youtube': typeof YoutubeRoute
 }
 
@@ -161,6 +178,7 @@ export interface FileRouteTypes {
     | '/github'
     | '/hakkimda'
     | '/iletisim'
+    | '/projeler'
     | '/youtube'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -170,6 +188,7 @@ export interface FileRouteTypes {
     | '/github'
     | '/hakkimda'
     | '/iletisim'
+    | '/projeler'
     | '/youtube'
   id:
     | '__root__'
@@ -179,6 +198,7 @@ export interface FileRouteTypes {
     | '/github'
     | '/hakkimda'
     | '/iletisim'
+    | '/projeler'
     | '/youtube'
   fileRoutesById: FileRoutesById
 }
@@ -190,6 +210,7 @@ export interface RootRouteChildren {
   GithubRoute: typeof GithubRoute
   HakkimdaRoute: typeof HakkimdaRoute
   IletisimRoute: typeof IletisimRoute
+  ProjelerRoute: typeof ProjelerRoute
   YoutubeRoute: typeof YoutubeRoute
 }
 
@@ -200,6 +221,7 @@ const rootRouteChildren: RootRouteChildren = {
   GithubRoute: GithubRoute,
   HakkimdaRoute: HakkimdaRoute,
   IletisimRoute: IletisimRoute,
+  ProjelerRoute: ProjelerRoute,
   YoutubeRoute: YoutubeRoute,
 }
 
@@ -219,6 +241,7 @@ export const routeTree = rootRoute
         "/github",
         "/hakkimda",
         "/iletisim",
+        "/projeler",
         "/youtube"
       ]
     },
@@ -239,6 +262,9 @@ export const routeTree = rootRoute
     },
     "/iletisim": {
       "filePath": "iletisim.tsx"
+    },
+    "/projeler": {
+      "filePath": "projeler.tsx"
     },
     "/youtube": {
       "filePath": "youtube.tsx"

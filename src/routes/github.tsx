@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useGithubRepos } from '~/hooks/useGithubRepos';
 import { useReadmeImage } from '~/hooks/useReadmeImage';
 import React from 'react';
+import { seo } from '~/utils/seo';
 
 // GithubRepo tipini tekrar tanımla
 type GithubRepo = {
@@ -91,4 +92,28 @@ function GithubPage() {
 
 export const Route = createFileRoute('/github')({
   component: GithubPage,
+  head: () => ({
+    title: 'GitHub Projeleri | Yasin Ateş',
+    meta: [
+      ...seo({
+        title: 'GitHub Projeleri | Yasin Ateş',
+        description: 'Açık kaynak kodlu tüm GitHub projelerim ve detayları.',
+        image: 'https://yasinates.com/og-image.jpg',
+        keywords: 'github, açık kaynak, yazılım, proje, yasin ateş, developer, frontend'
+      }),
+      { name: 'canonical', content: 'https://yasinates.com/github' },
+    ],
+    script: [
+      {
+        type: 'application/ld+json',
+        children: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'CollectionPage',
+          name: 'GitHub Projeleri',
+          url: 'https://yasinates.com/github',
+          description: 'Açık kaynak kodlu tüm GitHub projelerim ve detayları.'
+        })
+      }
+    ]
+  }),
 });
