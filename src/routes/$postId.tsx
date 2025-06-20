@@ -151,7 +151,7 @@ function PostDetail() {
                 <i className={iconClass}></i> {sourceLabel}
               </span>
             </div>
-            <h1 className="text-4xl font-extrabold mb-6 text-gradient bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <h1 className="text-4xl font-extrabold mb-6  text-black/80">
               {post.title}
             </h1>
             {/* Sadece bir kez ana görseli göster */}
