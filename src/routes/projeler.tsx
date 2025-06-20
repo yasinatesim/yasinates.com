@@ -149,7 +149,7 @@ function ProjelerPage() {
             <i className="ri-youtube-fill ri-lg text-red-600"></i> YouTube İçeriklerim
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {youtubeFeed.data?.slice(0, 6).map((video: any) => (
+            {youtubeFeed.data?.map((video: any) => (
               <YoutubeVideoCard key={video.videoId} video={video} />
             ))}
           </div>

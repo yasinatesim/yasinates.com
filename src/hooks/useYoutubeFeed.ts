@@ -104,16 +104,16 @@ function turkishViews(views: string) {
 
 function turkishPublished(published: string) {
   if (!published) return '';
-  // İngilizce zaman ifadelerini Türkçeye çevir
+  // İngilizce zaman ifadelerini Türkçeye çevir (önce çoğul, sonra tekil)
   return published
+    .replace('years', 'yıl').replace('year', 'yıl')
+    .replace('months', 'ay').replace('month', 'ay')
+    .replace('weeks', 'hafta').replace('week', 'hafta')
+    .replace('days', 'gün').replace('day', 'gün')
+    .replace('hours', 'saat').replace('hour', 'saat')
+    .replace('minutes', 'dakika').replace('minute', 'dakika')
+    .replace('seconds', 'saniye').replace('second', 'saniye')
     .replace('ago', 'önce')
-    .replace('year', 'yıl').replace('years', 'yıl')
-    .replace('month', 'ay').replace('months', 'ay')
-    .replace('week', 'hafta').replace('weeks', 'hafta')
-    .replace('day', 'gün').replace('days', 'gün')
-    .replace('hour', 'saat').replace('hours', 'saat')
-    .replace('minute', 'dakika').replace('minutes', 'dakika')
-    .replace('second', 'saniye').replace('seconds', 'saniye')
     .replace('Streamed', 'Yayınlandı');
 }
 
