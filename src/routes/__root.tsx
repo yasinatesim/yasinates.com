@@ -39,11 +39,11 @@ export const Route = createRootRouteWithContext<{
       { property: 'og:type', content: 'website' },
       { property: 'og:title', content: 'Yasin Ateş | Frontend Developer, Web & Müzik' },
       { property: 'og:description', content: "Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri." },
-      { property: 'og:image', content: 'https://yasinates.com/og-image.jpg' },
+      { property: 'og:image', content: 'https://yasinates.com/yasin-ates-hakkimda.jpg' },
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: 'Yasin Ateş | Frontend Developer, Web & Müzik' },
       { name: 'twitter:description', content: "Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri." },
-      { name: 'twitter:image', content: 'https://yasinates.com/og-image.jpg' },
+      { name: 'twitter:image', content: 'https://yasinates.com/yasin-ates-hakkimda.jpg' },
       { name: 'canonical', content: 'https://yasinates.com/' },
     ],
     links: [
