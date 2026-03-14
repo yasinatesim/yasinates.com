@@ -34,7 +34,9 @@ function GithubProjectCard({ repo }: { repo: GithubRepo }) {
   return (
     <div className="group bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-lg hover:border-primary transition-all flex flex-col overflow-hidden">
       <div className="h-40 bg-zinc-100 flex items-center justify-center overflow-hidden p-4">
-        {image ? (
+        {image?.startsWith('emoji:') ? (
+          <span className="text-6xl">{image.slice(6)}</span>
+        ) : image ? (
           <img src={image} alt={repo.name + ' görseli'} className="w-full h-full object-contain group-hover:scale-105 transition-transform" />
         ) : (
           <span className="text-3xl text-gray-400"><i className="ri-github-fill"></i></span>

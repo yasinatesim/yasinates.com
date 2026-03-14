@@ -42,7 +42,9 @@ function GithubCard({ repo }: { repo: GithubRepo }) {
   return (
     <div className="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden card-hover flex flex-col">
       <div className="h-48 overflow-hidden bg-gray-100 flex items-center justify-center py-4">
-        {image ? (
+        {image?.startsWith('emoji:') ? (
+          <span className="text-6xl">{image.slice(6)}</span>
+        ) : image ? (
           <img src={image} alt={repo.name + ' görseli'} className="w-full h-full object-contain" />
         ) : (
           <span className="text-4xl"><i className="ri-github-fill"></i></span>
