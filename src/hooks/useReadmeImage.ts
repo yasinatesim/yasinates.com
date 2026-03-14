@@ -2,7 +2,14 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query"
 import axios from "axios"
 
 function isBadge(url: string) {
-  return /badge|shields|fury|travis|circleci|githubusercontent|img\.shields\.io/i.test(url)
+  return /badge|shields|fury|travis|circleci|img\.shields\.io/i.test(url)
+}
+
+function resolveImageUrl(src: string, owner: string, repo: string): string {
+  if (/^https?:\/\//i.test(src)) return src
+  // Relative path → raw.githubusercontent.com absolute URL
+  const cleanPath = src.replace(/^\.\//, '')
+  return `https://raw.githubusercontent.com/${owner}/${repo}/master/${cleanPath}`
 }
 
 export function useReadmeImage(owner: string, repo: string) {
@@ -16,14 +23,14 @@ export function useReadmeImage(owner: string, repo: string) {
           // Önce <img src="..."> ile eklenen ilk görseli bul
           const imgTagMatch = md.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)
           if (imgTagMatch && imgTagMatch[1] && !isBadge(imgTagMatch[1])) {
-            return imgTagMatch[1]
+            return resolveImageUrl(imgTagMatch[1], owner, repo)
           }
           // Yoksa, ilk markdown görselini (![](...)) bul, badge olmayanı al
           const mdImgRegex = /!\[[^\]]*\]\((.*?)\)/g
           let mdImgMatch
           while ((mdImgMatch = mdImgRegex.exec(md))) {
             if (mdImgMatch[1] && !isBadge(mdImgMatch[1])) {
-              return mdImgMatch[1]
+              return resolveImageUrl(mdImgMatch[1], owner, repo)
             }
           }
           return null
