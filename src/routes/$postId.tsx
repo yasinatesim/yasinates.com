@@ -1,6 +1,5 @@
 import { type ReactNode } from 'react'
 import { createFileRoute, useParams, Link } from '@tanstack/react-router'
-import { TuvixApp } from '@tuvix.js/react'
 import { useMediumPosts } from '~/hooks/useMediumPosts'
 import { useDevtoPosts } from '~/hooks/useDevtoPosts'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
@@ -9,7 +8,7 @@ import { seo } from '~/utils/seo'
 import styles from './$postId.module.css'
 
 export const Route = createFileRoute('/$postId')({
-  component: () => <TuvixApp name="blog-app" App={PostDetail} />,
+  component: () => <div data-tuvix-app="blog-app" />,
   head: ({ params }) => {
     const title = 'Blog Yazısı Başlığı'
     const description = 'Blog yazısının kısa özeti veya ilk 150 karakteri.'

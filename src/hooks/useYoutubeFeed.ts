@@ -8,7 +8,8 @@ export function useYoutubeFeed() {
     queryOptions({
       queryKey: ['youtube-feed', channelId],
       queryFn: async () => {
-        const url = `https://www.youtube.com/channel/${channelId}/videos`;
+        // Use server-side proxy to avoid CORS when fetching from the browser.
+        const url = '/api/youtube';
         const res = await axios.get(url);
         const html = res.data as string;
 

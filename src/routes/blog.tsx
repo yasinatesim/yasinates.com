@@ -1,13 +1,12 @@
 import { useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { TuvixApp } from '@tuvix.js/react'
 import { useMediumPosts } from '~/hooks/useMediumPosts'
 import { useDevtoPosts } from '~/hooks/useDevtoPosts'
 import { seo } from '~/utils/seo'
 import styles from './blog.module.css'
 
 export const Route = createFileRoute('/blog')({
-  component: () => <TuvixApp name="blog-app" App={Blog} />,
+  component: () => <div data-tuvix-app="blog-app" />,
   head: () => ({
     title: 'Blog | Yasin Ateş',
     meta: [
