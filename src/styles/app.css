@@ -1,6 +1,9 @@
 /* ─── Variables ─────────────────────────────────────────────────────────── */
 @import './variables.css';
 
+/* ─── Prism syntax highlighting theme ───────────────────────────────────── */
+@import 'prismjs/themes/prism-okaidia.css';
+
 /* ─── Reset ─────────────────────────────────────────────────────────────── */
 *,
 *::before,

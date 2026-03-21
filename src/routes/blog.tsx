@@ -1,10 +1,23 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { TuvixReactApp } from '@tuvix.js/react'
-import BlogListApp from '~/micro-apps/blog-list/App'
 import { seo } from '~/utils/seo'
+import BlogListApp from '~/micro-apps/blog-list/App'
+import BlogListVue from '~/micro-apps/blog-list/BlogList.vue'
+import { renderVueToString } from '@tuvix.js/vue/server'
+import { fetchMediumPosts, fetchDevtoPosts } from '~/utils/fetchBlogPosts'
 
 export const Route = createFileRoute('/blog')({
-  component: () => <TuvixReactApp name="blog-list-app" App={BlogListApp} />,
+  staleTime: 1000 * 60 * 5,
+  loader: async () => {
+    const [mediumResult, devtoResult] = await Promise.allSettled([
+      fetchMediumPosts(),
+      fetchDevtoPosts(),
+    ])
+    const mediumPosts = mediumResult.status === 'fulfilled' ? mediumResult.value.map(({ content: _, ...p }) => p) : []
+    const devtoPosts  = devtoResult.status  === 'fulfilled' ? devtoResult.value.map(({ body_html: _, ...p }) => p) : []
+    const ssrHtml = await renderVueToString(BlogListVue, { mediumPosts, devtoPosts }).catch(() => '')
+    return { ssrHtml, mediumPosts, devtoPosts }
+  },
   head: () => ({
     title: 'Blog | Yasin Ateş',
     meta: [
@@ -29,4 +42,16 @@ export const Route = createFileRoute('/blog')({
       }
     ]
   }),
+  component: () => {
+    const { ssrHtml, mediumPosts, devtoPosts } = Route.useLoaderData()
+    return (
+      <TuvixReactApp
+        name="blog-list-app"
+        App={BlogListApp}
+        ssrHtml={ssrHtml}
+        mediumPosts={mediumPosts}
+        devtoPosts={devtoPosts}
+      />
+    )
+  },
 })

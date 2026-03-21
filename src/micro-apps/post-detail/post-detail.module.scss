@@ -174,10 +174,34 @@
 }
 
 .prose pre {
-  padding: 0;
+  margin: var(--space-6) 0;
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
+  background-color: rgba(24, 24, 27, 0.95);
+  padding: var(--space-5) var(--space-6);
+  box-shadow: var(--shadow-md);
+}
+
+.prose pre code {
+  font-family: 'Fira Code', 'Fira Mono', Consolas, 'Courier New', monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: #e4e4e7;
   background: transparent;
-  box-shadow: none;
-  border: none;
+  padding: 0;
+  border-radius: 0;
+  white-space: pre;
+}
+
+.prose :not(pre) > code {
+  font-family: 'Fira Code', 'Fira Mono', Consolas, 'Courier New', monospace;
+  font-size: 0.875em;
+  background-color: color-mix(in srgb, var(--color-primary) 8%, rgba(24, 24, 27, 0.06));
+  color: var(--color-primary);
+  padding: 0.1em 0.4em;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 15%, transparent);
 }
 
 .prose code::before,
