@@ -1,146 +1,66 @@
-import { Link, useLocation } from "@tanstack/react-router"
-import { useState } from "react"
+import { Link, useLocation } from '@tanstack/react-router'
+import { useState } from 'react'
+import styles from './Header.module.css'
+
+const navLinks = [
+  { to: '/', label: 'Anasayfa' },
+  { to: '/hakkimda', label: 'Hakkımda' },
+  { to: '/projeler', label: 'Projeler' },
+  { to: '/blog', label: 'Blog Yazıları' },
+  { to: '/iletisim', label: 'İletişim' },
+]
 
 const Header = () => {
-	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-	const location = useLocation()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const location = useLocation()
 
-	const toggleMobileMenu = () => {
-		setIsMobileMenuOpen(!isMobileMenuOpen)
-	}
+  const isActive = (path: string) => location.pathname === path
 
-	const isActive = (path: string) => {
-		return location.pathname === path
-	}
+  return (
+    <header className={styles.header}>
+      <div className={styles.container}>
+        <Link to="/" className={styles.brand}>
+          Yasin Ateş
+        </Link>
 
-	return (
-		<header className="fixed top-0 left-0 right-0 bg-white shadow-sm z-50">
-			<div className="container mx-auto px-4 py-4 flex justify-between items-center">
-				<Link to="/" className="text-2xl font-['Pacifico'] text-primary">Yasin Ateş</Link>
-				<nav className="hidden md:flex items-center space-x-8">
-					<Link
-						to="/"
-						className={`nav-link font-medium transition-colors ${
-							isActive('/')
-								? 'text-primary border-b-2 border-primary'
-								: 'text-gray-800 hover:text-primary'
-						}`}
-					>
-						Anasayfa
-					</Link>
-					<Link
-						to="/hakkimda"
-						className={`nav-link font-medium transition-colors ${
-							isActive('/hakkimda')
-								? 'text-primary border-b-2 border-primary'
-								: 'text-gray-800 hover:text-primary'
-						}`}
-					>
-						Hakkımda
-					</Link>
-					<Link
-						to="/projeler"
-						className={`nav-link font-medium transition-colors ${
-							isActive('/projeler')
-								? 'text-primary border-b-2 border-primary'
-								: 'text-gray-800 hover:text-primary'
-						}`}
-					>
-						Projeler
-					</Link>
-					<Link
-						to="/blog"
-						className={`nav-link font-medium transition-colors ${
-							isActive('/blog')
-								? 'text-primary border-b-2 border-primary'
-								: 'text-gray-800 hover:text-primary'
-						}`}
-					>
-						Blog Yazıları
-					</Link>
-					<Link
-						to="/iletisim"
-						className={`nav-link font-medium transition-colors ${
-							isActive('/iletisim')
-								? 'text-primary border-b-2 border-primary'
-								: 'text-gray-800 hover:text-primary'
-						}`}
-					>
-						İletişim
-					</Link>
-				</nav>
-				<button
-					className="md:hidden flex items-center justify-center w-10 h-10 text-gray-800"
-					onClick={toggleMobileMenu}
-				>
-					<i className={`ri-lg transition-transform ${
-						isMobileMenuOpen ? 'ri-close-line' : 'ri-menu-line'
-					}`}></i>
-				</button>
-			</div>
-			<div className={`md:hidden bg-white shadow-md absolute w-full transition-all duration-300 ${
-				isMobileMenuOpen ? 'block' : 'hidden'
-			}`}>
-				<div className="container mx-auto px-4 py-2 flex flex-col space-y-4">
-					<Link
-						to="/"
-						className={`py-2 font-medium transition-colors ${
-							isActive('/')
-								? 'text-primary border-l-4 border-primary pl-4'
-								: 'text-gray-800 hover:text-primary'
-						}`}
-						onClick={() => setIsMobileMenuOpen(false)}
-					>
-						Anasayfa
-					</Link>
-					<Link
-						to="/hakkimda"
-						className={`py-2 font-medium transition-colors ${
-							isActive('/hakkimda')
-								? 'text-primary border-l-4 border-primary pl-4'
-								: 'text-gray-800 hover:text-primary'
-						}`}
-						onClick={() => setIsMobileMenuOpen(false)}
-					>
-						Hakkımda
-					</Link>
-					<Link
-						to="/projeler"
-						className={`py-2 font-medium transition-colors ${
-							isActive('/projeler')
-								? 'text-primary border-l-4 border-primary pl-4'
-								: 'text-gray-800 hover:text-primary'
-						}`}
-						onClick={() => setIsMobileMenuOpen(false)}
-					>
-						Projeler
-					</Link>
-					<Link
-						to="/blog"
-						className={`py-2 font-medium transition-colors ${
-							isActive('/blog')
-								? 'text-primary border-l-4 border-primary pl-4'
-								: 'text-gray-800 hover:text-primary'
-						}`}
-						onClick={() => setIsMobileMenuOpen(false)}
-					>
-						Blog Yazıları
-					</Link>
-					<Link
-						to="/iletisim"
-						className={`py-2 font-medium transition-colors ${
-							isActive('/iletisim')
-								? 'text-primary border-l-4 border-primary pl-4'
-								: 'text-gray-800 hover:text-primary'
-						}`}
-						onClick={() => setIsMobileMenuOpen(false)}
-					>
-						İletişim
-					</Link>
-				</div>
-			</div>
-		</header>
-	)
+        <nav className={styles.desktopNav}>
+          {navLinks.map(({ to, label }) => (
+            <Link
+              key={to}
+              to={to}
+              className={`${styles.navLink} ${isActive(to) ? styles.navLinkActive : ''}`}
+            >
+              {label}
+            </Link>
+          ))}
+        </nav>
+
+        <button
+          className={styles.menuButton}
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? 'Menüyü kapat' : 'Menüyü aç'}
+          aria-expanded={isMobileMenuOpen}
+        >
+          <i className={`ri-lg ${isMobileMenuOpen ? 'ri-close-line' : 'ri-menu-line'}`} aria-hidden="true" />
+        </button>
+      </div>
+
+      <div className={`${styles.mobileMenu} ${isMobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
+        <div className={styles.mobileNav}>
+          {navLinks.map(({ to, label }) => (
+            <Link
+              key={to}
+              to={to}
+              className={`${styles.mobileNavLink} ${isActive(to) ? styles.mobileNavLinkActive : ''}`}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </header>
+  )
 }
 
 export default Header
