@@ -236,6 +236,41 @@ catch (e: any) { console.error(e.message) }
 - Guard: `if (typeof window !== 'undefined') { ... }`
 - Canonical URLs must be preserved on all routes
 
+### SSR Pattern for Non-React Micro-apps
+
+Non-React frameworks (Svelte, Vue, Angular) cannot render during SSR unless explicitly pre-rendered.
+**The correct pattern:**
+
+```tsx
+// Route loader: pre-render on server
+loader: async () => ({
+  ssrHtml: await renderSvelteToString(FooterSvelte),   // Svelte
+  // OR: await renderVueToString(ContactVue),          // Vue
+  // OR: await renderAngularToString(Component, {...}) // Angular
+})
+
+// Bridge component: static import, accepts ssrHtml prop
+import FrameworkComponent from './Component.svelte'    // static import
+export default function Bridge({ ssrHtml = '' }) {
+  const ref = useRef(null)
+  useEffect(() => {
+    // mount with hydrate:true so framework reuses SSR HTML
+    new FrameworkComponent({ target: ref.current, hydrate: true })
+  }, [])
+  return <div ref={ref} dangerouslySetInnerHTML={{ __html: ssrHtml }} suppressHydrationWarning />
+}
+```
+
+Server utilities (import from sub-path, not main):
+- Svelte: `renderSvelteToString` from `@tuvix.js/svelte/server`
+- Vue: `renderVueToString` from `@tuvix.js/vue/server`
+- Angular: `renderAngularToString` from `@tuvix.js/angular/server`
+
+**Build notes:**
+- `@tuvix.js/svelte/server` uses `new Function('m','return import(m)')` to load `svelte/server` at runtime — prevents Vite/Rollup CJS static scanner from failing when `svelte/server` (Svelte 5 API) is absent. Svelte 4 falls back to `App.render()`.
+- Svelte components must be compiled with `hydratable: true` (set in `app.config.ts` `svelte({ compilerOptions: { hydratable: true } })`) for `hydrate: true` to work at runtime.
+- `@angular/animations` must be installed as a peer dep for Angular builds
+
 ### Micro-app Rules
 
 - Apps communicate ONLY via `@tuvix.js/event-bus` or `_shared/eventBus.ts` — **no cross-app imports**
@@ -255,6 +290,7 @@ catch (e: any) { console.error(e.message) }
 6. **Lighthouse scores** — must not degrade
 7. **No cross-micro-app imports** — only event bus communication
 8. **Route files are thin shells** — no component logic in routes
+9. **No dynamic `import()` in application code** — use static imports at file top. Dynamic imports inside `useEffect` or component bodies break SSR (render empty HTML server-side). Non-React framework components (Svelte, Vue, Angular) must be SSR-rendered via route loaders + tuvix.js server utilities, not deferred with lazy imports.
 
 ---
 

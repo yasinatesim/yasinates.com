@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
-import Header from '~/components/Header'
+import Header from '~/micro-apps/header/App'
 
 vi.mock('@tanstack/react-router', () => ({
   Link: ({ to, children, className, onClick }: { to: string; children: React.ReactNode; className?: string; onClick?: () => void }) => (

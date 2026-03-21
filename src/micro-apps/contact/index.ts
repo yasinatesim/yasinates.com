@@ -1,7 +1,1 @@
-import { createSsrReactMicroApp } from "@tuvix.js/react"
-import App from './App'
-
-export default createSsrReactMicroApp({
-  name: 'contact-app',
-  App,
-})
+export { default as ContactApp } from './App'

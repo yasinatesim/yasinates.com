@@ -194,10 +194,7 @@ describe('useYoutubeFeed', () => {
     await waitFor(() => expect(result.current.data).toEqual([]))
   })
 
-  it('falls back to empty array when all thumbnail HEAD requests fail', async () => {
-    // Override fetch to return ok: false for all calls
-    mockFetch.mockResolvedValue({ ok: false })
-
+  it('uses the API-provided thumbnail directly (no HEAD requests)', async () => {
     const ytData = {
       contents: {
         twoColumnBrowseResultsRenderer: {
@@ -206,7 +203,7 @@ describe('useYoutubeFeed', () => {
               tabRenderer: {
                 content: {
                   richGridRenderer: {
-                    contents: [buildRichGridItem('fail123', 'Fail Thumb', '1 views', '1 day ago')],
+                    contents: [buildRichGridItem('thumb123', 'Thumb Video', '1 views', '1 day ago')],
                   },
                 },
               },
@@ -221,10 +218,7 @@ describe('useYoutubeFeed', () => {
 
     await waitFor(() => expect(result.current.data).toHaveLength(1))
     const video = (result.current.data as { thumbnail: string }[])[0]
-    expect(video.thumbnail).toBe('')
-
-    // Restore
-    mockFetch.mockResolvedValue({ ok: true })
+    expect(video.thumbnail).toBe('https://i.ytimg.com/vi/thumb123/hqdefault.jpg')
   })
 
   it('skips video items without a videoId', async () => {

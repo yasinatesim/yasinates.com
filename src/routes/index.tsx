@@ -1,12 +1,23 @@
 import { createFileRoute } from '@tanstack/react-router'
-import Hero from '~/components/Home/Hero'
-import About from '~/components/Home/About'
-import Projects from '~/components/Home/Projects'
-import Blogs from '~/components/Home/Blogs'
-import Contact from '~/components/Home/Contact'
+import { QueryClient, dehydrate } from '@tanstack/react-query'
+import { TuvixReactApp } from '@tuvix.js/react'
+import HomeApp from '~/micro-apps/home/App'
+import { renderVueToString } from '@tuvix.js/vue/server'
+import ContactVue from '~/micro-apps/home/components/Contact.vue'
+import { fetchYoutubeVideos, YOUTUBE_QUERY_KEY } from '~/utils/fetchYoutubeVideos'
 
-export const Route = createFileRoute('/')({
-  component: Home,
+export const Route = createFileRoute('/')(({
+  loader: async () => {
+    const qc = new QueryClient()
+    const [ssrHtml] = await Promise.allSettled([
+      renderVueToString(ContactVue),
+      fetchYoutubeVideos().then(videos => qc.setQueryData(YOUTUBE_QUERY_KEY, videos)),
+    ])
+    return {
+      ssrHtml: ssrHtml.status === 'fulfilled' ? ssrHtml.value : '',
+      dehydratedState: dehydrate(qc),
+    }
+  },
   head: () => ({
     title: 'Yasin Ateş | Frontend Developer, Web & Müzik',
     meta: [
@@ -45,23 +56,8 @@ export const Route = createFileRoute('/')({
       }
     ]
   }),
-})
-
-function Home() {
-
-  return (
-    <>
-      <Hero />
-
-      <About />
-
-      <Projects />
-
-      <Blogs />
-
-      <Contact />
-
-
-    </>
-  )
-}
+  component: () => {
+    const { ssrHtml, dehydratedState } = Route.useLoaderData()
+    return <TuvixReactApp name="home-app" App={HomeApp} ssrHtml={ssrHtml} dehydratedState={dehydratedState} />
+  },
+}))

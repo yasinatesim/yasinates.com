@@ -42,7 +42,7 @@ const Blogs = () => {
             return (
               <article key={post.guid} className={styles.card}>
                 <div className={styles.imageWrapper}>
-                  <img src={imageUrl} alt={post.title} className={styles.image} />
+                  <img src={imageUrl} alt={post.title} className={styles.image} referrerPolicy="no-referrer" />
                 </div>
                 <div className={styles.cardBody}>
                   <div className={styles.meta}>

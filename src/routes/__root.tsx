@@ -1,6 +1,5 @@
 import {
   HeadContent,
-  Link,
   Outlet,
   Scripts,
   createRootRouteWithContext,
@@ -11,8 +10,10 @@ import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary'
 import { NotFound } from '~/components/NotFound'
 import appCss from '~/styles/app.css?url'
 import { seo } from '~/utils/seo'
-import Header from '~/components/Header'
-import Footer from '~/components/Footer'
+import { HeaderApp } from '~/micro-apps/header'
+import { FooterApp } from '~/micro-apps/footer'
+import { renderSvelteToString } from '@tuvix.js/svelte/server'
+import FooterSvelte from '~/micro-apps/footer/Footer.svelte'
 
 const RouterDevtools =
   import.meta.env.DEV
@@ -35,6 +36,9 @@ const QueryDevtools =
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
+  loader: async () => ({
+    footerSsrHtml: await renderSvelteToString(FooterSvelte),
+  }),
   head: () => ({
     meta: [
       { charSet: 'utf-8' },
@@ -81,6 +85,7 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const { footerSsrHtml } = Route.useLoaderData()
   return (
     <html>
       <head>
@@ -88,9 +93,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <Header />
+        <HeaderApp />
         {children}
-        <Footer />
+        <FooterApp ssrHtml={footerSsrHtml} />
         <React.Suspense>
           <RouterDevtools position="bottom-right" />
           <QueryDevtools buttonPosition="bottom-left" />

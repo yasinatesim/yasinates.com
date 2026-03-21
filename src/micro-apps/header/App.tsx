@@ -1,6 +1,6 @@
 import { Link, useLocation } from '@tanstack/react-router'
 import { useState } from 'react'
-import styles from './Header.module.scss'
+import styles from './header.module.scss'
 
 const navLinks = [
   { to: '/', label: 'Anasayfa' },
