@@ -46,6 +46,7 @@
     "react-syntax-highlighter": "^15.6.1",
     "redaxios": "^0.5.1",
     "reflect-metadata": "^0.2.2",
+    "remixicon": "^4.9.1",
     "svelte": "^4.2.20",
     "vinxi": "0.5.3",
     "vue": "^3.5.30",

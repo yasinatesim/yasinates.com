@@ -7,6 +7,7 @@ import ContactVue from '~/micro-apps/home/components/Contact.vue'
 import BlogsVue from '~/micro-apps/home/components/Blogs.vue'
 import { fetchYoutubeVideos, YOUTUBE_QUERY_KEY } from '~/utils/fetchYoutubeVideos'
 import { fetchMediumPosts, fetchDevtoPosts } from '~/utils/fetchBlogPosts'
+import { fetchAllGithubRepos, GITHUB_REPOS_QUERY_KEY } from '~/hooks/useGithubRepos'
 
 export const Route = createFileRoute('/')(({
   loader: async () => {
@@ -25,6 +26,7 @@ export const Route = createFileRoute('/')(({
     const [blogsSsrResult] = await Promise.allSettled([
       renderVueToString(BlogsVue, { mediumPosts, devtoPosts }),
       fetchYoutubeVideos().then(videos => qc.setQueryData(YOUTUBE_QUERY_KEY, videos)),
+      fetchAllGithubRepos().then(repos => qc.setQueryData(GITHUB_REPOS_QUERY_KEY, repos)),
     ])
     return {
       ssrHtml: contactResult.status === 'fulfilled' ? contactResult.value : '',

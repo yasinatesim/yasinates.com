@@ -1,8 +1,8 @@
 /* ─── Variables ─────────────────────────────────────────────────────────── */
 @import './variables.css';
 
-/* ─── Prism syntax highlighting theme ───────────────────────────────────── */
-@import 'prismjs/themes/prism-okaidia.css';
+/* Remixicon loaded separately in __root.tsx via ?url — not bundled into app.css */
+/* Prism theme loaded per-route in $postId.tsx and blog.tsx — not globally */
 
 /* ─── Reset ─────────────────────────────────────────────────────────────── */
 *,

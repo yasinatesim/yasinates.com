@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { TuvixReactApp } from '@tuvix.js/react'
 import { seo } from '~/utils/seo'
+import prismCss from 'prismjs/themes/prism-okaidia.css?url'
 import BlogListApp from '~/micro-apps/blog-list/App'
 import BlogListVue from '~/micro-apps/blog-list/BlogList.vue'
 import { renderVueToString } from '@tuvix.js/vue/server'
@@ -20,6 +21,9 @@ export const Route = createFileRoute('/blog')({
   },
   head: () => ({
     title: 'Blog | Yasin Ateş',
+    links: [
+      { rel: 'stylesheet', href: prismCss },
+    ],
     meta: [
       ...seo({
         title: 'Blog | Yasin Ateş',

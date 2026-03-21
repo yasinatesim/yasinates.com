@@ -13,7 +13,9 @@ export type GithubRepo = {
   fork?: boolean
 }
 
-async function fetchAllGithubRepos(): Promise<GithubRepo[]> {
+export const GITHUB_REPOS_QUERY_KEY = ['github-repos', 'yasinatesim'] as const
+
+export async function fetchAllGithubRepos(): Promise<GithubRepo[]> {
   let page = 1;
   let allRepos: GithubRepo[] = [];
   let perPage = 100;
@@ -35,7 +37,7 @@ async function fetchAllGithubRepos(): Promise<GithubRepo[]> {
 export function useGithubRepos() {
   return useSuspenseQuery(
     queryOptions({
-      queryKey: ['github-repos', 'yasinatesim'],
+      queryKey: GITHUB_REPOS_QUERY_KEY,
       queryFn: fetchAllGithubRepos,
       staleTime: 1000 * 60 * 60 * 24 * 14, // 2 hafta
       gcTime: 1000 * 60 * 60 * 24 * 14, // 2 hafta

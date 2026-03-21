@@ -19,5 +19,21 @@ export default defineConfig({
       // Angular JIT compiler must be available at runtime
       include: ['@angular/compiler'],
     },
+    build: {
+      // Warn when individual chunks exceed 500 KB (default 500)
+      chunkSizeWarningLimit: 500,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            // Framework runtimes — cached independently, rarely change
+            'vendor-react':  ['react', 'react-dom'],
+            'vendor-vue':    ['vue'],
+            'vendor-svelte': ['svelte'],
+            // Heavy Prism language components — only needed on blog pages
+            'vendor-prism':  ['prismjs'],
+          },
+        },
+      },
+    },
   },
 })

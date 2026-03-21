@@ -54,7 +54,7 @@ function RepoCard({ repo }: { repo: GithubRepo }) {
         {image?.startsWith('emoji:') ? (
           <span style={{ fontSize: '3.75rem' }}>{image.slice(6)}</span>
         ) : image ? (
-          <img src={image} alt={repo.name + ' görseli'} className={styles.image} />
+          <img src={image} alt={repo.name + ' görseli'} className={styles.image} loading="lazy" width={320} height={180} />
         ) : (
           <span style={{ fontSize: '2.5rem' }}><i className="ri-github-fill" aria-hidden="true" /></span>
         )}
@@ -130,7 +130,7 @@ const Projects = () => {
                 <div className={styles.videoImageWrapper}>
                   <span className={styles.dateBadge}>{video.published}</span>
                   <a href={video.url} target="_blank" rel="noopener noreferrer">
-                    <img src={video.thumbnail} alt={video.title} className={styles.videoThumbnail} />
+                    <img src={video.thumbnail} alt={video.title} className={styles.videoThumbnail} loading="lazy" width={480} height={270} />
                     <div className={styles.playOverlay}>
                       <div className={styles.playBtn}>
                         <i className="ri-play-fill ri-2x" aria-hidden="true" />
@@ -174,7 +174,7 @@ const Projects = () => {
                 {project.image ? (
                   <>
                     <div className={styles.imageCoverWrapper}>
-                      <img src={project.image} alt={project.alt || project.title} className={styles.imageCover} />
+                      <img src={project.image} alt={project.alt || project.title} className={styles.imageCover} loading="lazy" width={640} height={360} />
                     </div>
                     <div className={styles.cardBody}>
                       <h4 className={styles.cardTitle}>{project.title}</h4>

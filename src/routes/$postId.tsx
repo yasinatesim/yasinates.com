@@ -2,6 +2,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router'
 import { TuvixReactApp } from '@tuvix.js/react'
 import { renderVueToString } from '@tuvix.js/vue/server'
 import { seo } from '~/utils/seo'
+import prismCss from 'prismjs/themes/prism-okaidia.css?url'
 import PostDetailApp from '~/micro-apps/post-detail/App'
 import PostDetailVue from '~/micro-apps/post-detail/PostDetail.vue'
 import { slugify } from '~/utils/slugify'
@@ -90,6 +91,9 @@ export const Route = createFileRoute('/$postId')({
     const url = `https://yasinates.com/${loaderData ? '' : ''}`
     return {
       title: `${title} | Yasin Ateş`,
+      links: [
+        { rel: 'stylesheet', href: prismCss },
+      ],
       meta: [
         ...seo({
           title: `${title} | Yasin Ateş`,

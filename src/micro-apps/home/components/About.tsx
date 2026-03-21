@@ -59,7 +59,14 @@ const About = () => {
         <div className={styles.columns}>
           <div className={styles.leftCol}>
             <div className={styles.imageWrapper}>
-              <img src="/yasin-ates-hakkimda.jpg" alt="Yasin Ateş Hakkında" className={styles.image} />
+              <img
+                src="/yasin-ates-hakkimda.jpg"
+                alt="Yasin Ateş Hakkında"
+                className={styles.image}
+                width={480}
+                height={480}
+                fetchPriority="high"
+              />
             </div>
           </div>
           <div className={styles.rightCol}>

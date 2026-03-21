@@ -88,6 +88,7 @@
 .image {
   width: 100%;
   height: auto;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
   position: relative;
   z-index: 1;
