@@ -4,16 +4,21 @@
  * This file configures the micro frontend shell for yasinates.com.
  * The shell manages layout (Header, Footer) and registers all micro apps.
  *
- * Migration status: Core integration complete. Individual micro apps will be
- * registered here as they are extracted to independently deployed bundles.
+ * Architecture:
+ *  - TanStack Router handles SSR and initial hydration for all routes.
+ *  - Each route component wraps its page with <TuvixApp name="..." App={Page} />,
+ *    which renders a <div data-tuvix-app="{name}"> container server-side.
+ *  - On the client, the orchestrator manages these containers for SPA navigation.
+ *  - Micro app IIFE bundles (built via `npm run build:micro-apps`) are loaded
+ *    into the containers via hydrateRoot (createSsrReactMicroApp) so the
+ *    server-rendered HTML is preserved — no flash of unstyled content.
  *
- * Micro app deployment targets (future):
- *   blog-app    → /blog, /$postId
- *   projects-app → /projeler
- *   about-app   → /hakkimda
- *   contact-app → /iletisim
- *   github-app  → /github
- *   youtube-app → /youtube
+ * Activating a micro app (independent deploy mode):
+ *  1. Uncomment the registration block below.
+ *  2. Deploy the IIFE bundle to CDN or serve from /micro-apps/{name}/main.js.
+ *  3. Convert the TanStack Router route to a thin shell:
+ *       component: () => <div data-tuvix-app="{name}" />
+ *     The orchestrator will handle mounting from that point on.
  */
 
 import { createOrchestrator, getGlobalBus } from '@tuvix.js/core'
@@ -23,8 +28,7 @@ const orchestratorConfig: OrchestratorConfig = {
   router: {
     mode: 'history',
     routes: [
-      // Registered as micro apps become independently deployed bundles.
-      // Until then, TanStack Router handles all routing in the monolithic shell.
+      // Uncomment when the corresponding micro app takes over routing from TanStack Router:
       //
       // { path: '/blog/*',     app: 'blog-app' },
       // { path: '/:postId',    app: 'blog-app' },
@@ -47,20 +51,16 @@ const orchestratorConfig: OrchestratorConfig = {
 
 /**
  * Shell orchestrator instance.
- * Call orchestrator.register() and orchestrator.start() as micro apps are deployed.
  */
 export const orchestrator = createOrchestrator(orchestratorConfig)
 
 /**
  * Global event bus for cross-app communication.
- * Use this singleton when micro apps need to communicate.
  *
  * @example
- * // Emit from any micro app:
  * import { eventBus } from '~/orchestrator'
  * eventBus.emit('blog:post-viewed', { postId: '123' })
  *
- * // Subscribe in another micro app:
  * const unsub = eventBus.on('blog:post-viewed', ({ postId }) => { ... })
  * // cleanup: unsub()
  */
@@ -70,16 +70,21 @@ export const eventBus = getGlobalBus()
  * Initialize the shell orchestrator.
  * Called once from client.tsx after React hydration.
  *
- * Micro app source files are in src/micro-apps/ — ready for separate deployment.
- * Uncomment each registration block when the corresponding micro app bundle is
- * deployed to CDN (e.g. via Netlify split deploys or separate Vite builds).
+ * Micro app containers are rendered server-side by TuvixApp in each route file.
+ * The orchestrator takes over client-side. Each app uses createSsrReactMicroApp
+ * so it hydrates existing SSR content instead of replacing it.
+ *
+ * IIFE bundles live in public/micro-apps/{name}/main.js.
+ * Uncomment each block below when the corresponding micro app is ready to
+ * operate independently (i.e., its TanStack Router route has been converted
+ * to a thin container shell).
  */
 export function initOrchestrator(): void {
   // ─── Blog app (/blog, /:postId) ────────────────────────────────────────────
   // orchestrator.register({
   //   name: 'blog-app',
-  //   entry: 'https://cdn.yasinates.com/blog-app/main.js',
-  //   container: '#micro-app-root',
+  //   entry: '/micro-apps/blog-app/main.js',
+  //   container: '[data-tuvix-app="blog-app"]',
   //   activeWhen: (path: string) =>
   //     path === '/blog' || path.startsWith('/blog/') || /^\/[^/]+$/.test(path),
   //   fallback: '<div style="padding:5rem 1rem;color:#6b7280">Blog yüklenirken bir hata oluştu.</div>',
@@ -88,8 +93,8 @@ export function initOrchestrator(): void {
   // ─── Projects app (/projeler) ──────────────────────────────────────────────
   // orchestrator.register({
   //   name: 'projects-app',
-  //   entry: 'https://cdn.yasinates.com/projects-app/main.js',
-  //   container: '#micro-app-root',
+  //   entry: '/micro-apps/projects-app/main.js',
+  //   container: '[data-tuvix-app="projects-app"]',
   //   activeWhen: '/projeler',
   //   fallback: '<div style="padding:5rem 1rem;color:#6b7280">Projeler yüklenirken bir hata oluştu.</div>',
   // })
@@ -97,8 +102,8 @@ export function initOrchestrator(): void {
   // ─── About app (/hakkimda) ─────────────────────────────────────────────────
   // orchestrator.register({
   //   name: 'about-app',
-  //   entry: 'https://cdn.yasinates.com/about-app/main.js',
-  //   container: '#micro-app-root',
+  //   entry: '/micro-apps/about-app/main.js',
+  //   container: '[data-tuvix-app="about-app"]',
   //   activeWhen: '/hakkimda',
   //   fallback: '<div style="padding:5rem 1rem;color:#6b7280">Hakkımda sayfası yüklenirken bir hata oluştu.</div>',
   // })
@@ -106,8 +111,8 @@ export function initOrchestrator(): void {
   // ─── Contact app (/iletisim) ───────────────────────────────────────────────
   // orchestrator.register({
   //   name: 'contact-app',
-  //   entry: 'https://cdn.yasinates.com/contact-app/main.js',
-  //   container: '#micro-app-root',
+  //   entry: '/micro-apps/contact-app/main.js',
+  //   container: '[data-tuvix-app="contact-app"]',
   //   activeWhen: '/iletisim',
   //   fallback: '<div style="padding:5rem 1rem;color:#6b7280">İletişim sayfası yüklenirken bir hata oluştu.</div>',
   // })
@@ -115,8 +120,8 @@ export function initOrchestrator(): void {
   // ─── GitHub app (/github) ──────────────────────────────────────────────────
   // orchestrator.register({
   //   name: 'github-app',
-  //   entry: 'https://cdn.yasinates.com/github-app/main.js',
-  //   container: '#micro-app-root',
+  //   entry: '/micro-apps/github-app/main.js',
+  //   container: '[data-tuvix-app="github-app"]',
   //   activeWhen: '/github',
   //   fallback: '<div style="padding:5rem 1rem;color:#6b7280">GitHub projeleri yüklenirken bir hata oluştu.</div>',
   // })
@@ -124,12 +129,11 @@ export function initOrchestrator(): void {
   // ─── YouTube app (/youtube) ────────────────────────────────────────────────
   // orchestrator.register({
   //   name: 'youtube-app',
-  //   entry: 'https://cdn.yasinates.com/youtube-app/main.js',
-  //   container: '#micro-app-root',
+  //   entry: '/micro-apps/youtube-app/main.js',
+  //   container: '[data-tuvix-app="youtube-app"]',
   //   activeWhen: '/youtube',
   //   fallback: '<div style="padding:5rem 1rem;color:#6b7280">YouTube içerikleri yüklenirken bir hata oluştu.</div>',
   // })
 
-  // Uncomment after registering the first micro app:
-  // orchestrator.start()
+  orchestrator.start()
 }

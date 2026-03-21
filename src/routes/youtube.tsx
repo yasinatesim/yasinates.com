@@ -1,10 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { TuvixApp } from '@tuvix.js/react'
 import { useYoutubeFeed } from '~/hooks/useYoutubeFeed'
 import { seo } from '~/utils/seo'
 import styles from './youtube.module.css'
 
 export const Route = createFileRoute('/youtube')({
-  component: YoutubePage,
+  component: () => <TuvixApp name="youtube-app" App={YoutubePage} />,
   head: () => ({
     title: 'YouTube Videoları | Yasin Ateş',
     meta: [

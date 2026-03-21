@@ -1,9 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { TuvixApp } from '@tuvix.js/react'
 import { seo } from '~/utils/seo'
 import styles from './iletisim.module.css'
 
 export const Route = createFileRoute('/iletisim')({
-  component: Iletisim,
+  component: () => <TuvixApp name="contact-app" App={Iletisim} />,
   head: () => ({
     title: 'İletişim | Yasin Ateş',
     meta: [

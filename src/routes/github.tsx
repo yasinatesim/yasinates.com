@@ -1,11 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { TuvixApp } from '@tuvix.js/react'
 import { useGithubRepos, type GithubRepo } from '~/hooks/useGithubRepos'
 import { useReadmeImage } from '~/hooks/useReadmeImage'
 import { seo } from '~/utils/seo'
 import styles from './github.module.css'
 
 export const Route = createFileRoute('/github')({
-  component: GithubPage,
+  component: () => <TuvixApp name="github-app" App={GithubPage} />,
   head: () => ({
     title: 'GitHub Projeleri | Yasin Ateş',
     meta: [

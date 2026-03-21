@@ -1,10 +1,11 @@
 import { type ReactNode } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
+import { TuvixApp } from '@tuvix.js/react'
 import { seo } from '~/utils/seo'
 import styles from './hakkimda.module.css'
 
 export const Route = createFileRoute('/hakkimda')({
-  component: Hakkimda,
+  component: () => <TuvixApp name="about-app" App={Hakkimda} />,
   head: () => ({
     title: 'Hakkımda | Yasin Ateş',
     meta: [
