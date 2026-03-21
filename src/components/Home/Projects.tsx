@@ -39,14 +39,17 @@ const topicColorClasses = [
 ]
 
 const tagColorMap: Record<string, string> = {
-  orange: styles.tagOrange,
-  blue:   styles.tagBlue,
-  yellow: styles.tagYellow,
-  teal:   styles.tagTeal,
-  green:  styles.tagGreen,
-  red:    styles.tagRed,
-  purple: styles.tagPurple,
-  gray:   styles.tagGray,
+  orange:  styles.tagOrange,
+  blue:    styles.tagBlue,
+  yellow:  styles.tagYellow,
+  teal:    styles.tagTeal,
+  green:   styles.tagGreen,
+  red:     styles.tagRed,
+  purple:  styles.tagPurple,
+  gray:    styles.tagGray,
+  zinc:    styles.tagZinc,
+  fuchsia: styles.tagFuchsia,
+  rose:    styles.tagRose,
 }
 
 function pascalCase(str: string) {

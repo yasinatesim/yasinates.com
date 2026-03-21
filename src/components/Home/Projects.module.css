@@ -167,8 +167,11 @@
 .tagGray   { background-color: #f3f4f6; color: #374151; }
 
 /* OtherProject tag color variants */
-.tagOrange { background-color: #ffedd5; color: #9a3412; }
-.tagTeal   { background-color: #ccfbf1; color: #115e59; }
+.tagOrange  { background-color: #ffedd5; color: #9a3412; }
+.tagTeal    { background-color: #ccfbf1; color: #115e59; }
+.tagZinc    { background-color: #f4f4f5; color: #3f3f46; }
+.tagFuchsia { background-color: #fdf4ff; color: #86198f; }
+.tagRose    { background-color: #fff1f2; color: #9f1239; }
 
 .spacer {
   flex: 1;
