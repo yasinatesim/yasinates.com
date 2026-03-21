@@ -1,21 +1,9 @@
 import { Link } from '@tanstack/react-router'
 import { OTHER_PROJECTS } from '~/constants/projects'
-import { useGithubRepos } from '~/hooks/useGithubRepos'
+import { useGithubRepos, type GithubRepo } from '~/hooks/useGithubRepos'
 import { useReadmeImage } from '~/hooks/useReadmeImage'
 import { useYoutubeFeed } from '~/hooks/useYoutubeFeed'
 import styles from './Projects.module.css'
-
-type GithubRepo = {
-  id: number
-  name: string
-  owner: { login: string }
-  description: string
-  language: string
-  html_url: string
-  topics?: string[]
-  created_at: string
-  fork?: boolean
-}
 
 type OtherProject = {
   image?: string

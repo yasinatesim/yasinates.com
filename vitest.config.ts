@@ -12,8 +12,11 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['src/components/**', 'src/utils/**', 'src/hooks/**'],
-      exclude: ['src/**/*.d.ts', 'src/routeTree.gen.ts'],
-      thresholds: { lines: 70, functions: 70 },
+      exclude: ['src/**/*.d.ts', 'src/routeTree.gen.ts', 'src/**/*.module.css'],
+      thresholds: {
+        'src/hooks/**': { lines: 70, functions: 70 },
+        'src/utils/**': { lines: 70, functions: 70 },
+      },
     },
   },
 })

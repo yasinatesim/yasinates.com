@@ -1,0 +1,258 @@
+/* ── Page section ──────────────────────────────── */
+.section {
+  padding: var(--space-20) 0;
+  background-color: var(--color-white);
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+/* ── Heading ───────────────────────────────────── */
+.heading {
+  text-align: center;
+  margin-bottom: var(--space-16);
+}
+
+.badge {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-primary);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-4);
+}
+
+.title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .title { font-size: var(--font-size-4xl); }
+}
+
+.subtitle {
+  color: var(--color-gray-600);
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+/* ── Inner wrapper ─────────────────────────────── */
+.inner {
+  max-width: 56rem;
+  margin: 0 auto;
+}
+
+/* ── Profile area ──────────────────────────────── */
+.profileArea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-12);
+}
+
+.avatar {
+  width: 10rem;
+  height: 10rem;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  margin-bottom: var(--space-8);
+  border: 4px solid var(--color-primary);
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.name {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-2);
+}
+
+.role {
+  font-size: var(--font-size-lg);
+  color: var(--color-gray-600);
+  margin-bottom: var(--space-6);
+}
+
+/* ── Social links row ──────────────────────────── */
+.socialRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+  justify-content: center;
+}
+
+.socialLink {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--transition-base), color var(--transition-base), transform var(--transition-base);
+  text-decoration: none;
+}
+
+.socialLink:hover {
+  transform: scale(1.05);
+  color: var(--color-white);
+}
+
+.socialGithub    { color: #1f2937; }
+.socialGithub:hover    { background-color: #111827; }
+.socialLinkedin  { color: #1d4ed8; }
+.socialLinkedin:hover  { background-color: #1d4ed8; }
+.socialInstagram { color: #db2777; }
+.socialInstagram:hover { background-color: #db2777; }
+.socialX         { color: #000000; }
+.socialX:hover         { background-color: #000000; }
+.socialMedium    { color: #111827; }
+.socialMedium:hover    { background-color: #111827; }
+.socialDevto     { color: #111827; }
+.socialDevto:hover     { background-color: #111827; }
+
+/* ── Bio ───────────────────────────────────────── */
+.bio {
+  margin-bottom: var(--space-12);
+}
+
+.bioText {
+  font-size: var(--font-size-lg);
+  color: var(--color-gray-700);
+  margin-bottom: var(--space-6);
+  text-align: center;
+}
+
+/* ── Tech section ──────────────────────────────── */
+.techTitle {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-8);
+  text-align: center;
+}
+
+.techGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-8);
+}
+
+/* ── TechItem base ─────────────────────────────── */
+.techItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all var(--transition-base);
+}
+
+.techIcon {
+  width: 4rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid;
+  border-radius: 1rem;
+  box-shadow: var(--shadow-lg);
+  transition: transform 0.2s;
+}
+
+.techItem:hover .techIcon {
+  transform: scale(1.1);
+}
+
+.techName {
+  margin-top: var(--space-3);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+  transition: color var(--transition-base);
+}
+
+/* ── TechItem color variants ───────────────────── */
+.techHtml .techIcon        { border-color: #f97316; color: #f97316; background-color: #fff7ed; }
+.techHtml:hover .techName  { color: #ea580c; }
+
+.techCss .techIcon         { border-color: #3b82f6; color: #3b82f6; background-color: #eff6ff; }
+.techCss:hover .techName   { color: #2563eb; }
+
+.techSass .techIcon        { border-color: #ec4899; color: #ec4899; background-color: #fdf2f8; }
+.techSass:hover .techName  { color: #db2777; }
+
+.techJs .techIcon          { border-color: #eab308; color: #eab308; background-color: #fefce8; }
+.techJs:hover .techName    { color: #ca8a04; }
+
+.techEs6 .techIcon         { border-color: #ca8a04; color: #ca8a04; background-color: #fefce8; }
+.techEs6:hover .techName   { color: #a16207; }
+
+.techBabel .techIcon       { border-color: #eab308; color: #eab308; background-color: #fefce8; }
+.techBabel:hover .techName { color: #ca8a04; }
+
+.techReact .techIcon         { border-color: #60a5fa; color: #60a5fa; background-color: #eff6ff; }
+.techReact:hover .techName   { color: #3b82f6; }
+
+.techRedux .techIcon         { border-color: #a855f7; color: #a855f7; background-color: #faf5ff; }
+.techRedux:hover .techName   { color: #9333ea; }
+
+.techVue .techIcon           { border-color: #10b981; color: #10b981; background-color: #ecfdf5; }
+.techVue:hover .techName     { color: #059669; }
+
+.techNext .techIcon          { border-color: #000000; color: #000000; background-color: #f9fafb; }
+.techNext:hover .techName    { color: #000000; }
+
+.techRemix .techIcon         { border-color: #c026d3; color: #c026d3; background-color: #fdf4ff; }
+.techRemix:hover .techName   { color: #a21caf; }
+
+.techTanstack .techIcon        { border-color: #e11d48; color: #e11d48; background-color: #fff1f2; }
+.techTanstack:hover .techName  { color: #be123c; }
+
+.techStorybook .techIcon        { border-color: #f472b6; color: #f472b6; background-color: #fdf2f8; }
+.techStorybook:hover .techName  { color: #ec4899; }
+
+.techTs .techIcon          { border-color: #1d4ed8; color: #1d4ed8; background-color: #eff6ff; }
+.techTs:hover .techName    { color: #1e40af; }
+
+.techYarn .techIcon        { border-color: #60a5fa; color: #60a5fa; background-color: #eff6ff; }
+.techYarn:hover .techName  { color: #3b82f6; }
+
+.techPnpm .techIcon        { border-color: #d97706; color: #d97706; background-color: #fffbeb; }
+.techPnpm:hover .techName  { color: #b45309; }
+
+.techTailwind .techIcon        { border-color: #0ea5e9; color: #0ea5e9; background-color: #f0f9ff; }
+.techTailwind:hover .techName  { color: #0284c7; }
+
+.techBem .techIcon         { border-color: #374151; color: #374151; background-color: #f9fafb; }
+.techBem:hover .techName   { color: #1f2937; }
+
+.techWebpack .techIcon         { border-color: #2563eb; color: #2563eb; background-color: #eff6ff; }
+.techWebpack:hover .techName   { color: #1d4ed8; }
+
+.techGulp .techIcon        { border-color: #dc2626; color: #dc2626; background-color: #f9fafb; }
+.techGulp:hover .techName  { color: #1f2937; }
+
+.techGraphql .techIcon         { border-color: #db2777; color: #db2777; background-color: #fdf2f8; }
+.techGraphql:hover .techName   { color: #be185d; }
+
+.techPwa .techIcon         { border-color: #4338ca; color: #4338ca; background-color: #eef2ff; }
+.techPwa:hover .techName   { color: #3730a3; }
+
+.techReactNative .techIcon        { border-color: #3b82f6; color: #3b82f6; background-color: #eff6ff; }
+.techReactNative:hover .techName  { color: #2563eb; }
+
+.techNode .techIcon        { border-color: #16a34a; color: #16a34a; background-color: #f0fdf4; }
+.techNode:hover .techName  { color: #15803d; }

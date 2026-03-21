@@ -1,9 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useMediumPosts } from "~/hooks/useMediumPosts"
-import { useDevtoPosts } from "~/hooks/useDevtoPosts"
-import { useState } from "react"
-import { Link } from "@tanstack/react-router"
-import { seo } from "~/utils/seo"
+import { useState } from 'react'
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { useMediumPosts } from '~/hooks/useMediumPosts'
+import { useDevtoPosts } from '~/hooks/useDevtoPosts'
+import { seo } from '~/utils/seo'
+import styles from './blog.module.css'
 
 export const Route = createFileRoute('/blog')({
   component: Blog,
@@ -33,100 +33,137 @@ export const Route = createFileRoute('/blog')({
   }),
 })
 
+type MediumPost = {
+  guid: string
+  title: string
+  description: string
+  thumbnail: string | null
+  readingTime?: string
+}
+
+type DevToPost = {
+  id: number
+  title: string
+  description: string
+  cover_image: string | null
+  reading_time_minutes: number
+}
+
+type Post =
+  | (MediumPost & { source: 'medium' })
+  | (DevToPost & { source: 'devto' })
+
 function Blog() {
   const [tab, setTab] = useState<'all' | 'medium' | 'devto'>('all')
   const mediumPosts = useMediumPosts()
   const devtoPosts = useDevtoPosts()
 
-  let posts: any[] = []
+  const mediumWithSource: Post[] = ((mediumPosts.data as MediumPost[]) ?? []).map(
+    p => ({ ...p, source: 'medium' as const })
+  )
+  const devtoWithSource: Post[] = ((devtoPosts.data as DevToPost[]) ?? []).map(
+    p => ({ ...p, source: 'devto' as const })
+  )
+
+  let posts: Post[] = []
   if (tab === 'all') {
-    posts = [
-      ...(mediumPosts.data || []).map((p: any) => ({ ...p, source: 'medium' })),
-      ...(devtoPosts.data || []).map((p: any) => ({ ...p, source: 'devto' })),
-    ]
+    posts = [...mediumWithSource, ...devtoWithSource]
   } else if (tab === 'medium') {
-    posts = (mediumPosts.data || []).map((p: any) => ({ ...p, source: 'medium' }))
-  } else if (tab === 'devto') {
-    posts = (devtoPosts.data || []).map((p: any) => ({ ...p, source: 'devto' }))
+    posts = mediumWithSource
+  } else {
+    posts = devtoWithSource
   }
 
   return (
-    <>
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Blog Yazılarım</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">Frontend geliştirme, web teknolojileri ve müzik üzerine paylaştığım yazılar.</p>
+    <section className={styles.section}>
+      <div className={styles.container}>
+        <div className={styles.heading}>
+          <h2 className={styles.title}>Blog Yazılarım</h2>
+          <p className={styles.subtitle}>Frontend geliştirme, web teknolojileri ve müzik üzerine paylaştığım yazılar.</p>
+        </div>
+
+        <div className={styles.inner}>
+          <div className={styles.tabRow}>
+            <div className={styles.tabGroup}>
+              <button
+                className={`${styles.tab} ${tab === 'all' ? styles.tabActive : ''}`}
+                onClick={() => setTab('all')}
+              >
+                Tüm Yazılar
+              </button>
+              <button
+                className={`${styles.tab} ${tab === 'medium' ? styles.tabActive : ''}`}
+                onClick={() => setTab('medium')}
+              >
+                Medium
+              </button>
+              <button
+                className={`${styles.tab} ${tab === 'devto' ? styles.tabActive : ''}`}
+                onClick={() => setTab('devto')}
+              >
+                Dev.to
+              </button>
+            </div>
           </div>
-          <div className="max-w-4xl mx-auto">
-            <div className="flex justify-center mb-10">
-              <div className="w-full max-w-md">
-                <div className="relative flex border-b border-gray-200 bg-white rounded-lg shadow-sm overflow-hidden">
-                  <button
-                    className={`flex-1 py-3 text-sm font-semibold ${tab === 'all' ? 'text-primary border-b-2 border-primary bg-gray-50' : 'text-gray-500 hover:text-primary hover:bg-gray-50 border-b-2 border-transparent'} transition-all focus:outline-none`}
-                    onClick={() => setTab('all')}
-                  >
-                    Tüm Yazılar
-                  </button>
-                  <button
-                    className={`flex-1 py-3 text-sm font-semibold ${tab === 'medium' ? 'text-primary border-b-2 border-primary bg-gray-50' : 'text-gray-500 hover:text-primary hover:bg-gray-50 border-b-2 border-transparent'} transition-all focus:outline-none`}
-                    onClick={() => setTab('medium')}
-                  >
-                    Medium
-                  </button>
-                  <button
-                    className={`flex-1 py-3 text-sm font-semibold ${tab === 'devto' ? 'text-primary border-b-2 border-primary bg-gray-50' : 'text-gray-500 hover:text-primary hover:bg-gray-50 border-b-2 border-transparent'} transition-all focus:outline-none`}
-                    onClick={() => setTab('devto')}
-                  >
-                    Dev.to
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="space-y-8">
-              {(mediumPosts.isLoading || devtoPosts.isLoading) && <div>Yükleniyor...</div>}
-              {(mediumPosts.isError || devtoPosts.isError) && <div>Bloglar alınamadı.</div>}
-              {posts.map((post: any) => {
-                // Medium ve Dev.to için farklı alanlar var
-                const isMedium = post.source === 'medium'
-                const id = isMedium ? post.guid?.split('/').pop() : post.id
-                const title = post.title
-                const desc = isMedium ? post.description?.replace(/<[^>]+>/g, '').slice(0, 120) + '...' : post.description?.slice(0, 120) + '...'
-                const image = isMedium
-                  ? (post.thumbnail || (post.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1] ?? ''))
-                  : post.cover_image
-                const reading = isMedium ? (post.readingTime || '5 dk') : ((post.reading_time_minutes || '5') + ' dk')
-                const sourceLabel = isMedium ? 'Medium' : 'Dev.to'
-                const iconClass = isMedium ? 'ri-medium-fill' : 'ri-code-box-fill'
-                return (
-                  <article key={id} className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col md:flex-row card-hover">
-                    <div className="md:w-1/3 h-48 md:h-auto overflow-hidden">
-                      {image && <img src={image} alt={title} className="w-full h-full object-cover object-top" />}
+
+          <div className={styles.postList}>
+            {(mediumPosts.isLoading || devtoPosts.isLoading) && (
+              <div className={styles.status}>Yükleniyor...</div>
+            )}
+            {(mediumPosts.isError || devtoPosts.isError) && (
+              <div className={styles.status}>Bloglar alınamadı.</div>
+            )}
+            {posts.map((post) => {
+              const isMedium = post.source === 'medium'
+              let id: string
+              let desc: string
+              let image: string
+              let reading: string
+              if (isMedium) {
+                id = post.guid.split('/').pop() ?? post.guid
+                desc = (post.description?.replace(/<[^>]+>/g, '').slice(0, 120) ?? '') + '...'
+                image = post.thumbnail
+                  ?? post.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
+                  ?? ''
+                reading = post.readingTime ?? '5 dk'
+              } else {
+                id = String(post.id)
+                desc = (post.description?.slice(0, 120) ?? '') + '...'
+                image = post.cover_image ?? ''
+                reading = `${post.reading_time_minutes ?? 5} dk`
+              }
+              const title = post.title
+              const sourceLabel = isMedium ? 'Medium' : 'Dev.to'
+              const iconClass = isMedium ? 'ri-medium-fill' : 'ri-code-box-fill'
+
+              return (
+                <article key={id} className={styles.article}>
+                  <div className={styles.articleImg}>
+                    {image && <img src={image} alt={title} />}
+                  </div>
+                  <div className={styles.articleBody}>
+                    <div className={styles.articleMeta}>
+                      <span className={styles.metaItem}>
+                        <i className="ri-time-line" aria-hidden="true" /> {reading}
+                      </span>
+                      <span className={styles.metaItem}>
+                        <i className={iconClass} aria-hidden="true" /> {sourceLabel}
+                      </span>
                     </div>
-                    <div className="md:w-2/3 p-6">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-sm text-gray-500 flex items-center gap-1">
-                          <i className="ri-time-line"></i> {reading}
-                        </span>
-                        <span className="text-sm text-gray-500 flex items-center gap-1">
-                          <i className={iconClass}></i> {sourceLabel}
-                        </span>
-                      </div>
-                      <h3 className="text-xl font-semibold mb-3">
-                        <Link to="/$postId" params={{ postId: String(id) }}>{title}</Link>
-                      </h3>
-                      <p className="text-gray-700 mb-4">{desc}</p>
-                      <Link to="/$postId" params={{ postId: String(id) }} className="text-primary font-medium hover:underline flex items-center gap-1">
-                        Devamını oku <i className="ri-arrow-right-line"></i>
-                      </Link>
-                    </div>
-                  </article>
-                )
-              })}
-            </div>
+                    <h3 className={styles.articleTitle}>
+                      <Link to="/$postId" params={{ postId: id }}>{title}</Link>
+                    </h3>
+                    <p className={styles.articleDesc}>{desc}</p>
+                    <Link to="/$postId" params={{ postId: id }} className={styles.readMore}>
+                      Devamını oku <i className="ri-arrow-right-line" aria-hidden="true" />
+                    </Link>
+                  </div>
+                </article>
+              )
+            })}
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   )
 }

@@ -58,7 +58,7 @@ function SocialIcon({ icon }: { icon: string }) {
       </svg>
     )
   }
-  return <i className={`${icon} text-lg`} style={{ color: '#374151' }} aria-hidden="true" />
+  return <i className={icon} style={{ color: '#374151', fontSize: '1.125rem' }} aria-hidden="true" />
 }
 
 const Hero = () => {

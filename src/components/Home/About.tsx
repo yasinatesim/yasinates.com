@@ -89,7 +89,7 @@ const About = () => {
                   aria-label={label}
                   className={`${styles.socialLink} ${colorClass}`}
                 >
-                  <i className={`ri-${label.toLowerCase()}-line text-2xl`} aria-hidden="true" />
+                  <i className={`ri-${label.toLowerCase()}-line`} style={{ fontSize: '1.5rem' }} aria-hidden="true" />
                 </a>
               ))}
             </div>

@@ -1,12 +1,24 @@
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query"
 import axios from "axios"
 
-async function fetchAllGithubRepos() {
+export type GithubRepo = {
+  id: number
+  name: string
+  owner: { login: string }
+  description: string | null
+  language: string | null
+  html_url: string
+  topics?: string[]
+  created_at: string
+  fork?: boolean
+}
+
+async function fetchAllGithubRepos(): Promise<GithubRepo[]> {
   let page = 1;
-  let allRepos: any[] = [];
+  let allRepos: GithubRepo[] = [];
   let perPage = 100;
   while (true) {
-    const res = await axios.get(`https://api.github.com/users/yasinatesim/repos`, {
+    const res = await axios.get<GithubRepo[]>(`https://api.github.com/users/yasinatesim/repos`, {
       params: {
         per_page: perPage,
         page,
@@ -17,7 +29,6 @@ async function fetchAllGithubRepos() {
     if (repos.length < perPage) break;
     page++;
   }
-  console.log("allRepos:", allRepos)
   return allRepos;
 }
 

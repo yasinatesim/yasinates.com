@@ -1,0 +1,320 @@
+/* ── Section ───────────────────────────────────── */
+.section {
+  padding: var(--space-20) 0;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-primary) 5%, transparent),
+    var(--color-white),
+    color-mix(in srgb, var(--color-secondary) 5%, transparent)
+  );
+  position: relative;
+  overflow: hidden;
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Heading ───────────────────────────────────── */
+.heading {
+  text-align: center;
+  margin-bottom: var(--space-16);
+}
+
+.badge {
+  display: inline-block;
+  padding: var(--space-2) var(--space-4);
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-primary);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  margin-bottom: var(--space-4);
+}
+
+.title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .title { font-size: var(--font-size-4xl); }
+}
+
+.subtitle {
+  color: var(--color-gray-600);
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+/* ── Grid ──────────────────────────────────────── */
+.inner {
+  max-width: 72rem;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ── Cards ─────────────────────────────────────── */
+.card {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--color-primary) 10%, white),
+    var(--color-white),
+    color-mix(in srgb, var(--color-secondary) 10%, white)
+  );
+  border-radius: 1rem;
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-8);
+  border: 2px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.02);
+}
+
+@media (min-width: 768px) {
+  .card { padding: var(--space-10); }
+}
+
+/* ── Info card ─────────────────────────────────── */
+.infoSection {
+  margin-bottom: var(--space-8);
+}
+
+.infoTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-6);
+}
+
+.infoList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.contactIcon {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  color: var(--color-primary);
+  border-radius: var(--radius-lg);
+  flex-shrink: 0;
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+.contactItem:hover .contactIcon {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.contactLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-500);
+  margin-bottom: var(--space-1);
+}
+
+.contactValue {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-900);
+  text-decoration: none;
+  transition: color var(--transition-base);
+}
+
+.contactValue:hover {
+  color: var(--color-primary);
+}
+
+/* ── Social links ──────────────────────────────── */
+.socialTitle {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-6);
+}
+
+.socialRow {
+  display: flex;
+  flex-direction: row;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.socialIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--transition-base), color var(--transition-base);
+  text-decoration: none;
+}
+
+.socialGithub    { color: #374151; }
+.socialGithub:hover    { background-color: #111827; color: var(--color-white); }
+.socialLinkedin  { color: #1d4ed8; }
+.socialLinkedin:hover  { background-color: #1d4ed8; color: var(--color-white); }
+.socialX         { color: #111827; }
+.socialX:hover         { background-color: #000000; color: var(--color-white); }
+.socialInstagram { color: #db2777; }
+.socialInstagram:hover { background-color: #db2777; color: var(--color-white); }
+.socialMedium    { color: #1f2937; }
+.socialMedium:hover    { background-color: #1f2937; color: var(--color-white); }
+.socialDevto     { color: #000000; }
+.socialDevto:hover     { background-color: #000000; color: var(--color-white); }
+
+/* ── CTA card ──────────────────────────────────── */
+.ctaCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ctaIconWrapper {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--space-3);
+}
+
+.ctaHeading {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+
+.ctaDesc {
+  color: var(--color-gray-700);
+  text-align: center;
+  max-width: 28rem;
+}
+
+.ctaButtons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
+  margin-top: var(--space-4);
+}
+
+/* ── CTA button base ───────────────────────────── */
+.ctaBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-6);
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+.ctaBtnIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-white);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+.ctaBtnLabel {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-base);
+}
+
+.ctaBtnSub {
+  font-size: var(--font-size-sm);
+  transition: color var(--transition-base);
+}
+
+/* Email CTA */
+.ctaEmail {
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+  color: inherit;
+}
+
+.ctaEmail:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.ctaEmail .ctaBtnIcon {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.ctaEmail:hover .ctaBtnIcon {
+  background-color: var(--color-white);
+  color: var(--color-primary);
+}
+
+.ctaEmail .ctaBtnSub    { color: var(--color-gray-700); }
+.ctaEmail:hover .ctaBtnSub { color: var(--color-white); }
+
+/* LinkedIn CTA */
+.ctaLinkedin {
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: inherit;
+}
+
+.ctaLinkedin:hover {
+  background-color: #1d4ed8;
+  color: var(--color-white);
+}
+
+.ctaLinkedin .ctaBtnIcon {
+  background-color: #1d4ed8;
+  color: var(--color-white);
+}
+
+.ctaLinkedin:hover .ctaBtnIcon {
+  background-color: var(--color-white);
+  color: #1d4ed8;
+}
+
+.ctaLinkedin .ctaBtnSub    { color: var(--color-gray-700); }
+.ctaLinkedin:hover .ctaBtnSub { color: #bfdbfe; }

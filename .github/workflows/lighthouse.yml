@@ -1,0 +1,64 @@
+name: Lighthouse Performance Check
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+  schedule:
+    - cron: '0 9 * * 1'  # Every Monday at 09:00 UTC
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      - name: Run Lighthouse Guard
+        uses: yasinatesim/lighthouse-guard@v1
+        id: lighthouse
+        with:
+          urls: |
+            [
+              {"url": "https://yasinates.com/",          "name": "Home"},
+              {"url": "https://yasinates.com/hakkimda",  "name": "Hakkımda"},
+              {"url": "https://yasinates.com/projeler",  "name": "Projeler"},
+              {"url": "https://yasinates.com/blog",      "name": "Blog"},
+              {"url": "https://yasinates.com/github",    "name": "GitHub"},
+              {"url": "https://yasinates.com/youtube",   "name": "YouTube"}
+            ]
+
+          # 3 measurements → median score (eliminates outliers)
+          runs: 3
+          strategy: median
+          devices: mobile,desktop
+
+          # Thresholds — must not degrade (per CLAUDE.md)
+          performance-threshold: 80
+          accessibility-threshold: 90
+          seo-threshold: 90
+          best-practices-threshold: 80
+          fail-on-threshold: true
+
+          # Ban protection: random jitter added automatically (+0-30%)
+          delay-between-runs: 10000
+          delay-between-pages: 15000
+          max-retries: 3
+
+          # Posts score table as a PR comment
+          github-token: ${{ github.token }}
+
+          # Dashboard → Actions → Artifacts → lighthouse-dashboard → open index.html
+          upload-dashboard: true
+
+      - name: Show Results
+        if: always()
+        run: |
+          echo "passed  : ${{ steps.lighthouse.outputs.passed }}"
+          echo "summary : ${{ steps.lighthouse.outputs.summary }}"
