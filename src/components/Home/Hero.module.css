@@ -1,0 +1,286 @@
+/* ── Section ──────────────────────────────────── */
+.section {
+  position: relative;
+  min-height: calc(100vh - 6rem);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ffffff 0%, rgba(59, 130, 246, 0.1) 50%, rgba(99, 102, 241, 0.2) 100%);
+  overflow: hidden;
+}
+
+/* ── Animated background blobs ────────────────── */
+.blobBg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.blob1 {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(99, 102, 241, 0.2) 100%);
+  border-radius: var(--radius-full);
+  filter: blur(64px);
+  animation: blob1 8s ease-in-out infinite;
+}
+
+.blob2 {
+  position: absolute;
+  bottom: -10%;
+  right: -10%;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, rgba(59, 130, 246, 0.1) 100%);
+  border-radius: var(--radius-full);
+  filter: blur(48px);
+  animation: blob2 10s ease-in-out infinite;
+}
+
+@keyframes blob1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(30px, -20px) scale(1.05); }
+  66%       { transform: translate(-20px, 15px) scale(0.95); }
+}
+
+@keyframes blob2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(-25px, 20px) scale(1.08); }
+  66%       { transform: translate(15px, -10px) scale(0.97); }
+}
+
+/* ── Container ────────────────────────────────── */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+  position: relative;
+  z-index: 10;
+}
+
+.content {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: var(--space-20);
+  padding: var(--space-16) 0;
+}
+
+@media (min-width: 768px) {
+  .content {
+    flex-direction: row;
+  }
+}
+
+/* ── Left side ────────────────────────────────── */
+.left {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+@media (min-width: 768px) {
+  .left {
+    width: 50%;
+  }
+}
+
+.h1 {
+  font-size: var(--font-size-3xl);
+  font-weight: 800;
+  color: var(--color-gray-900);
+  margin-bottom: var(--space-4);
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.025em;
+}
+
+@media (min-width: 768px) {
+  .h1 {
+    font-size: var(--font-size-5xl);
+  }
+}
+
+.nameBlock {
+  display: block;
+}
+
+.roleBlock {
+  display: block;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  margin-top: var(--space-2);
+}
+
+@media (min-width: 768px) {
+  .roleBlock {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+.desc {
+  font-size: var(--font-size-base);
+  color: var(--color-gray-600);
+  margin-bottom: var(--space-6);
+  max-width: 32rem;
+}
+
+@media (min-width: 768px) {
+  .desc {
+    font-size: var(--font-size-lg);
+  }
+}
+
+/* ── Social icons row ─────────────────────────── */
+.socialRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  margin-bottom: var(--space-8);
+}
+
+.socialLink {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background-color: transparent;
+  transition: background-color var(--transition-base), transform var(--transition-base);
+  text-decoration: none;
+  font-size: var(--font-size-lg);
+  color: var(--color-gray-700);
+}
+
+.socialLink:hover {
+  transform: scale(1.1) translateY(-4px);
+}
+
+.socialGithub:hover    { background-color: #e5e7eb; }
+.socialLinkedin:hover  { background-color: #dbeafe; }
+.socialInstagram:hover { background-color: #fce7f3; }
+.socialX:hover         { background-color: #d1d5db; }
+.socialMedium:hover    { background-color: #d1d5db; }
+.socialDevto:hover     { background-color: #e5e7eb; }
+
+/* ── Buttons ──────────────────────────────────── */
+.buttons {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-3) var(--space-6);
+  background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+  color: var(--color-white);
+  font-weight: var(--font-weight-bold);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
+  transition: transform var(--transition-fast);
+}
+
+.btnPrimary:hover {
+  transform: scale(1.05);
+}
+
+.btnIcon {
+  margin-left: var(--space-2);
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--space-3) var(--space-6);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-bold);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.btnSecondary:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* ── Right side (tech icons) ──────────────────── */
+.right {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .right {
+    display: flex;
+    width: 50%;
+  }
+}
+
+.techCanvas {
+  position: relative;
+  width: 26rem;
+  height: 26rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.techBg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.25;
+}
+
+.techIcon {
+  position: absolute;
+}
+
+/* Floating keyframe animations */
+@keyframes float0 {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes float1 {
+  0%, 100% { transform: translateY(0px) rotate(5deg); }
+  50%       { transform: translateY(-8px) rotate(-3deg); }
+}
+
+@keyframes float2 {
+  0%, 100% { transform: translateY(0px) rotate(-5deg); }
+  50%       { transform: translateY(-15px) rotate(3deg); }
+}
+
+/* ── Wave decoration ──────────────────────────── */
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.waveSvg {
+  width: 100%;
+  height: auto;
+  display: block;
+}

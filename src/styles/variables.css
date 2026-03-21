@@ -23,6 +23,11 @@
   --color-green-400: #4ade80;
   --color-green-600: #16a34a;
   --color-pink-500: #ec4899;
+  --color-red-600: #dc2626;
+  --color-indigo-50: #eef2ff;
+  --color-zinc-50: #fafafa;
+  --color-stone-800: #292524;
+  --color-secondary: #6366f1;
 
   /* Typography */
   --font-family: 'Inter', sans-serif;

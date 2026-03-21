@@ -1,0 +1,149 @@
+.section {
+  padding: var(--space-20) 0;
+  background-color: var(--color-indigo-50);
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: var(--space-16);
+}
+
+.title {
+  font-size: var(--font-size-4xl);
+  font-weight: 800;
+  margin-bottom: var(--space-4);
+  color: var(--color-primary);
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: var(--font-size-5xl);
+  }
+}
+
+.subtitle {
+  color: var(--color-gray-600);
+  max-width: 42rem;
+  margin: 0 auto;
+  font-size: var(--font-size-lg);
+}
+
+/* ── Card ─────────────────────────────────────── */
+.cardWrapper {
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(16px);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-8);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: var(--space-12);
+  }
+}
+
+/* ── Mail section ─────────────────────────────── */
+.mailSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--space-10);
+}
+
+.mailIcon {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: var(--radius-full);
+  background-color: rgba(59, 130, 246, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-4);
+  color: var(--color-white);
+  font-size: var(--font-size-2xl);
+}
+
+.mailText {
+  font-size: var(--font-size-base);
+  color: var(--color-gray-700);
+  margin-bottom: var(--space-2);
+  text-align: center;
+}
+
+.mailLink {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  transition: text-decoration var(--transition-base);
+}
+
+.mailLink:hover {
+  text-decoration: underline;
+}
+
+/* ── Social section ───────────────────────────── */
+.socialSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.socialTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-5);
+  color: #000;
+}
+
+.socialList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.socialLink {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+  text-decoration: none;
+  font-size: var(--font-size-xl);
+}
+
+.socialGithub    { border: 1px solid #e5e7eb; color: #374151; }
+.socialGithub:hover    { background-color: #111827; color: var(--color-white); }
+
+.socialLinkedin  { border: 1px solid #dbeafe; color: #1d4ed8; }
+.socialLinkedin:hover  { background-color: #1d4ed8; color: var(--color-white); }
+
+.socialInstagram { border: 1px solid #fce7f3; color: #db2777; }
+.socialInstagram:hover { background-color: #db2777; color: var(--color-white); }
+
+.socialX         { border: 1px solid #e5e7eb; color: #111827; }
+.socialX:hover         { background-color: #000000; color: var(--color-white); }
+
+.socialMedium    { border: 1px solid #e5e7eb; color: #374151; }
+.socialMedium:hover    { background-color: #1f2937; color: var(--color-white); }
+
+.socialDevto     { border: 1px solid #e5e7eb; color: #000000; }
+.socialDevto:hover     { background-color: #000000; color: var(--color-white); }

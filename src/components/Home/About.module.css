@@ -1,0 +1,193 @@
+.section {
+  padding: var(--space-20) 0;
+  background-color: var(--color-white);
+}
+
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: var(--space-16);
+}
+
+.title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: var(--font-size-4xl);
+  }
+}
+
+.subtitle {
+  color: var(--color-gray-600);
+  max-width: 42rem;
+  margin: 0 auto;
+}
+
+/* ── Two-column layout ────────────────────────── */
+.columns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-12);
+}
+
+@media (min-width: 768px) {
+  .columns {
+    flex-direction: row;
+  }
+}
+
+.leftCol {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .leftCol {
+    width: 40%;
+  }
+}
+
+.rightCol {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .rightCol {
+    width: 60%;
+  }
+}
+
+/* ── Image with offset shadow ─────────────────── */
+.imageWrapper {
+  position: relative;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.imageWrapper::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-stone-800);
+  top: 4px;
+  left: 4px;
+  z-index: 0;
+  border-radius: var(--radius-lg);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+  border-radius: var(--radius-lg);
+  display: block;
+}
+
+/* ── Text content ─────────────────────────────── */
+.bodyText {
+  font-size: var(--font-size-lg);
+  color: var(--color-gray-700);
+  margin-bottom: var(--space-6);
+}
+
+.bodyTextLast {
+  font-size: var(--font-size-lg);
+  color: var(--color-gray-700);
+  margin-bottom: var(--space-8);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-4);
+}
+
+/* ── Tech icons ───────────────────────────────── */
+.techGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+  margin-bottom: var(--space-10);
+}
+
+.techItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.techBox {
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-2);
+  border-width: 1px;
+  border-style: solid;
+}
+
+.techLabel {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-700);
+}
+
+/* Individual tech icon colors */
+.techHtml   { border-color: #f97316; color: #f97316; background-color: #fff7ed; }
+.techCss    { border-color: #3b82f6; color: #3b82f6; background-color: #eff6ff; }
+.techSass   { border-color: #ec4899; color: #ec4899; background-color: #fdf2f8; }
+.techJs     { border-color: #eab308; color: #eab308; background-color: #fefce8; }
+.techEs6    { border-color: #ca8a04; color: #ca8a04; background-color: #fefce8; }
+.techReact  { border-color: #60a5fa; color: #60a5fa; background-color: #eff6ff; }
+.techRedux  { border-color: #a855f7; color: #a855f7; background-color: #faf5ff; }
+.techNextjs { border-color: #000000; color: #000000; background-color: #f3f4f6; }
+.techSb     { border-color: #f472b6; color: #f472b6; background-color: #fdf2f8; }
+.techTs     { border-color: #1d4ed8; color: #1d4ed8; background-color: #eff6ff; }
+
+/* ── Social links ─────────────────────────────── */
+.socialGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-6);
+}
+
+.socialLink {
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-full);
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: var(--shadow-md);
+  transition: background-color var(--transition-base), box-shadow var(--transition-base), transform var(--transition-base), border-color var(--transition-base);
+  text-decoration: none;
+}
+
+.socialLink:hover {
+  background-color: rgba(255, 255, 255, 0.7);
+  box-shadow: var(--shadow-lg);
+  transform: scale(1.1) translateY(-4px);
+}
+
+.socialGithub:hover    { border-color: #111827; }
+.socialLinkedin:hover  { border-color: #1d4ed8; }
+.socialInstagram:hover { border-color: #ec4899; }
+.socialX:hover         { border-color: #000000; }
+.socialMedium:hover    { border-color: #111827; }
+.socialDevto:hover     { border-color: #000000; }

@@ -9,7 +9,7 @@
 }
 
 .container {
-  max-width: var(--container-max-width);
+  max-width: var(--container-max);
   margin: 0 auto;
   padding: var(--space-4) var(--space-4);
   display: flex;
@@ -96,7 +96,7 @@
 }
 
 .mobileNav {
-  max-width: var(--container-max-width);
+  max-width: var(--container-max);
   margin: 0 auto;
   padding: var(--space-2) var(--space-4);
   display: flex;
