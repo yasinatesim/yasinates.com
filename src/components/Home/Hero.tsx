@@ -1,4 +1,4 @@
-import styles from './Hero.module.css'
+import styles from './Hero.module.scss'
 
 const techIcons = [
   { icon: 'ri-html5-line',       color: '#f97316', label: 'HTML5' },

@@ -3,7 +3,7 @@ import { OTHER_PROJECTS } from '~/constants/projects'
 import { useGithubRepos, type GithubRepo } from '~/hooks/useGithubRepos'
 import { useReadmeImage } from '~/hooks/useReadmeImage'
 import { useYoutubeFeed } from '~/hooks/useYoutubeFeed'
-import styles from './Projects.module.css'
+import styles from './Projects.module.scss'
 
 type OtherProject = {
   image?: string

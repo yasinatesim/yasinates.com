@@ -1,14 +1,46 @@
 import { type ReactNode } from 'react'
-import { createFileRoute, useParams, Link } from '@tanstack/react-router'
+import { createFileRoute, useParams, Link, redirect } from '@tanstack/react-router'
+import { TuvixApp } from '@tuvix.js/react'
 import { useMediumPosts } from '~/hooks/useMediumPosts'
 import { useDevtoPosts } from '~/hooks/useDevtoPosts'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
+import { slugify } from '~/utils/slugify'
 import { seo } from '~/utils/seo'
-import styles from './$postId.module.css'
+import styles from './$postId.module.scss'
 
 export const Route = createFileRoute('/$postId')({
-  component: () => <div data-tuvix-app="blog-app" />,
+  loader: async ({ params }) => {
+    const { postId } = params
+    // Old Medium format: 8–16 lowercase hex chars, no dashes (e.g. 40b59079697f)
+    if (/^[0-9a-f]{8,16}$/.test(postId)) {
+      try {
+        const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@yasinatesim')
+        const data = await res.json() as { items?: Array<{ guid: string; title: string }> }
+        const post = data.items?.find(p => p.guid?.split('/').pop() === postId)
+        if (post) {
+          throw redirect({ to: '/$postId', params: { postId: `${slugify(post.title)}-${postId}` }, statusCode: 301 })
+        }
+      } catch (e: unknown) {
+        if (e && typeof e === 'object' && 'statusCode' in e) throw e
+      }
+    }
+    // Old Dev.to format: pure numeric ID (e.g. 123456)
+    if (/^\d{5,}$/.test(postId)) {
+      try {
+        const res = await fetch('https://dev.to/api/articles?username=yasinatesim')
+        const data = await res.json() as Array<{ id: number; slug: string }>
+        const post = data.find(p => String(p.id) === postId)
+        if (post?.slug) {
+          throw redirect({ to: '/$postId', params: { postId: post.slug }, statusCode: 301 })
+        }
+      } catch (e: unknown) {
+        if (e && typeof e === 'object' && 'statusCode' in e) throw e
+      }
+    }
+    return {}
+  },
+  component: () => <TuvixApp name="blog-app" App={PostDetail} />,
   head: ({ params }) => {
     const title = 'Blog Yazısı Başlığı'
     const description = 'Blog yazısının kısa özeti veya ilk 150 karakteri.'
@@ -56,6 +88,7 @@ type MediumPost = {
 
 type DevToPost = {
   id: number
+  slug: string
   title: string
   description: string
   cover_image: string | null
@@ -131,15 +164,14 @@ function PostDetail() {
   }
 
   const posts: Post[] = [
-    ...((mediumPosts.data as MediumPost[]) ?? []).map(p => ({
-      ...p,
-      source: 'medium' as const,
-      id: p.guid?.split('/').pop() ?? p.guid,
-    })),
+    ...((mediumPosts.data as MediumPost[]) ?? []).map(p => {
+      const hash = p.guid?.split('/').pop() ?? p.guid
+      return { ...p, source: 'medium' as const, id: slugify(p.title) + '-' + hash }
+    }),
     ...((devtoPosts.data as DevToPost[]) ?? []).map(p => ({
       ...p,
       source: 'devto' as const,
-      id: String(p.id),
+      id: p.slug,
     })),
   ]
 
@@ -158,6 +190,7 @@ function PostDetail() {
   if (isMedium) {
     image = post.thumbnail
       ?? post.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
+      ?? post.content?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
       ?? ''
     reading = post.readingTime ?? '5 dk'
     content = cleanMediumContent(post.content, post.title, image || undefined)
@@ -202,7 +235,10 @@ function PostDetail() {
               {otherPosts.map((p) => {
                 const isMediumOther = p.source === 'medium'
                 const img = isMediumOther
-                  ? (p.thumbnail ?? p.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1] ?? '')
+                  ? (p.thumbnail
+                      ?? p.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
+                      ?? p.content?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
+                      ?? '')
                   : (p.cover_image ?? '')
                 return (
                   <Link

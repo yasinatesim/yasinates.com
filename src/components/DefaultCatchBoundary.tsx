@@ -6,7 +6,7 @@ import {
   useRouter,
 } from '@tanstack/react-router'
 import type { ErrorComponentProps } from '@tanstack/react-router'
-import styles from './DefaultCatchBoundary.module.css'
+import styles from './DefaultCatchBoundary.module.scss'
 
 export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
   const router = useRouter()

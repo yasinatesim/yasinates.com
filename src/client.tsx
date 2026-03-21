@@ -26,5 +26,8 @@ setTimeout(() => {
   // navigations that happen AFTER initialization.
   router.subscribe('onLoad', () => {
     orchestrator.reconcile(window.location.pathname)
+    // Notify micro apps (e.g. blog-app) that the URL changed so they can
+    // re-render their internal router without a full remount.
+    window.dispatchEvent(new CustomEvent('tuvix:pathchange'))
   })
 }, 0)

@@ -1,7 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { useDevtoPosts } from '~/hooks/useDevtoPosts'
 import { useMediumPosts } from '~/hooks/useMediumPosts'
-import styles from './Blogs.module.css'
+import styles from './Blogs.module.scss'
 
 type MediumPost = {
   guid: string

@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
+import { TuvixApp } from '@tuvix.js/react'
 import { useMediumPosts } from '~/hooks/useMediumPosts'
 import { useDevtoPosts } from '~/hooks/useDevtoPosts'
+import { slugify } from '~/utils/slugify'
 import { seo } from '~/utils/seo'
-import styles from './blog.module.css'
+import styles from './blog.module.scss'
 
 export const Route = createFileRoute('/blog')({
-  component: () => <div data-tuvix-app="blog-app" />,
+  component: () => <TuvixApp name="blog-app" App={Blog} />,
   head: () => ({
     title: 'Blog | Yasin Ateş',
     meta: [
@@ -37,12 +39,14 @@ type MediumPost = {
   guid: string
   title: string
   description: string
+  content?: string
   thumbnail: string | null
   readingTime?: string
 }
 
 type DevToPost = {
   id: number
+  slug: string
   title: string
   description: string
   cover_image: string | null
@@ -120,14 +124,16 @@ function Blog() {
               let image: string
               let reading: string
               if (isMedium) {
-                id = post.guid.split('/').pop() ?? post.guid
+                const hash = post.guid.split('/').pop() ?? post.guid
+                id = slugify(post.title) + '-' + hash
                 desc = (post.description?.replace(/<[^>]+>/g, '').slice(0, 120) ?? '') + '...'
                 image = post.thumbnail
                   ?? post.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
+                  ?? post.content?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
                   ?? ''
                 reading = post.readingTime ?? '5 dk'
               } else {
-                id = String(post.id)
+                id = post.slug
                 desc = (post.description?.slice(0, 120) ?? '') + '...'
                 image = post.cover_image ?? ''
                 reading = `${post.reading_time_minutes ?? 5} dk`

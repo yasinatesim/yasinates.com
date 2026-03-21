@@ -3,16 +3,17 @@
  * Routes between BlogList and PostDetail based on window.location.pathname.
  * Uses <a href> for navigation (full-page for SSR, event-bus for future SPA mode).
  */
-import { useState, type ReactNode } from 'react'
+import { useState, useEffect, type ReactNode } from 'react'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { Suspense } from 'react'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { useMediumPosts } from '~/hooks/useMediumPosts'
 import { useDevtoPosts } from '~/hooks/useDevtoPosts'
+import { slugify } from '~/utils/slugify'
 import { sharedQueryClient } from '../_shared/queryClient'
-import blogStyles from '~/routes/blog.module.css'
-import postStyles from '~/routes/$postId.module.css'
+import blogStyles from '~/routes/blog.module.scss'
+import postStyles from '~/routes/$postId.module.scss'
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -27,6 +28,7 @@ type MediumPost = {
 
 type DevToPost = {
   id: number
+  slug: string
   title: string
   description: string
   cover_image: string | null
@@ -98,11 +100,12 @@ function BlogList() {
   const mediumPosts = useMediumPosts()
   const devtoPosts = useDevtoPosts()
 
-  const mediumWithSource: Post[] = ((mediumPosts.data as MediumPost[]) ?? []).map(
-    p => ({ ...p, source: 'medium' as const, id: p.guid?.split('/').pop() ?? p.guid })
-  )
+  const mediumWithSource: Post[] = ((mediumPosts.data as MediumPost[]) ?? []).map(p => {
+    const hash = p.guid?.split('/').pop() ?? p.guid
+    return { ...p, source: 'medium' as const, id: slugify(p.title) + '-' + hash }
+  })
   const devtoWithSource: Post[] = ((devtoPosts.data as DevToPost[]) ?? []).map(
-    p => ({ ...p, source: 'devto' as const, id: String(p.id) })
+    p => ({ ...p, source: 'devto' as const, id: p.slug })
   )
 
   let posts: Post[] = []
@@ -139,7 +142,10 @@ function BlogList() {
               let reading: string
               if (isMedium) {
                 desc = (post.description?.replace(/<[^>]+>/g, '').slice(0, 120) ?? '') + '...'
-                image = post.thumbnail ?? post.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1] ?? ''
+                image = post.thumbnail
+                  ?? post.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
+                  ?? post.content?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
+                  ?? ''
                 reading = post.readingTime ?? '5 dk'
               } else {
                 desc = (post.description?.slice(0, 120) ?? '') + '...'
@@ -193,11 +199,12 @@ function PostDetail({ postId }: { postId: string }) {
   }
 
   const posts: Post[] = [
-    ...((mediumPosts.data as MediumPost[]) ?? []).map(p => ({
-      ...p, source: 'medium' as const, id: p.guid?.split('/').pop() ?? p.guid,
-    })),
+    ...((mediumPosts.data as MediumPost[]) ?? []).map(p => {
+      const hash = p.guid?.split('/').pop() ?? p.guid
+      return { ...p, source: 'medium' as const, id: slugify(p.title) + '-' + hash }
+    }),
     ...((devtoPosts.data as DevToPost[]) ?? []).map(p => ({
-      ...p, source: 'devto' as const, id: String(p.id),
+      ...p, source: 'devto' as const, id: p.slug,
     })),
   ]
 
@@ -211,7 +218,10 @@ function PostDetail({ postId }: { postId: string }) {
   let reading: string
   let content: string
   if (isMedium) {
-    image = post.thumbnail ?? post.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1] ?? ''
+    image = post.thumbnail
+      ?? post.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
+      ?? post.content?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
+      ?? ''
     reading = post.readingTime ?? '5 dk'
     content = cleanMediumContent(post.content, post.title, image || undefined)
   } else {
@@ -245,7 +255,10 @@ function PostDetail({ postId }: { postId: string }) {
               {otherPosts.map((p) => {
                 const isMediumOther = p.source === 'medium'
                 const img = isMediumOther
-                  ? (p.thumbnail ?? p.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1] ?? '')
+                  ? (p.thumbnail
+                      ?? p.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
+                      ?? p.content?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
+                      ?? '')
                   : (p.cover_image ?? '')
                 return (
                   <a key={p.id} href={`/${p.id}`} className={postStyles.otherLink}>
@@ -271,6 +284,15 @@ function PostDetail({ postId }: { postId: string }) {
 // ─── BlogApp (URL router) ────────────────────────────────────────────────────
 
 function BlogRouter() {
+  // Re-render when TanStack Router navigates (pushState doesn't fire popstate).
+  // client.tsx dispatches 'tuvix:pathchange' after every router.subscribe('onLoad').
+  const [, setPathVersion] = useState(0)
+  useEffect(() => {
+    const handler = () => setPathVersion(v => v + 1)
+    window.addEventListener('tuvix:pathchange', handler)
+    return () => window.removeEventListener('tuvix:pathchange', handler)
+  }, [])
+
   const postId = getPostIdFromPath()
   return postId ? <PostDetail postId={postId} /> : <BlogList />
 }

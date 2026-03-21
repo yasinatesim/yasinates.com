@@ -1,4 +1,4 @@
-import styles from './About.module.css'
+import styles from './About.module.scss'
 
 const techItems = [
   { label: 'HTML5',      colorClass: styles.techHtml,   icon: <i className="ri-html5-fill ri-2x" aria-hidden="true" /> },
@@ -40,12 +40,12 @@ const techItems = [
 ]
 
 const socialLinks = [
-  { href: 'https://github.com/yasinatesim',   label: 'GitHub',    colorClass: styles.socialGithub },
-  { href: 'https://linkedin.com/in/yasinatesim', label: 'LinkedIn', colorClass: styles.socialLinkedin },
-  { href: 'https://instagram.com/yasinatesim', label: 'Instagram', colorClass: styles.socialInstagram },
-  { href: 'https://twitter.com/yasinatesim',  label: 'X',         colorClass: styles.socialX },
-  { href: 'https://medium.com/@yasinatesim', label: 'Medium',    colorClass: styles.socialMedium },
-  { href: 'https://dev.to/yasinatesim',      label: 'Dev.to',    colorClass: styles.socialDevto },
+  { href: 'https://github.com/yasinatesim',      label: 'GitHub',    icon: 'ri-github-line',    colorClass: styles.socialGithub },
+  { href: 'https://linkedin.com/in/yasinatesim', label: 'LinkedIn',  icon: 'ri-linkedin-line',  colorClass: styles.socialLinkedin },
+  { href: 'https://instagram.com/yasinatesim',   label: 'Instagram', icon: 'ri-instagram-line', colorClass: styles.socialInstagram },
+  { href: 'https://twitter.com/yasinatesim',     label: 'X',         icon: 'ri-twitter-x-line', colorClass: styles.socialX },
+  { href: 'https://medium.com/@yasinatesim',     label: 'Medium',    icon: 'ri-medium-fill',    colorClass: styles.socialMedium },
+  { href: 'https://dev.to/yasinatesim',          label: 'Dev.to',    icon: 'ri-code-box-fill',  colorClass: styles.socialDevto },
 ]
 
 const About = () => {
@@ -80,7 +80,7 @@ const About = () => {
             </div>
             <h3 className={styles.sectionTitle}>Sosyal Medya</h3>
             <div className={styles.socialGrid}>
-              {socialLinks.map(({ href, label, colorClass }) => (
+              {socialLinks.map(({ href, label, icon, colorClass }) => (
                 <a
                   key={href}
                   href={href}
@@ -89,7 +89,7 @@ const About = () => {
                   aria-label={label}
                   className={`${styles.socialLink} ${colorClass}`}
                 >
-                  <i className={`ri-${label.toLowerCase()}-line`} style={{ fontSize: '1.5rem' }} aria-hidden="true" />
+                  <i className={icon} style={{ fontSize: '1.5rem' }} aria-hidden="true" />
                 </a>
               ))}
             </div>

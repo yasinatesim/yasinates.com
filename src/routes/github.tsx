@@ -1,13 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { TuvixApp } from '@tuvix.js/react'
 import { useGithubRepos, type GithubRepo } from '~/hooks/useGithubRepos'
 import { useReadmeImage } from '~/hooks/useReadmeImage'
 import { seo } from '~/utils/seo'
-import styles from './github.module.css'
+import styles from './github.module.scss'
 
-// 🎯 Micro frontend shell — content is loaded by the tuvix.js orchestrator.
-// The IIFE bundle at /micro-apps/github-app/main.js mounts into this container.
 export const Route = createFileRoute('/github')({
-  component: () => <div data-tuvix-app="github-app" />,
+  component: () => <TuvixApp name="github-app" App={GithubPage} />,
   head: () => ({
     title: 'GitHub Projeleri | Yasin Ateş',
     meta: [

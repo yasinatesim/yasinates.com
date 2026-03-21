@@ -1,13 +1,14 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { TuvixApp } from '@tuvix.js/react'
 import { useGithubRepos, type GithubRepo } from '~/hooks/useGithubRepos'
 import { useReadmeImage } from '~/hooks/useReadmeImage'
 import { OTHER_PROJECTS } from '~/constants/projects'
 import { useYoutubeFeed } from '~/hooks/useYoutubeFeed'
 import { seo } from '~/utils/seo'
-import styles from './projeler.module.css'
+import styles from './projeler.module.scss'
 
 export const Route = createFileRoute('/projeler')({
-  component: () => <div data-tuvix-app="projects-app" />,
+  component: () => <TuvixApp name="projects-app" App={ProjelerPage} />,
   head: () => ({
     title: 'Projeler | Yasin Ateş',
     meta: [
