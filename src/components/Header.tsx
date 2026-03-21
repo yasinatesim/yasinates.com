@@ -9,7 +9,7 @@ const Header = () => {
 		setIsMobileMenuOpen(!isMobileMenuOpen)
 	}
 
-	const isActive = (path) => {
+	const isActive = (path: string) => {
 		return location.pathname === path
 	}
 

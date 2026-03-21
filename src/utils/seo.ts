@@ -1,3 +1,8 @@
+type MetaTag =
+  | { title: string }
+  | { name: string; content: string }
+  | { property: string; content: string }
+
 export const seo = ({
   title,
   description,
@@ -8,26 +13,35 @@ export const seo = ({
   description?: string
   image?: string
   keywords?: string
-}) => {
-  const tags = [
+}): MetaTag[] => {
+  const tags: MetaTag[] = [
     { title },
-    { name: 'description', content: description },
-    { name: 'keywords', content: keywords },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:title', content: title },
     { name: 'twitter:title', content: title },
-    { name: 'twitter:description', content: description },
-    { name: 'twitter:creator', content: '@tannerlinsley' },
-    { name: 'twitter:site', content: '@tannerlinsley' },
-    { name: 'og:type', content: 'website' },
-    { name: 'og:title', content: title },
-    { name: 'og:description', content: description },
-    ...(image
-      ? [
-          { name: 'twitter:image', content: image },
-          { name: 'twitter:card', content: 'summary_large_image' },
-          { name: 'og:image', content: image },
-        ]
-      : []),
+    { name: 'twitter:creator', content: '@yasinatesim' },
+    { name: 'twitter:site', content: '@yasinatesim' },
   ]
+
+  if (description) {
+    tags.push(
+      { name: 'description', content: description },
+      { property: 'og:description', content: description },
+      { name: 'twitter:description', content: description },
+    )
+  }
+
+  if (keywords) {
+    tags.push({ name: 'keywords', content: keywords })
+  }
+
+  if (image) {
+    tags.push(
+      { property: 'og:image', content: image },
+      { name: 'twitter:image', content: image },
+      { name: 'twitter:card', content: 'summary_large_image' },
+    )
+  }
 
   return tags
 }

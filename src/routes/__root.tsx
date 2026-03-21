@@ -5,8 +5,6 @@ import {
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import * as React from 'react'
 import type { QueryClient } from '@tanstack/react-query'
 import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary'
@@ -16,62 +14,51 @@ import { seo } from '~/utils/seo'
 import Header from '~/components/Header'
 import Footer from '~/components/Footer'
 
+const RouterDevtools =
+  import.meta.env.DEV
+    ? React.lazy(() =>
+        import('@tanstack/react-router-devtools').then((m) => ({
+          default: m.TanStackRouterDevtools,
+        })),
+      )
+    : () => null
+
+const QueryDevtools =
+  import.meta.env.DEV
+    ? React.lazy(() =>
+        import('@tanstack/react-query-devtools').then((m) => ({
+          default: m.ReactQueryDevtools,
+        })),
+      )
+    : () => null
+
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
   head: () => ({
     meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
+      { charSet: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       ...seo({
         title: 'Yasin Ateş | Frontend Developer, Web & Müzik',
         description: `Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri.`,
+        image: 'https://yasinates.com/yasin-ates-hakkimda.jpg',
+        keywords: 'frontend, yazılım, web, müzik, yasin ateş, developer, react, blog, proje',
       }),
-
-      { name: 'keywords', content: 'frontend, yazılım, web, müzik, yasin ateş, developer, react, blog, proje' },
-      { name: 'twitter:creator', content: '@yasinatesim' },
-      { name: 'twitter:site', content: '@yasinatesim' },
-      { property: 'og:type', content: 'website' },
-      { property: 'og:title', content: 'Yasin Ateş | Frontend Developer, Web & Müzik' },
-      { property: 'og:description', content: "Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri." },
-      { property: 'og:image', content: 'https://yasinates.com/yasin-ates-hakkimda.jpg' },
-      { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Yasin Ateş | Frontend Developer, Web & Müzik' },
-      { name: 'twitter:description', content: "Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri." },
-      { name: 'twitter:image', content: 'https://yasinates.com/yasin-ates-hakkimda.jpg' },
-      { name: 'canonical', content: 'https://yasinates.com/' },
     ],
     links: [
       { rel: 'stylesheet', href: appCss },
-      {
-        rel: 'apple-touch-icon',
-        sizes: '180x180',
-        href: '/apple-touch-icon.png',
-      },
-      {
-        rel: 'icon',
-        type: 'image/png',
-        sizes: '32x32',
-        href: '/favicon-32x32.png',
-      },
-      {
-        rel: 'icon',
-        type: 'image/png',
-        sizes: '16x16',
-        href: '/favicon-16x16.png',
-      },
+      { rel: 'canonical', href: 'https://yasinates.com/' },
+      { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+      { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
+      { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
       { rel: 'manifest', href: '/site.webmanifest', color: '#fffff' },
       { rel: 'icon', href: '/favicon.ico' },
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Pacifico&display=swap' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap' },
-      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css' }
+      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css' },
     ],
   }),
   errorComponent: (props) => {
@@ -100,12 +87,14 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <title id="main-title">Yasin Ateş | Frontend Developer, Web & Müzik</title>
         <HeadContent />
       </head>
-      <body className='bg-gray-50'>
+      <body>
         <Header />
         {children}
         <Footer />
-        <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
+        <React.Suspense>
+          <RouterDevtools position="bottom-right" />
+          <QueryDevtools buttonPosition="bottom-left" />
+        </React.Suspense>
         <Scripts />
       </body>
     </html>
