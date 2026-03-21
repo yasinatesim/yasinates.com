@@ -75,7 +75,7 @@ function YoutubeCard({ video }: { video: YoutubeVideo }) {
   )
 }
 
-function YoutubePage() {
+export function YoutubePage() {
   const youtubeFeed = useYoutubeFeed()
   return (
     <section className={styles.section}>

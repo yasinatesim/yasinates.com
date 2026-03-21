@@ -69,7 +69,7 @@ function TechItem({ name, icon, colorKey }: { name: string; icon: ReactNode; col
   )
 }
 
-function Hakkimda() {
+export function Hakkimda() {
   return (
     <section className={styles.section}>
       <div className={styles.container}>

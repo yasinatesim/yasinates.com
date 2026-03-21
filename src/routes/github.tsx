@@ -95,7 +95,7 @@ function GithubCard({ repo }: { repo: GithubRepo }) {
   )
 }
 
-function GithubPage() {
+export function GithubPage() {
   const githubRepos = useGithubRepos()
   const orderedRepos = githubRepos.data
     ?.slice()

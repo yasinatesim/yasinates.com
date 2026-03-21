@@ -30,7 +30,7 @@ export const Route = createFileRoute('/iletisim')({
   }),
 })
 
-function Iletisim() {
+export function Iletisim() {
   return (
     <section id="contact" className={styles.section}>
       <div className={styles.container}>

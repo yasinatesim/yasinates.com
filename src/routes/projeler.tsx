@@ -178,7 +178,7 @@ function YoutubeVideoCard({ video }: { video: YoutubeVideo }) {
   )
 }
 
-function ProjelerPage() {
+export function ProjelerPage() {
   const githubRepos = useGithubRepos()
   const orderedRepos = githubRepos.data
     ?.slice()

@@ -70,28 +70,66 @@ export const eventBus = getGlobalBus()
  * Initialize the shell orchestrator.
  * Called once from client.tsx after React hydration.
  *
- * Micro app registrations are added here as apps are deployed:
- *
- * orchestrator.register({
- *   name: 'blog-app',
- *   entry: 'https://cdn.yasinates.com/blog-app/main.js',
- *   container: '#micro-app-root',
- *   activeWhen: (path) => path.startsWith('/blog') || /^\/[^/]+$/.test(path),
- *   fallback: '<div>Blog yüklenirken bir hata oluştu.</div>',
- * })
- *
- * orchestrator.register({
- *   name: 'projects-app',
- *   entry: 'https://cdn.yasinates.com/projects-app/main.js',
- *   container: '#micro-app-root',
- *   activeWhen: '/projeler/*',
- *   fallback: '<div>Projeler yüklenirken bir hata oluştu.</div>',
- * })
+ * Micro app source files are in src/micro-apps/ — ready for separate deployment.
+ * Uncomment each registration block when the corresponding micro app bundle is
+ * deployed to CDN (e.g. via Netlify split deploys or separate Vite builds).
  */
 export function initOrchestrator(): void {
-  // Micro app registrations will be added here as they are deployed.
-  // orchestrator.register({ ... })
-  //
-  // Uncomment to start the orchestrator once micro apps are registered:
+  // ─── Blog app (/blog, /:postId) ────────────────────────────────────────────
+  // orchestrator.register({
+  //   name: 'blog-app',
+  //   entry: 'https://cdn.yasinates.com/blog-app/main.js',
+  //   container: '#micro-app-root',
+  //   activeWhen: (path: string) =>
+  //     path === '/blog' || path.startsWith('/blog/') || /^\/[^/]+$/.test(path),
+  //   fallback: '<div style="padding:5rem 1rem;color:#6b7280">Blog yüklenirken bir hata oluştu.</div>',
+  // })
+
+  // ─── Projects app (/projeler) ──────────────────────────────────────────────
+  // orchestrator.register({
+  //   name: 'projects-app',
+  //   entry: 'https://cdn.yasinates.com/projects-app/main.js',
+  //   container: '#micro-app-root',
+  //   activeWhen: '/projeler',
+  //   fallback: '<div style="padding:5rem 1rem;color:#6b7280">Projeler yüklenirken bir hata oluştu.</div>',
+  // })
+
+  // ─── About app (/hakkimda) ─────────────────────────────────────────────────
+  // orchestrator.register({
+  //   name: 'about-app',
+  //   entry: 'https://cdn.yasinates.com/about-app/main.js',
+  //   container: '#micro-app-root',
+  //   activeWhen: '/hakkimda',
+  //   fallback: '<div style="padding:5rem 1rem;color:#6b7280">Hakkımda sayfası yüklenirken bir hata oluştu.</div>',
+  // })
+
+  // ─── Contact app (/iletisim) ───────────────────────────────────────────────
+  // orchestrator.register({
+  //   name: 'contact-app',
+  //   entry: 'https://cdn.yasinates.com/contact-app/main.js',
+  //   container: '#micro-app-root',
+  //   activeWhen: '/iletisim',
+  //   fallback: '<div style="padding:5rem 1rem;color:#6b7280">İletişim sayfası yüklenirken bir hata oluştu.</div>',
+  // })
+
+  // ─── GitHub app (/github) ──────────────────────────────────────────────────
+  // orchestrator.register({
+  //   name: 'github-app',
+  //   entry: 'https://cdn.yasinates.com/github-app/main.js',
+  //   container: '#micro-app-root',
+  //   activeWhen: '/github',
+  //   fallback: '<div style="padding:5rem 1rem;color:#6b7280">GitHub projeleri yüklenirken bir hata oluştu.</div>',
+  // })
+
+  // ─── YouTube app (/youtube) ────────────────────────────────────────────────
+  // orchestrator.register({
+  //   name: 'youtube-app',
+  //   entry: 'https://cdn.yasinates.com/youtube-app/main.js',
+  //   container: '#micro-app-root',
+  //   activeWhen: '/youtube',
+  //   fallback: '<div style="padding:5rem 1rem;color:#6b7280">YouTube içerikleri yüklenirken bir hata oluştu.</div>',
+  // })
+
+  // Uncomment after registering the first micro app:
   // orchestrator.start()
 }
