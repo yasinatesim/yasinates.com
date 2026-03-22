@@ -11,19 +11,16 @@ export default function ContactApp({ ssrHtml = '' }: { ssrHtml?: string }) {
     const container = ref.current
     let appRef: { destroy: () => void } | undefined
 
-    const host: Element =
-      container.querySelector('app-iletisim') ??
-      (() => {
-        const el = document.createElement('app-iletisim')
-        container.appendChild(el)
-        return el
-      })()
+    if (!container.querySelector('app-iletisim')) {
+      container.appendChild(document.createElement('app-iletisim'))
+    }
 
-    void host // used by Angular to find bootstrap target
     bootstrapApplication(ContactComponent, {
       providers: [provideClientHydration()],
     }).then(app => {
       appRef = app
+    }).catch((e: unknown) => {
+      if (e instanceof Error) console.error('[ContactApp] Angular bootstrap failed:', e.message)
     })
 
     return () => {

@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import styles from './blog.module.scss'
 import type { MediumPostListItem, DevToPostListItem } from '~/utils/fetchBlogPosts'
+import { slugify } from '~/utils/slugify'
 
 type Tab = 'all' | 'medium' | 'devto'
 
@@ -49,15 +50,6 @@ function desc(raw: string | undefined, isMedium: boolean): string {
   return (text?.slice(0, 120) ?? '') + '...'
 }
 
-function slugify(text: string): string {
-  const map: Record<string, string> = {
-    ı: 'i', İ: 'i', ğ: 'g', Ğ: 'g', ş: 's', Ş: 's',
-    ç: 'c', Ç: 'c', ö: 'o', Ö: 'o', ü: 'u', Ü: 'u',
-  }
-  return text.split('').map(c => map[c] ?? c).join('')
-    .toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-')
-    .replace(/-+/g, '-').replace(/^-+|-+$/g, '')
-}
 </script>
 
 <template>

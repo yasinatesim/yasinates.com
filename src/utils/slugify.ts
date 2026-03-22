@@ -21,3 +21,9 @@ export function slugify(text: string): string {
     .replace(/-+/g, '-')        // collapse multiple dashes
     .replace(/^-+|-+$/g, '')    // trim leading/trailing dashes
 }
+
+export function pascalCase(str: string): string {
+  if (str === 'typescript') return 'TypeScript'
+  if (str === 'javascript') return 'JavaScript'
+  return str.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')
+}

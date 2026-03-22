@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import { sharedQueryClient } from '~/micro-apps/_shared/queryClient'
 import { useGithubRepos, type GithubRepo } from '~/hooks/useGithubRepos'
 import { useReadmeImage } from '~/hooks/useReadmeImage'
+import { pascalCase } from '~/utils/slugify'
 import styles from './github.module.scss'
 
 const topicColors = [
@@ -16,11 +17,6 @@ const topicColors = [
   styles.tagGray,
 ]
 
-function pascalCase(str: string) {
-  if (str === 'typescript') return 'TypeScript'
-  if (str === 'javascript') return 'JavaScript'
-  return str.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')
-}
 
 function GithubCard({ repo }: { repo: GithubRepo }) {
   const image = useReadmeImage(repo.owner.login, repo.name)
@@ -28,11 +24,11 @@ function GithubCard({ repo }: { repo: GithubRepo }) {
     <div className={styles.card}>
       <div className={styles.imageWrapper}>
         {image?.startsWith('emoji:') ? (
-          <span style={{ fontSize: '3.75rem' }}>{image.slice(6)}</span>
+          <span style={{ fontSize: 'var(--font-size-6xl)' }}>{image.slice(6)}</span>
         ) : image ? (
           <img src={image} alt={repo.name + ' görseli'} className={styles.image} />
         ) : (
-          <span style={{ fontSize: '2.5rem' }}>
+          <span style={{ fontSize: 'var(--font-size-5xl)' }}>
             <i className="ri-github-fill" aria-hidden="true" />
           </span>
         )}

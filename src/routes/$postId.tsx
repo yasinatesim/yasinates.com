@@ -81,15 +81,16 @@ export const Route = createFileRoute('/$postId')({
       devtoPosts:  devtoPosts.map(({ body_html: _, ...p }) => ({ ...p, body_html: p.slug === postId ? devtoPosts.find(d => d.slug === postId)?.body_html ?? '' : '' })),
     }).catch(() => '')
 
-    return { ssrHtml, content, mediumPosts: mediumList, devtoPosts: devtoList, postTitle, postImage }
+    return { ssrHtml, content, mediumPosts: mediumList, devtoPosts: devtoList, postTitle, postImage, postId }
   },
   head: ({ loaderData }) => {
     const title = loaderData?.postTitle || 'Blog Yazısı'
-    const url = `https://yasinates.com/${loaderData ? '' : ''}`
+    const url = `https://yasinates.com/${loaderData?.postId ?? ''}`
     return {
       title: `${title} | Yasin Ateş`,
       links: [
         { rel: 'stylesheet', href: prismCss },
+        { rel: 'canonical', href: url },
       ],
       meta: [
         ...seo({
@@ -98,7 +99,6 @@ export const Route = createFileRoute('/$postId')({
           image: loaderData?.postImage || 'https://yasinates.com/og-image.jpg',
           keywords: 'blog, yazı, medium, devto, yasin ateş, frontend, developer'
         }),
-        { name: 'canonical', content: url },
       ],
       script: [
         {

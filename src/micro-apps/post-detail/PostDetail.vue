@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import styles from './post-detail.module.scss'
 import type { MediumPostListItem, DevToPostListItem } from '~/utils/fetchBlogPosts'
+import { slugify } from '~/utils/slugify'
 
 type MediumItem = MediumPostListItem & { source: 'medium'; id: string }
 type DevToItem  = DevToPostListItem  & { source: 'devto';  id: string }
@@ -56,15 +57,6 @@ function otherImage(p: Post): string {
   return p.cover_image || ''
 }
 
-function slugify(text: string): string {
-  const map: Record<string, string> = {
-    ı: 'i', İ: 'i', ğ: 'g', Ğ: 'g', ş: 's', Ş: 's',
-    ç: 'c', Ç: 'c', ö: 'o', Ö: 'o', ü: 'u', Ü: 'u',
-  }
-  return text.split('').map(c => map[c] ?? c).join('')
-    .toLowerCase().replace(/[^\w\s-]/g, '').replace(/[\s_]+/g, '-')
-    .replace(/-+/g, '-').replace(/^-+|-+$/g, '')
-}
 </script>
 
 <template>

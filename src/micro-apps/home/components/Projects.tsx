@@ -3,6 +3,7 @@ import { OTHER_PROJECTS } from '~/constants/projects'
 import { useGithubRepos, type GithubRepo } from '~/hooks/useGithubRepos'
 import { useReadmeImage } from '~/hooks/useReadmeImage'
 import { useYoutubeFeed } from '~/hooks/useYoutubeFeed'
+import { pascalCase } from '~/utils/slugify'
 import styles from './Projects.module.scss'
 
 type OtherProject = {
@@ -40,11 +41,6 @@ const tagColorMap: Record<string, string> = {
   rose:    styles.tagRose,
 }
 
-function pascalCase(str: string) {
-  if (str === 'typescript') return 'TypeScript'
-  if (str === 'javascript') return 'JavaScript'
-  return str.split('-').map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')
-}
 
 function RepoCard({ repo }: { repo: GithubRepo }) {
   const image = useReadmeImage(repo.owner.login, repo.name)
@@ -52,11 +48,11 @@ function RepoCard({ repo }: { repo: GithubRepo }) {
     <div className={styles.card}>
       <div className={styles.imageWrapper}>
         {image?.startsWith('emoji:') ? (
-          <span style={{ fontSize: '3.75rem' }}>{image.slice(6)}</span>
+          <span style={{ fontSize: 'var(--font-size-6xl)' }}>{image.slice(6)}</span>
         ) : image ? (
           <img src={image} alt={repo.name + ' görseli'} className={styles.image} loading="lazy" width={320} height={180} />
         ) : (
-          <span style={{ fontSize: '2.5rem' }}><i className="ri-github-fill" aria-hidden="true" /></span>
+          <span style={{ fontSize: 'var(--font-size-5xl)' }}><i className="ri-github-fill" aria-hidden="true" /></span>
         )}
       </div>
       <div className={styles.cardBody}>

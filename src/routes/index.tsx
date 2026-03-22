@@ -8,6 +8,7 @@ import BlogsVue from '~/micro-apps/home/components/Blogs.vue'
 import { fetchYoutubeVideos, YOUTUBE_QUERY_KEY } from '~/utils/fetchYoutubeVideos'
 import { fetchMediumPosts, fetchDevtoPosts } from '~/utils/fetchBlogPosts'
 import { fetchAllGithubRepos, GITHUB_REPOS_QUERY_KEY } from '~/hooks/useGithubRepos'
+import { seo } from '~/utils/seo'
 
 export const Route = createFileRoute('/')(({
   loader: async () => {
@@ -39,16 +40,12 @@ export const Route = createFileRoute('/')(({
   head: () => ({
     title: 'Yasin Ateş | Frontend Developer, Web & Müzik',
     meta: [
-      { name: 'description', content: "Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri." },
-      { property: 'og:title', content: 'Yasin Ateş | Frontend Developer, Web & Müzik' },
-      { property: 'og:description', content: "Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri." },
-      { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://yasinates.com/' },
-      { property: 'og:image', content: 'https://yasinates.com/og-image.jpg' },
-      { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Yasin Ateş | Frontend Developer, Web & Müzik' },
-      { name: 'twitter:description', content: "Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri." },
-      { name: 'twitter:image', content: 'https://yasinates.com/og-image.jpg' },
+      ...seo({
+        title: 'Yasin Ateş | Frontend Developer, Web & Müzik',
+        description: "Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri.",
+        image: 'https://yasinates.com/og-image.jpg',
+        keywords: 'frontend, yazılım, web, müzik, yasin ateş, developer, react, blog, proje',
+      }),
       { name: 'canonical', content: 'https://yasinates.com/' },
     ],
     script: [
