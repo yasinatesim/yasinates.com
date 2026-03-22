@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue'
 import styles from './blog.module.scss'
 import type { MediumPostListItem, DevToPostListItem } from '~/utils/fetchBlogPosts'
-import { slugify } from '~/utils/slugify'
+import { slugify } from '../../utils/slugify'
 
 type Tab = 'all' | 'medium' | 'devto'
 

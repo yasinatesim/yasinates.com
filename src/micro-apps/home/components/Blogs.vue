@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import styles from './Blogs.module.scss'
 import type { MediumPostListItem, DevToPostListItem } from '~/utils/fetchBlogPosts'
-import { slugify } from '~/utils/slugify'
+import { slugify } from '../../../utils/slugify'
 
 const props = defineProps<{
   mediumPosts: MediumPostListItem[]

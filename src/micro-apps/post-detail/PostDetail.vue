@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import styles from './post-detail.module.scss'
 import type { MediumPostListItem, DevToPostListItem } from '~/utils/fetchBlogPosts'
-import { slugify } from '~/utils/slugify'
+import { slugify } from '../../utils/slugify'
 
 type MediumItem = MediumPostListItem & { source: 'medium'; id: string }
 type DevToItem  = DevToPostListItem  & { source: 'devto';  id: string }
