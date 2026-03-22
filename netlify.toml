@@ -4,7 +4,6 @@
 
 [build.environment]
   NODE_VERSION = "20"
-  NODE_ENV = "production"
 
 # SSR function — TanStack Start (Vinxi) handles this automatically
 # Netlify detects the .output/server directory and deploys it as a serverless function
