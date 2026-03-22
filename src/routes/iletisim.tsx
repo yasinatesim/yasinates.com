@@ -1,3 +1,7 @@
+// Must be the very first import — @angular/common's static initialiser
+// calls getCompilerFacade() on module load, which requires @angular/compiler.
+// Placing this after any other Angular import causes a JIT error at runtime.
+import '@angular/compiler'
 import { createFileRoute } from '@tanstack/react-router'
 import { TuvixReactApp } from '@tuvix.js/react'
 import { seo } from '~/utils/seo'
