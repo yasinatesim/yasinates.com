@@ -85,6 +85,6 @@
   --transition-base: 0.3s ease;
 
   /* Container */
-  --container-max: 1280px;
+  --container-max: 1536px;
   --container-padding: var(--space-6);
 }
