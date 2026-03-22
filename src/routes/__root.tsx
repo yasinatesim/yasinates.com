@@ -59,6 +59,7 @@ async function getClientCssLinks(): Promise<string[]> {
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
+  staleTime: Infinity,
   loader: async () => ({
     footerSsrHtml: await renderSvelteToString(FooterSvelte),
     // client-bundle CSS that TanStack Start's rt() omits from the HTML head
