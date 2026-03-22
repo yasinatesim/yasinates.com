@@ -1,18 +1,14 @@
-// Must be the very first import — @angular/common's static initialiser
-// calls getCompilerFacade() on module load, which requires @angular/compiler.
-// Placing this after any other Angular import causes a JIT error at runtime.
-import '@angular/compiler'
 import { createFileRoute } from '@tanstack/react-router'
 import { TuvixReactApp } from '@tuvix.js/react'
 import { seo } from '~/utils/seo'
 import ContactApp from '~/micro-apps/contact/App'
-import { renderAngularToString } from '@tuvix.js/angular/server'
-import { ContactComponent } from '~/micro-apps/contact/contact.component'
 
 export const Route = createFileRoute('/iletisim')({
-  loader: async () => ({
-    ssrHtml: await renderAngularToString(ContactComponent, { selector: 'app-iletisim' }),
-  }),
+  // Angular JIT is incompatible with Nitro's bundler (module init order cannot
+  // be guaranteed — @angular/common's static initialiser fires before
+  // @angular/compiler loads, crashing the entire serverless function).
+  // Angular bootstraps client-side instead; contact page is not SEO-critical.
+  loader: async () => ({ ssrHtml: '' }),
   head: () => ({
     title: 'İletişim | Yasin Ateş',
     meta: [
