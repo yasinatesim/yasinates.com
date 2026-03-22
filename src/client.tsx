@@ -1,4 +1,7 @@
 /// <reference types="vinxi/types/client" />
+
+import '@angular/compiler'
+import 'reflect-metadata'
 import { hydrateRoot } from 'react-dom/client'
 import { StartClient } from '@tanstack/react-start'
 import { createRouter } from './router'
