@@ -1,4 +1,4 @@
-// Angular JIT mode — @angular/compiler must be imported before any Angular code
+// @angular/compiler must be imported before any Angular code (JIT mode)
 import '@angular/compiler'
 import 'reflect-metadata'
 import { Component, signal } from '@angular/core'
@@ -28,7 +28,6 @@ interface SocialLink {
 
         <div class="inner">
           <div class="grid">
-            <!-- Sol: iletişim bilgileri -->
             <div class="card">
               <div class="infoSection">
                 <h3 class="infoTitle">İletişim Bilgileri</h3>
@@ -69,7 +68,6 @@ interface SocialLink {
               </div>
             </div>
 
-            <!-- Sağ: CTA -->
             <div class="card ctaCard">
               <div class="ctaIconWrapper">
                 <i class="ri-chat-3-line ctaIcon"></i>
@@ -162,7 +160,6 @@ interface SocialLink {
   `],
 })
 export class ContactComponent {
-  // Angular signal — reactive list, easy to extend with runtime data
   readonly socialLinks = signal<SocialLink[]>([
     { href: 'https://github.com/yasinatesim',       label: 'GitHub',    icon: 'ri-github-fill',    classes: 'socialGithub' },
     { href: 'https://linkedin.com/in/yasinatesim',  label: 'LinkedIn',  icon: 'ri-linkedin-fill',  classes: 'socialLinkedin' },

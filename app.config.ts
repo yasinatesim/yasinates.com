@@ -19,16 +19,13 @@ export default defineConfig({
       vue(),
     ],
     optimizeDeps: {
-      // Angular JIT compiler must be available at runtime
       include: ['@angular/compiler'],
     },
     build: {
-      // Warn when individual chunks exceed 500 KB (default 500)
       chunkSizeWarningLimit: 500,
       rollupOptions: {
         output: {
-          // Function form is required when SSR build externalises some packages:
-          // object form errors if a listed package is external (SSR build).
+          // Function form required — object form errors when SSR build externalises a listed package.
           manualChunks: (id) => {
             if (id.includes('/node_modules/react-dom/') || id.includes('/node_modules/react/')) return 'vendor-react'
             if (id.includes('/node_modules/vue/')) return 'vendor-vue'

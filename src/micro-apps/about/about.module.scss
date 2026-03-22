@@ -1,4 +1,3 @@
-/* ── Page section ──────────────────────────────── */
 .section {
   padding: var(--space-20) 0;
   background-color: var(--color-white);
@@ -10,7 +9,6 @@
   padding: 0 var(--space-4);
 }
 
-/* ── Heading ───────────────────────────────────── */
 .heading {
   text-align: center;
   margin-bottom: var(--space-16);
@@ -43,13 +41,11 @@
   margin: 0 auto;
 }
 
-/* ── Inner wrapper ─────────────────────────────── */
 .inner {
   max-width: 56rem;
   margin: 0 auto;
 }
 
-/* ── Profile area ──────────────────────────────── */
 .profileArea {
   display: flex;
   flex-direction: column;
@@ -84,7 +80,6 @@
   margin-bottom: var(--space-6);
 }
 
-/* ── Social links row ──────────────────────────── */
 .socialRow {
   display: flex;
   flex-wrap: wrap;
@@ -125,7 +120,6 @@
 .socialDevto     { color: #111827; }
 .socialDevto:hover     { background-color: #111827; }
 
-/* ── Bio ───────────────────────────────────────── */
 .bio {
   margin-bottom: var(--space-12);
 }
@@ -137,7 +131,6 @@
   text-align: center;
 }
 
-/* ── Tech section ──────────────────────────────── */
 .techTitle {
   font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
@@ -152,7 +145,6 @@
   gap: var(--space-8);
 }
 
-/* ── TechItem base ─────────────────────────────── */
 .techItem {
   display: flex;
   flex-direction: column;
@@ -184,7 +176,6 @@
   transition: color var(--transition-base);
 }
 
-/* ── TechItem color variants ───────────────────── */
 .techHtml .techIcon        { border-color: #f97316; color: #f97316; background-color: #fff7ed; }
 .techHtml:hover .techName  { color: #ea580c; }
 

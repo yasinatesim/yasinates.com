@@ -1,5 +1,3 @@
-// ─── Types ────────────────────────────────────────────────────────────────────
-
 export type MediumPostListItem = {
   guid: string
   title: string
@@ -20,8 +18,6 @@ export type DevToPostListItem = {
 }
 
 export type DevToPost = DevToPostListItem & { body_html: string }
-
-// ─── Fetchers ─────────────────────────────────────────────────────────────────
 
 export async function fetchMediumPosts(): Promise<MediumPost[]> {
   const res = await fetch(
@@ -57,8 +53,6 @@ export function cleanDevtoContent(html: string): string {
     // Remove tabindex from pre tags
     .replace(/(<pre[^>]*?)\s*tabindex="[^"]*"/gi, '$1')
 }
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 export function getMediumPostId(post: MediumPostListItem): string {
   const hash = post.guid.split('/').pop() ?? post.guid
@@ -117,7 +111,7 @@ export function cleanMediumContent(html: string, postTitle: string, image?: stri
   return result
 }
 
-// Local slugify (avoids circular imports)
+// avoids circular imports with utils/slugify.ts
 function slugify(text: string): string {
   const map: Record<string, string> = {
     ı: 'i', İ: 'i', ğ: 'g', Ğ: 'g', ş: 's', Ş: 's',

@@ -32,7 +32,6 @@
   margin: 0 auto;
 }
 
-/* ── Section blocks ───────────────────────────── */
 .block {
   margin-bottom: var(--space-20);
 }
@@ -46,7 +45,6 @@
   gap: var(--space-2);
 }
 
-/* ── Card grids ───────────────────────────────── */
 .grid3 {
   display: grid;
   grid-template-columns: 1fr;
@@ -65,7 +63,6 @@
   }
 }
 
-/* ── Card ─────────────────────────────────────── */
 .card {
   background-color: var(--color-white);
   border: 1px solid var(--color-gray-200);
@@ -156,7 +153,6 @@
   font-weight: var(--font-weight-medium);
 }
 
-/* GitHub topic color variants */
 .tagBlue   { background-color: #dbeafe; color: #1d4ed8; }
 .tagGreen  { background-color: #dcfce7; color: #15803d; }
 .tagYellow { background-color: #fef9c3; color: #a16207; }
@@ -166,7 +162,6 @@
 .tagRed    { background-color: #fee2e2; color: #b91c1c; }
 .tagGray   { background-color: #f3f4f6; color: #374151; }
 
-/* OtherProject tag color variants */
 .tagOrange  { background-color: #ffedd5; color: #9a3412; }
 .tagTeal    { background-color: #ccfbf1; color: #115e59; }
 .tagZinc    { background-color: #f4f4f5; color: #3f3f46; }
@@ -205,7 +200,6 @@
   text-decoration: underline;
 }
 
-/* ── Features list ────────────────────────────── */
 .featureList {
   display: flex;
   flex-direction: column;
@@ -235,7 +229,6 @@
   color: var(--color-gray-700);
 }
 
-/* ── YouTube card extras ──────────────────────── */
 .videoImageWrapper {
   height: 12rem;
   overflow: hidden;
@@ -318,7 +311,6 @@
   text-decoration: underline;
 }
 
-/* ── CTA buttons ──────────────────────────────── */
 .ctaRow {
   text-align: center;
   margin-top: var(--space-8);

@@ -1,4 +1,3 @@
-/* ── Section ───────────────────────────────────── */
 .section {
   padding: var(--space-20) 0;
   background-color: var(--color-white);
@@ -10,7 +9,6 @@
   padding: 0 var(--space-4);
 }
 
-/* ── Heading ───────────────────────────────────── */
 .heading {
   text-align: center;
   margin-bottom: var(--space-16);
@@ -32,13 +30,11 @@
   margin: 0 auto;
 }
 
-/* ── Inner ─────────────────────────────────────── */
 .inner {
   max-width: 56rem;
   margin: 0 auto;
 }
 
-/* ── Tab bar ───────────────────────────────────── */
 .tabRow {
   display: flex;
   justify-content: center;
@@ -80,7 +76,6 @@
   background-color: var(--color-gray-50);
 }
 
-/* ── Post list ─────────────────────────────────── */
 .postList {
   display: flex;
   flex-direction: column;
@@ -91,7 +86,6 @@
   color: var(--color-gray-600);
 }
 
-/* ── Article card ──────────────────────────────── */
 .article {
   background-color: var(--color-white);
   border-radius: var(--radius-lg);
@@ -111,7 +105,6 @@
   .article { flex-direction: row; }
 }
 
-/* ── Article image ─────────────────────────────── */
 .articleImg {
   height: 12rem;
   overflow: hidden;
@@ -132,7 +125,6 @@
   object-position: top;
 }
 
-/* ── Article body ──────────────────────────────── */
 .articleBody {
   padding: var(--space-6);
   display: flex;

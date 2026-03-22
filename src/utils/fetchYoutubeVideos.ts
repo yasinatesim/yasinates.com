@@ -1,13 +1,5 @@
-/**
- * Server-side YouTube video fetcher.
- * Calls YouTube directly (no proxy) — intended for use in route loaders only.
- * Client-side data fetching goes through /api/youtube to avoid CORS.
- */
-
 export const YOUTUBE_CHANNEL_ID = 'UCMBBlJsFiUYu2akYvmdi99g'
 export const YOUTUBE_QUERY_KEY = ['youtube-feed', YOUTUBE_CHANNEL_ID] as const
-
-// ─── Types ────────────────────────────────────────────────────────────────────
 
 export type YoutubeVideo = {
   videoId: string
@@ -71,8 +63,6 @@ export interface YtInitialData {
     sectionListRenderer?: { contents?: unknown[] }
   }
 }
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function getBestThumbnail(thumbnails: YtThumbnail[] | undefined, videoId: string): string {
   if (thumbnails && thumbnails.length > 0) {
@@ -169,8 +159,6 @@ export function parseYoutubeHtml(html: string): YoutubeVideo[] {
   }
   return []
 }
-
-// ─── Server-side fetcher ──────────────────────────────────────────────────────
 
 export async function fetchYoutubeVideos(): Promise<YoutubeVideo[]> {
   const url = `https://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}/videos`

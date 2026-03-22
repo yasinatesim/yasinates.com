@@ -5,8 +5,6 @@ import { useGithubRepos, type GithubRepo } from '~/hooks/useGithubRepos'
 import { useReadmeImage } from '~/hooks/useReadmeImage'
 import styles from './github.module.scss'
 
-// ── Topic colour cycling ────────────────────────────────────────────────────
-
 const topicColors = [
   styles.tagBlue,
   styles.tagGreen,
@@ -18,15 +16,11 @@ const topicColors = [
   styles.tagGray,
 ]
 
-// ── Helpers ─────────────────────────────────────────────────────────────────
-
 function pascalCase(str: string) {
   if (str === 'typescript') return 'TypeScript'
   if (str === 'javascript') return 'JavaScript'
   return str.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')
 }
-
-// ── GithubCard ───────────────────────────────────────────────────────────────
 
 function GithubCard({ repo }: { repo: GithubRepo }) {
   const image = useReadmeImage(repo.owner.login, repo.name)
@@ -73,8 +67,6 @@ function GithubCard({ repo }: { repo: GithubRepo }) {
   )
 }
 
-// ── GithubPage ───────────────────────────────────────────────────────────────
-
 export function GithubPage() {
   const githubRepos = useGithubRepos()
   const orderedRepos = githubRepos.data
@@ -99,8 +91,6 @@ export function GithubPage() {
     </section>
   )
 }
-
-// ── Micro-app root (QueryClientProvider + Suspense boundary) ─────────────────
 
 export default function GithubApp() {
   return (

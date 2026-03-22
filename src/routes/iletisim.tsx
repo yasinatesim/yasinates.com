@@ -4,10 +4,7 @@ import { seo } from '~/utils/seo'
 import ContactApp from '~/micro-apps/contact/App'
 
 export const Route = createFileRoute('/iletisim')({
-  // Angular JIT is incompatible with Nitro's bundler (module init order cannot
-  // be guaranteed — @angular/common's static initialiser fires before
-  // @angular/compiler loads, crashing the entire serverless function).
-  // Angular bootstraps client-side instead; contact page is not SEO-critical.
+  // Angular JIT crashes Nitro SSR — bootstraps client-side only (page is not SEO-critical)
   loader: async () => ({ ssrHtml: '' }),
   head: () => ({
     title: 'İletişim | Yasin Ateş',

@@ -1,4 +1,3 @@
-/* ── Section ───────────────────────────────────── */
 .section {
   padding: var(--space-20) 0;
   background: linear-gradient(
@@ -23,7 +22,6 @@
   .container { flex-direction: row; }
 }
 
-/* ── Status messages ───────────────────────────── */
 .status {
   max-width: var(--container-max);
   margin: 0 auto;
@@ -31,7 +29,6 @@
   color: var(--color-gray-600);
 }
 
-/* ── Main content ──────────────────────────────── */
 .main {
   width: 100%;
 }
@@ -82,7 +79,6 @@
   border: 1px solid color-mix(in srgb, var(--color-primary) 10%, transparent);
 }
 
-/* ── Code block wrapper ────────────────────────── */
 .codeBlock {
   margin: var(--space-6) 0;
   border-radius: var(--radius-lg);
@@ -91,7 +87,6 @@
   background-color: rgba(24, 24, 27, 0.95);
 }
 
-/* ── Article prose typography ──────────────────── */
 .prose {
   color: var(--color-gray-900);
   font-size: var(--font-size-lg);
@@ -209,7 +204,6 @@
   content: none;
 }
 
-/* ── Sidebar ───────────────────────────────────── */
 .sidebar {
   width: 100%;
 }

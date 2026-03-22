@@ -35,7 +35,6 @@
   margin: 0 auto;
 }
 
-/* ── Card grid ────────────────────────────────── */
 .grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -48,7 +47,6 @@
   }
 }
 
-/* ── Card ─────────────────────────────────────── */
 .card {
   background-color: var(--color-white);
   border-radius: var(--radius-xl);
@@ -138,7 +136,6 @@
   gap: var(--space-3);
 }
 
-/* ── Wave decoration ──────────────────────────── */
 .wave {
   position: absolute;
   bottom: 0;

@@ -1,8 +1,3 @@
-/**
- * React bridge — mounts the Svelte Footer component.
- * SSR HTML is pre-rendered by the root route loader via renderSvelteToString.
- * Client: mounts with hydrate:true so Svelte reuses server-rendered HTML.
- */
 import { useEffect, useRef } from 'react'
 import FooterSvelte from './Footer.svelte'
 

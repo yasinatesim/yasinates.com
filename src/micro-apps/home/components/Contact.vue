@@ -10,7 +10,6 @@
 
       <div :class="$style.cardWrapper">
         <div :class="$style.card">
-          <!-- Mail -->
           <div :class="$style.mailSection">
             <div :class="$style.mailIcon">
               <i class="ri-mail-line" aria-hidden="true" />
@@ -23,7 +22,6 @@
             </a>
           </div>
 
-          <!-- Socials -->
           <div :class="$style.socialSection">
             <h3 :class="$style.socialTitle">Sosyal Medya</h3>
             <div :class="$style.socialList">
@@ -47,7 +45,6 @@
 </template>
 
 <script setup lang="ts">
-// Vue 3 Composition API — reactive social links array
 const socialLinks = [
   { href: 'https://github.com/yasinatesim',   label: 'GitHub',    icon: 'ri-github-fill',    styleKey: 'socialGithub' },
   { href: 'https://linkedin.com/in/yasinatesim', label: 'LinkedIn', icon: 'ri-linkedin-fill', styleKey: 'socialLinkedin' },

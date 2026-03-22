@@ -24,7 +24,6 @@
   text-decoration: none;
 }
 
-/* ── Desktop Nav ─────────────────────────────── */
 .desktopNav {
   display: none;
   align-items: center;
@@ -55,7 +54,6 @@
   padding-bottom: 2px;
 }
 
-/* ── Mobile Menu Button ───────────────────────── */
 .menuButton {
   display: flex;
   align-items: center;
@@ -75,7 +73,6 @@
   }
 }
 
-/* ── Mobile Menu ──────────────────────────────── */
 .mobileMenu {
   display: none;
   background-color: var(--color-white);

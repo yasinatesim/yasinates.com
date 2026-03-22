@@ -61,7 +61,6 @@
 <footer class="footer">
   <div class="container">
     <div class="grid">
-      <!-- Sol: Hakkında ve Konum -->
       <div class="col">
         <div class="brand">
           <p class="brandName">Yasin Ateş</p>
@@ -77,7 +76,6 @@
         </div>
       </div>
 
-      <!-- Orta: Hızlı Erişim -->
       <div class="col">
         <h3 class="sectionTitle">Hızlı Erişim</h3>
         <nav>
@@ -94,7 +92,6 @@
         </nav>
       </div>
 
-      <!-- Sağ: Sosyal Medya -->
       <div class="col">
         <h3 class="sectionTitle">Sosyal Medya</h3>
         <div class="socialList">

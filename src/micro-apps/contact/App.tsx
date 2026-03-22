@@ -1,8 +1,3 @@
-/**
- * React bridge — bootstraps the Angular standalone ContactComponent.
- * SSR HTML is pre-rendered by the iletisim route loader via renderAngularToString.
- * Client: bootstraps Angular with provideClientHydration() for SSR hydration.
- */
 import { useEffect, useRef } from 'react'
 import 'zone.js'
 import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser'
@@ -16,7 +11,6 @@ export default function ContactApp({ ssrHtml = '' }: { ssrHtml?: string }) {
     const container = ref.current
     let appRef: { destroy: () => void } | undefined
 
-    // Reuse SSR-rendered selector element if present, otherwise create fresh
     const host: Element =
       container.querySelector('app-iletisim') ??
       (() => {

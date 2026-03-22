@@ -59,7 +59,7 @@ async function getClientCssLinks(): Promise<string[]> {
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
-  staleTime: Infinity,
+  staleTime: Infinity, // loader data never refetches on client
   loader: async () => ({
     footerSsrHtml: await renderSvelteToString(FooterSvelte),
     // client-bundle CSS that TanStack Start's rt() omits from the HTML head
@@ -77,7 +77,6 @@ export const Route = createRootRouteWithContext<{
       }),
     ],
     links: [
-      // DNS prefetch for all external origins (cheap, improves TTFB for 3rd-party requests)
       { rel: 'dns-prefetch', href: 'https://fonts.googleapis.com' },
       { rel: 'dns-prefetch', href: 'https://fonts.gstatic.com' },
       // cdnjs removed — remixicon is now self-hosted
@@ -86,20 +85,15 @@ export const Route = createRootRouteWithContext<{
       { rel: 'dns-prefetch', href: 'https://dev.to' },
       { rel: 'dns-prefetch', href: 'https://www.googleapis.com' },
       { rel: 'dns-prefetch', href: 'https://i.ytimg.com' },
-      // Preconnect for render-blocking font origins
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
       // Preload LCP image (profile photo — above the fold on home page)
       { rel: 'preload', href: '/yasin-ates-hakkimda.jpg', as: 'image', fetchPriority: 'high' },
-      // Stylesheets
       { rel: 'stylesheet', href: appCss },
-      // Inter: swap (body font — FOUT acceptable)
-      // Pacifico: optional (logo only — use fallback if not cached, zero CLS)
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap' },
+      // display=optional: logo only — zero CLS if font not cached
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Pacifico&display=optional' },
-      // Remixicon self-hosted (separate file — not bundled into app.css)
       { rel: 'stylesheet', href: remixiconCss },
-      // Favicons & manifest
       { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
       { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
       { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },

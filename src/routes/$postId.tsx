@@ -14,7 +14,6 @@ export const Route = createFileRoute('/$postId')({
   loader: async ({ params }) => {
     const { postId } = params
 
-    // ── Legacy URL redirects ─────────────────────────────────────────────────
     if (/^[0-9a-f]{8,16}$/.test(postId)) {
       try {
         const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@yasinatesim')
@@ -40,7 +39,6 @@ export const Route = createFileRoute('/$postId')({
       }
     }
 
-    // ── Fetch posts ──────────────────────────────────────────────────────────
     const [mediumResult, devtoResult] = await Promise.allSettled([
       fetchMediumPosts(),
       fetchDevtoPosts(),
@@ -48,7 +46,6 @@ export const Route = createFileRoute('/$postId')({
     const mediumPosts = mediumResult.status === 'fulfilled' ? mediumResult.value : []
     const devtoPosts  = devtoResult.status  === 'fulfilled' ? devtoResult.value : []
 
-    // ── Find active post & pre-highlight content ──────────────────────────────
     let content = ''
     let postTitle = ''
     let postImage = ''
