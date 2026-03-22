@@ -34,11 +34,35 @@ const QueryDevtools =
       )
     : () => null
 
+// Vinxi client manifest types (only what we need)
+type VinxiAssetTag = { tag: string; attrs?: Record<string, string> }
+type VinxiClientManifest = {
+  handler: string
+  inputs: Record<string, { assets(): Promise<VinxiAssetTag[]> }>
+}
+
+async function getClientCssLinks(): Promise<string[]> {
+  try {
+    const manifest = (globalThis as { MANIFEST?: Record<string, VinxiClientManifest> }).MANIFEST
+    const client = manifest?.client
+    if (!client) return []
+    const tags = await client.inputs[client.handler]?.assets() ?? []
+    return tags
+      .filter(t => t.tag === 'link' && t.attrs?.rel === 'stylesheet' && t.attrs.href)
+      .map(t => t.attrs!.href!)
+  } catch {
+    // dev mode or non-Nitro context — Vinxi injects CSS via HMR in dev
+    return []
+  }
+}
+
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
   loader: async () => ({
     footerSsrHtml: await renderSvelteToString(FooterSvelte),
+    // client-bundle CSS that TanStack Start's rt() omits from the HTML head
+    clientCssLinks: await getClientCssLinks(),
   }),
   head: () => ({
     meta: [
@@ -103,11 +127,15 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const { footerSsrHtml } = Route.useLoaderData()
+  const { footerSsrHtml, clientCssLinks } = Route.useLoaderData()
   return (
     <html>
       <head>
         <title id="main-title">Yasin Ateş | Frontend Developer, Web & Müzik</title>
+        {/* client-bundle CSS (header, footer, blog, post-detail) that TanStack Start omits */}
+        {clientCssLinks.map(href => (
+          <link key={href} rel="stylesheet" href={href} />
+        ))}
         <HeadContent />
       </head>
       <body>
