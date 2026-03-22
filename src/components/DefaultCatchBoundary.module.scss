@@ -1,0 +1,30 @@
+.wrapper {
+  min-width: 0;
+  flex: 1;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: var(--space-1) var(--space-2);
+  background-color: var(--color-gray-600);
+  border-radius: var(--radius-sm);
+  color: var(--color-white);
+  text-transform: uppercase;
+  font-weight: 800;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-size: var(--font-size-sm);
+}

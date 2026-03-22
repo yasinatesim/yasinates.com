@@ -1,53 +1,99 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ─── Variables ─────────────────────────────────────────────────────────── */
+@import './variables.css';
 
-@layer base {
-  /* html {
-    color-scheme: light dark;
-  }
+/* Remixicon loaded separately in __root.tsx via ?url — not bundled into app.css */
+/* Prism theme loaded per-route in $postId.tsx and blog.tsx — not globally */
 
+/* ─── Reset ─────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  .using-mouse * {
-    outline: none !important;
-  } */
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
-  }
-  .hero-gradient {
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 50%, rgba(255, 255, 255, 0) 100%);
-  }
-  .text-gradient {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-gray-900);
+  background-color: var(--color-gray-50);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* ─── Global Utility Classes ─────────────────────────────────────────────── */
+
+.hero-gradient {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.8) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+}
+
+.text-gradient {
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;
-  background-image: linear-gradient(to right, #3b82f6, #6366f1);
-  }
-  .card-hover {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .card-hover:hover {
+  background-image: linear-gradient(to right, var(--color-primary), var(--color-primary-end));
+}
+
+.card-hover {
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.card-hover:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  }
-  .nav-link {
+  box-shadow: var(--shadow-card-hover);
+}
+
+.nav-link {
   position: relative;
-  }
-  .nav-link::after {
+}
+
+.nav-link::after {
   content: '';
   position: absolute;
   width: 0;
   height: 2px;
   bottom: -2px;
   left: 0;
-  background-color: #3b82f6;
-  transition: width 0.3s ease;
-  }
-  .nav-link:hover::after {
+  background-color: var(--color-primary);
+  transition: width var(--transition-base);
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
   width: 100%;
-  }
-  .nav-link.active::after {
-  width: 100%;
-  }
+}

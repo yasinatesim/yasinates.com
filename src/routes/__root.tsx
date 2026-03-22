@@ -1,77 +1,105 @@
 import {
   HeadContent,
-  Link,
   Outlet,
   Scripts,
   createRootRouteWithContext,
 } from '@tanstack/react-router'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
 import * as React from 'react'
 import type { QueryClient } from '@tanstack/react-query'
 import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary'
 import { NotFound } from '~/components/NotFound'
 import appCss from '~/styles/app.css?url'
+import remixiconCss from 'remixicon/fonts/remixicon.css?url'
 import { seo } from '~/utils/seo'
-import Header from '~/components/Header'
-import Footer from '~/components/Footer'
+import { HeaderApp } from '~/micro-apps/header'
+import { FooterApp } from '~/micro-apps/footer'
+import { renderSvelteToString } from '@tuvix.js/svelte/server'
+import FooterSvelte from '~/micro-apps/footer/Footer.svelte'
+
+const RouterDevtools =
+  import.meta.env.DEV
+    ? React.lazy(() =>
+        import('@tanstack/react-router-devtools').then((m) => ({
+          default: m.TanStackRouterDevtools,
+        })),
+      )
+    : () => null
+
+const QueryDevtools =
+  import.meta.env.DEV
+    ? React.lazy(() =>
+        import('@tanstack/react-query-devtools').then((m) => ({
+          default: m.ReactQueryDevtools,
+        })),
+      )
+    : () => null
+
+// Vinxi client manifest types (only what we need)
+type VinxiAssetTag = { tag: string; attrs?: Record<string, string> }
+type VinxiClientManifest = {
+  handler: string
+  inputs: Record<string, { assets(): Promise<VinxiAssetTag[]> }>
+}
+
+async function getClientCssLinks(): Promise<string[]> {
+  try {
+    const manifest = (globalThis as { MANIFEST?: Record<string, VinxiClientManifest> }).MANIFEST
+    const client = manifest?.client
+    if (!client) return []
+    const tags = await client.inputs[client.handler]?.assets() ?? []
+    return tags
+      .filter(t => t.tag === 'link' && t.attrs?.rel === 'stylesheet' && t.attrs.href)
+      .map(t => t.attrs!.href!)
+  } catch {
+    // dev mode or non-Nitro context — Vinxi injects CSS via HMR in dev
+    return []
+  }
+}
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
+  staleTime: Infinity, // loader data never refetches on client
+  loader: async () => ({
+    footerSsrHtml: await renderSvelteToString(FooterSvelte),
+    // client-bundle CSS that TanStack Start's rt() omits from the HTML head
+    clientCssLinks: await getClientCssLinks(),
+  }),
   head: () => ({
     meta: [
-      {
-        charSet: 'utf-8',
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1',
-      },
+      { charSet: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       ...seo({
         title: 'Yasin Ateş | Frontend Developer, Web & Müzik',
         description: `Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri.`,
+        image: 'https://yasinates.com/yasin-ates-hakkimda.jpg',
+        keywords: 'frontend, yazılım, web, müzik, yasin ateş, developer, react, blog, proje',
       }),
-
-      { name: 'keywords', content: 'frontend, yazılım, web, müzik, yasin ateş, developer, react, blog, proje' },
-      { name: 'twitter:creator', content: '@yasinatesim' },
-      { name: 'twitter:site', content: '@yasinatesim' },
-      { property: 'og:type', content: 'website' },
-      { property: 'og:title', content: 'Yasin Ateş | Frontend Developer, Web & Müzik' },
-      { property: 'og:description', content: "Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri." },
-      { property: 'og:image', content: 'https://yasinates.com/yasin-ates-hakkimda.jpg' },
-      { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: 'Yasin Ateş | Frontend Developer, Web & Müzik' },
-      { name: 'twitter:description', content: "Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri." },
-      { name: 'twitter:image', content: 'https://yasinates.com/yasin-ates-hakkimda.jpg' },
-      { name: 'canonical', content: 'https://yasinates.com/' },
     ],
     links: [
-      { rel: 'stylesheet', href: appCss },
-      {
-        rel: 'apple-touch-icon',
-        sizes: '180x180',
-        href: '/apple-touch-icon.png',
-      },
-      {
-        rel: 'icon',
-        type: 'image/png',
-        sizes: '32x32',
-        href: '/favicon-32x32.png',
-      },
-      {
-        rel: 'icon',
-        type: 'image/png',
-        sizes: '16x16',
-        href: '/favicon-16x16.png',
-      },
-      { rel: 'manifest', href: '/site.webmanifest', color: '#fffff' },
-      { rel: 'icon', href: '/favicon.ico' },
+      { rel: 'dns-prefetch', href: 'https://fonts.googleapis.com' },
+      { rel: 'dns-prefetch', href: 'https://fonts.gstatic.com' },
+      // cdnjs removed — remixicon is now self-hosted
+      { rel: 'dns-prefetch', href: 'https://api.github.com' },
+      { rel: 'dns-prefetch', href: 'https://api.rss2json.com' },
+      { rel: 'dns-prefetch', href: 'https://dev.to' },
+      { rel: 'dns-prefetch', href: 'https://www.googleapis.com' },
+      { rel: 'dns-prefetch', href: 'https://i.ytimg.com' },
       { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
       { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Pacifico&display=swap' },
+      // Preload LCP image (profile photo — above the fold on home page)
+      { rel: 'preload', href: '/yasin-ates-hakkimda.jpg', as: 'image', fetchPriority: 'high' },
+      { rel: 'stylesheet', href: appCss },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap' },
-      { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css' }
+      // display=optional: logo only — zero CLS if font not cached
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Pacifico&display=optional' },
+      { rel: 'stylesheet', href: remixiconCss },
+      { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+      { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
+      { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
+      { rel: 'manifest', href: '/site.webmanifest' },
+      { rel: 'icon', href: '/favicon.ico' },
+      { rel: 'canonical', href: 'https://yasinates.com/' },
     ],
   }),
   errorComponent: (props) => {
@@ -94,18 +122,25 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  const { footerSsrHtml, clientCssLinks } = Route.useLoaderData()
   return (
     <html>
       <head>
         <title id="main-title">Yasin Ateş | Frontend Developer, Web & Müzik</title>
+        {/* client-bundle CSS (header, footer, blog, post-detail) that TanStack Start omits */}
+        {clientCssLinks.map(href => (
+          <link key={href} rel="stylesheet" href={href} />
+        ))}
         <HeadContent />
       </head>
-      <body className='bg-gray-50'>
-        <Header />
+      <body>
+        <HeaderApp />
         {children}
-        <Footer />
-        <TanStackRouterDevtools position="bottom-right" />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
+        <FooterApp ssrHtml={footerSsrHtml} />
+        <React.Suspense>
+          <RouterDevtools position="bottom-right" />
+          <QueryDevtools buttonPosition="bottom-left" />
+        </React.Suspense>
         <Scripts />
       </body>
     </html>

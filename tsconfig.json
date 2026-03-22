@@ -1,5 +1,6 @@
 {
   "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "lighthouse-guard", "tuvix.js"],
   "compilerOptions": {
     "strict": true,
     "esModuleInterop": true,
@@ -17,6 +18,8 @@
     "paths": {
       "~/*": ["./src/*"]
     },
-    "noEmit": true
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   }
 }

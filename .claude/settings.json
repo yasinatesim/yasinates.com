@@ -1,0 +1,9 @@
+{
+  "enabledPlugins": {
+    "everything-claude-code@everything-claude-code": true,
+    "superpowers@superpowers-marketplace": true,
+    "claude-mem@thedotmack": true,
+    "code-review-graph@code-review-graph": true,
+    "claude-hud@claude-hud": true
+  }
+}

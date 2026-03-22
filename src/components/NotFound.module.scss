@@ -1,0 +1,40 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-2);
+}
+
+.message {
+  color: var(--color-gray-600);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.btnBack {
+  background-color: #10b981;
+  color: var(--color-white);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: var(--font-size-sm);
+}
+
+.btnHome {
+  background-color: #0891b2;
+  color: var(--color-white);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: var(--font-size-sm);
+}
