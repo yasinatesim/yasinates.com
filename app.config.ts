@@ -27,13 +27,13 @@ export default defineConfig({
       chunkSizeWarningLimit: 500,
       rollupOptions: {
         output: {
-          manualChunks: {
-            // Framework runtimes — cached independently, rarely change
-            'vendor-react':  ['react', 'react-dom'],
-            'vendor-vue':    ['vue'],
-            'vendor-svelte': ['svelte'],
-            // Heavy Prism language components — only needed on blog pages
-            'vendor-prism':  ['prismjs'],
+          // Function form is required when SSR build externalises some packages:
+          // object form errors if a listed package is external (SSR build).
+          manualChunks: (id) => {
+            if (id.includes('/node_modules/react-dom/') || id.includes('/node_modules/react/')) return 'vendor-react'
+            if (id.includes('/node_modules/vue/')) return 'vendor-vue'
+            if (id.includes('/node_modules/svelte/')) return 'vendor-svelte'
+            if (id.includes('/node_modules/prismjs/')) return 'vendor-prism'
           },
         },
       },
