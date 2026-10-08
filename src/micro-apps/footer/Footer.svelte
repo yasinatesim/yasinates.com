@@ -114,6 +114,10 @@
       <p class="copyright">
         &copy; {year} Yasin Ateş. Tüm hakları saklıdır.
       </p>
+      <nav class="legalLinks" aria-label="Yasal">
+        <a href="/gizlilik-politikasi" class="legalLink">Gizlilik Politikası</a>
+        <a href="/kullanim-kosullari" class="legalLink">Kullanım Koşulları</a>
+      </nav>
     </div>
   </div>
 </footer>
@@ -250,5 +254,20 @@
     color: var(--color-gray-400);
     font-size: var(--font-size-sm);
     letter-spacing: 0.025em;
+  }
+  .legalLinks {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-6);
+    margin-top: var(--space-3);
+  }
+  .legalLink {
+    color: var(--color-gray-400);
+    font-size: var(--font-size-sm);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .legalLink:hover {
+    color: var(--color-primary);
   }
 </style>

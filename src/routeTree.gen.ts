@@ -13,8 +13,10 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as YoutubeImport } from './routes/youtube'
 import { Route as ProjelerImport } from './routes/projeler'
+import { Route as KullanimKosullariImport } from './routes/kullanim-kosullari'
 import { Route as IletisimImport } from './routes/iletisim'
 import { Route as HakkimdaImport } from './routes/hakkimda'
+import { Route as GizlilikPolitikasiImport } from './routes/gizlilik-politikasi'
 import { Route as GithubImport } from './routes/github'
 import { Route as BlogImport } from './routes/blog'
 import { Route as PostIdImport } from './routes/$postId'
@@ -34,6 +36,12 @@ const ProjelerRoute = ProjelerImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const KullanimKosullariRoute = KullanimKosullariImport.update({
+  id: '/kullanim-kosullari',
+  path: '/kullanim-kosullari',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const IletisimRoute = IletisimImport.update({
   id: '/iletisim',
   path: '/iletisim',
@@ -43,6 +51,12 @@ const IletisimRoute = IletisimImport.update({
 const HakkimdaRoute = HakkimdaImport.update({
   id: '/hakkimda',
   path: '/hakkimda',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const GizlilikPolitikasiRoute = GizlilikPolitikasiImport.update({
+  id: '/gizlilik-politikasi',
+  path: '/gizlilik-politikasi',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -102,6 +116,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GithubImport
       parentRoute: typeof rootRoute
     }
+    '/gizlilik-politikasi': {
+      id: '/gizlilik-politikasi'
+      path: '/gizlilik-politikasi'
+      fullPath: '/gizlilik-politikasi'
+      preLoaderRoute: typeof GizlilikPolitikasiImport
+      parentRoute: typeof rootRoute
+    }
     '/hakkimda': {
       id: '/hakkimda'
       path: '/hakkimda'
@@ -114,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/iletisim'
       fullPath: '/iletisim'
       preLoaderRoute: typeof IletisimImport
+      parentRoute: typeof rootRoute
+    }
+    '/kullanim-kosullari': {
+      id: '/kullanim-kosullari'
+      path: '/kullanim-kosullari'
+      fullPath: '/kullanim-kosullari'
+      preLoaderRoute: typeof KullanimKosullariImport
       parentRoute: typeof rootRoute
     }
     '/projeler': {
@@ -140,8 +168,10 @@ export interface FileRoutesByFullPath {
   '/$postId': typeof PostIdRoute
   '/blog': typeof BlogRoute
   '/github': typeof GithubRoute
+  '/gizlilik-politikasi': typeof GizlilikPolitikasiRoute
   '/hakkimda': typeof HakkimdaRoute
   '/iletisim': typeof IletisimRoute
+  '/kullanim-kosullari': typeof KullanimKosullariRoute
   '/projeler': typeof ProjelerRoute
   '/youtube': typeof YoutubeRoute
 }
@@ -151,8 +181,10 @@ export interface FileRoutesByTo {
   '/$postId': typeof PostIdRoute
   '/blog': typeof BlogRoute
   '/github': typeof GithubRoute
+  '/gizlilik-politikasi': typeof GizlilikPolitikasiRoute
   '/hakkimda': typeof HakkimdaRoute
   '/iletisim': typeof IletisimRoute
+  '/kullanim-kosullari': typeof KullanimKosullariRoute
   '/projeler': typeof ProjelerRoute
   '/youtube': typeof YoutubeRoute
 }
@@ -163,8 +195,10 @@ export interface FileRoutesById {
   '/$postId': typeof PostIdRoute
   '/blog': typeof BlogRoute
   '/github': typeof GithubRoute
+  '/gizlilik-politikasi': typeof GizlilikPolitikasiRoute
   '/hakkimda': typeof HakkimdaRoute
   '/iletisim': typeof IletisimRoute
+  '/kullanim-kosullari': typeof KullanimKosullariRoute
   '/projeler': typeof ProjelerRoute
   '/youtube': typeof YoutubeRoute
 }
@@ -176,8 +210,10 @@ export interface FileRouteTypes {
     | '/$postId'
     | '/blog'
     | '/github'
+    | '/gizlilik-politikasi'
     | '/hakkimda'
     | '/iletisim'
+    | '/kullanim-kosullari'
     | '/projeler'
     | '/youtube'
   fileRoutesByTo: FileRoutesByTo
@@ -186,8 +222,10 @@ export interface FileRouteTypes {
     | '/$postId'
     | '/blog'
     | '/github'
+    | '/gizlilik-politikasi'
     | '/hakkimda'
     | '/iletisim'
+    | '/kullanim-kosullari'
     | '/projeler'
     | '/youtube'
   id:
@@ -196,8 +234,10 @@ export interface FileRouteTypes {
     | '/$postId'
     | '/blog'
     | '/github'
+    | '/gizlilik-politikasi'
     | '/hakkimda'
     | '/iletisim'
+    | '/kullanim-kosullari'
     | '/projeler'
     | '/youtube'
   fileRoutesById: FileRoutesById
@@ -208,8 +248,10 @@ export interface RootRouteChildren {
   PostIdRoute: typeof PostIdRoute
   BlogRoute: typeof BlogRoute
   GithubRoute: typeof GithubRoute
+  GizlilikPolitikasiRoute: typeof GizlilikPolitikasiRoute
   HakkimdaRoute: typeof HakkimdaRoute
   IletisimRoute: typeof IletisimRoute
+  KullanimKosullariRoute: typeof KullanimKosullariRoute
   ProjelerRoute: typeof ProjelerRoute
   YoutubeRoute: typeof YoutubeRoute
 }
@@ -219,8 +261,10 @@ const rootRouteChildren: RootRouteChildren = {
   PostIdRoute: PostIdRoute,
   BlogRoute: BlogRoute,
   GithubRoute: GithubRoute,
+  GizlilikPolitikasiRoute: GizlilikPolitikasiRoute,
   HakkimdaRoute: HakkimdaRoute,
   IletisimRoute: IletisimRoute,
+  KullanimKosullariRoute: KullanimKosullariRoute,
   ProjelerRoute: ProjelerRoute,
   YoutubeRoute: YoutubeRoute,
 }
@@ -239,8 +283,10 @@ export const routeTree = rootRoute
         "/$postId",
         "/blog",
         "/github",
+        "/gizlilik-politikasi",
         "/hakkimda",
         "/iletisim",
+        "/kullanim-kosullari",
         "/projeler",
         "/youtube"
       ]
@@ -257,11 +303,17 @@ export const routeTree = rootRoute
     "/github": {
       "filePath": "github.tsx"
     },
+    "/gizlilik-politikasi": {
+      "filePath": "gizlilik-politikasi.tsx"
+    },
     "/hakkimda": {
       "filePath": "hakkimda.tsx"
     },
     "/iletisim": {
       "filePath": "iletisim.tsx"
+    },
+    "/kullanim-kosullari": {
+      "filePath": "kullanim-kosullari.tsx"
     },
     "/projeler": {
       "filePath": "projeler.tsx"

@@ -25,8 +25,8 @@ export const Route = createFileRoute('/youtube')({
         image: 'https://yasinates.com/og-image.jpg',
         keywords: 'youtube, video, içerik, yasin ateş, frontend, müzik'
       }),
-      { name: 'canonical', content: 'https://yasinates.com/youtube' },
     ],
+    links: [{ rel: 'canonical', href: 'https://yasinates.com/youtube' }],
     script: [
       {
         type: 'application/ld+json',

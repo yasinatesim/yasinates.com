@@ -22,6 +22,7 @@ const MICRO_APPS = [
   { name: 'contact-app',  entry: 'src/micro-apps/contact/index.ts' },
   { name: 'github-app',   entry: 'src/micro-apps/github/index.ts' },
   { name: 'youtube-app',  entry: 'src/micro-apps/youtube/index.ts' },
+  { name: 'legal-app',    entry: 'src/micro-apps/legal/index.ts' },
 ]
 
 // Optional: build only one app via --app flag

@@ -23,6 +23,7 @@ export const Route = createFileRoute('/blog')({
     title: 'Blog | Yasin Ateş',
     links: [
       { rel: 'stylesheet', href: prismCss },
+      { rel: 'canonical', href: 'https://yasinates.com/blog' },
     ],
     meta: [
       ...seo({
@@ -31,7 +32,6 @@ export const Route = createFileRoute('/blog')({
         image: 'https://yasinates.com/og-image.jpg',
         keywords: 'frontend, yazılım, web, müzik, blog, yasin ateş, developer, react, proje'
       }),
-      { name: 'canonical', content: 'https://yasinates.com/blog' },
     ],
     script: [
       {

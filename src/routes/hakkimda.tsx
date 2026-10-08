@@ -14,8 +14,8 @@ export const Route = createFileRoute('/hakkimda')({
         image: 'https://yasinates.com/yasin-ates-hakkimda.jpg',
         keywords: 'hakkımda, frontend, developer, yasin ateş, deneyim, teknoloji'
       }),
-      { name: 'canonical', content: 'https://yasinates.com/hakkimda' },
     ],
+    links: [{ rel: 'canonical', href: 'https://yasinates.com/hakkimda' }],
     script: [
       {
         type: 'application/ld+json',

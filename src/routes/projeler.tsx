@@ -14,8 +14,8 @@ export const Route = createFileRoute('/projeler')({
         image: 'https://yasinates.com/og-image.jpg',
         keywords: 'projeler, açık kaynak, yazılım, uygulama, yasin ateş, developer, frontend'
       }),
-      { name: 'canonical', content: 'https://yasinates.com/projeler' },
     ],
+    links: [{ rel: 'canonical', href: 'https://yasinates.com/projeler' }],
     script: [
       {
         type: 'application/ld+json',

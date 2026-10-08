@@ -16,6 +16,8 @@ import { FooterApp } from '~/micro-apps/footer'
 import { renderSvelteToString } from '@tuvix.js/svelte/server'
 import FooterSvelte from '~/micro-apps/footer/Footer.svelte'
 
+const ADSENSE_CLIENT = 'ca-pub-5037834528497637'
+
 const RouterDevtools =
   import.meta.env.DEV
     ? React.lazy(() =>
@@ -69,6 +71,7 @@ export const Route = createRootRouteWithContext<{
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'google-adsense-account', content: ADSENSE_CLIENT },
       ...seo({
         title: 'Yasin Ateş | Frontend Developer, Web & Müzik',
         description: `Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri.`,
@@ -99,7 +102,6 @@ export const Route = createRootRouteWithContext<{
       { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
       { rel: 'manifest', href: '/site.webmanifest' },
       { rel: 'icon', href: '/favicon.ico' },
-      { rel: 'canonical', href: 'https://yasinates.com/' },
     ],
   }),
   errorComponent: (props) => {
@@ -126,7 +128,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html>
       <head>
-        <title id="main-title">Yasin Ateş | Frontend Developer, Web & Müzik</title>
+        <script
+          async
+          src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
+          crossOrigin="anonymous"
+        />
         {/* client-bundle CSS (header, footer, blog, post-detail) that TanStack Start omits */}
         {clientCssLinks.map(href => (
           <link key={href} rel="stylesheet" href={href} />
