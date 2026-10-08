@@ -36,10 +36,33 @@ interface YtVideoRenderer {
   thumbnail?: { thumbnails: YtThumbnail[] }
 }
 
+interface YtMetadataPart {
+  text?: { content?: string }
+  accessibilityLabel?: string
+}
+
+interface YtLockupViewModel {
+  contentId?: string
+  contentType?: string
+  contentImage?: {
+    thumbnailViewModel?: { image?: { sources?: YtThumbnail[] } }
+  }
+  metadata?: {
+    lockupMetadataViewModel?: {
+      title?: { content?: string }
+      metadata?: {
+        contentMetadataViewModel?: {
+          metadataRows?: Array<{ metadataParts?: YtMetadataPart[] }>
+        }
+      }
+    }
+  }
+}
+
 interface YtRichGridRenderer {
   contents?: Array<{
     richItemRenderer?: {
-      content?: { videoRenderer?: YtVideoRenderer }
+      content?: { videoRenderer?: YtVideoRenderer; lockupViewModel?: YtLockupViewModel }
     }
   }>
 }
@@ -112,6 +135,22 @@ function extractVideoRenderer(renderer: YtVideoRenderer): YoutubeVideo | null {
   }
 }
 
+function extractLockupViewModel(lockup: YtLockupViewModel): YoutubeVideo | null {
+  const videoId = lockup.contentId ?? ''
+  if (!videoId || lockup.contentType !== 'LOCKUP_CONTENT_TYPE_VIDEO') return null
+  const meta = lockup.metadata?.lockupMetadataViewModel
+  const [viewsPart, publishedPart] = meta?.metadata?.contentMetadataViewModel?.metadataRows?.at(-1)?.metadataParts ?? []
+  return {
+    videoId,
+    title: meta?.title?.content ?? '',
+    thumbnail: getBestThumbnail(lockup.contentImage?.thumbnailViewModel?.image?.sources, videoId),
+    description: '',
+    views: turkishViews(viewsPart?.accessibilityLabel ?? viewsPart?.text?.content ?? ''),
+    published: turkishPublished(publishedPart?.text?.content ?? ''),
+    url: `https://www.youtube.com/watch?v=${videoId}`,
+  }
+}
+
 export function extractVideosFromYtData(ytData: YtInitialData): YoutubeVideo[] {
   const videos: YoutubeVideo[] = []
   const tabs = ytData?.contents?.twoColumnBrowseResultsRenderer?.tabs
@@ -122,11 +161,13 @@ export function extractVideosFromYtData(ytData: YtInitialData): YoutubeVideo[] {
 
     // richGridRenderer
     for (const item of tabContent?.richGridRenderer?.contents ?? []) {
-      const renderer = item?.richItemRenderer?.content?.videoRenderer
-      if (renderer) {
-        const video = extractVideoRenderer(renderer)
-        if (video) videos.push(video)
-      }
+      const content = item?.richItemRenderer?.content
+      const video = content?.videoRenderer
+        ? extractVideoRenderer(content.videoRenderer)
+        : content?.lockupViewModel
+          ? extractLockupViewModel(content.lockupViewModel)
+          : null
+      if (video) videos.push(video)
     }
 
     // gridRenderer
@@ -161,7 +202,10 @@ export function parseYoutubeHtml(html: string): YoutubeVideo[] {
 }
 
 export async function fetchYoutubeVideos(): Promise<YoutubeVideo[]> {
-  const url = `https://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}/videos`
+  // youtube.com sends no CORS headers — loaders running in the browser go through the same-origin proxy
+  const url = typeof window === 'undefined'
+    ? `https://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}/videos`
+    : '/api/youtube'
   const res = await fetch(url, {
     headers: {
       'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',

@@ -109,6 +109,74 @@ describe('useYoutubeFeed', () => {
     expect(video.url).toBe('https://www.youtube.com/watch?v=abc123')
   })
 
+  it('parses lockupViewModel items (current YouTube channel layout)', async () => {
+    const lockup = (contentId: string, contentType: string) => ({
+      richItemRenderer: {
+        content: {
+          lockupViewModel: {
+            contentId,
+            contentType,
+            contentImage: {
+              thumbnailViewModel: {
+                image: {
+                  sources: [
+                    { url: `https://i.ytimg.com/vi/${contentId}/hq720.jpg?sqp=small&rs=a`, width: 360, height: 202 },
+                    { url: `https://i.ytimg.com/vi/${contentId}/hq720.jpg?sqp=large&rs=b`, width: 720, height: 404 },
+                  ],
+                },
+              },
+            },
+            metadata: {
+              lockupMetadataViewModel: {
+                title: { content: 'Elam' },
+                metadata: {
+                  contentMetadataViewModel: {
+                    metadataRows: [{
+                      metadataParts: [
+                        { text: { content: '54' }, accessibilityLabel: '54 görüntüleme' },
+                        { text: { content: '1 yıl önce' }, accessibilityLabel: '1 yıl önce' },
+                      ],
+                    }],
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+    const ytData = {
+      contents: {
+        twoColumnBrowseResultsRenderer: {
+          tabs: [{
+            tabRenderer: {
+              content: {
+                richGridRenderer: {
+                  contents: [lockup('SYBRpPvuios', 'LOCKUP_CONTENT_TYPE_VIDEO'), lockup('PLx', 'LOCKUP_CONTENT_TYPE_PLAYLIST')],
+                },
+              },
+            },
+          }],
+        },
+      },
+    }
+    mockGet.mockResolvedValueOnce({ data: buildHtmlWithYtData(ytData) })
+
+    const { result } = renderHook(() => useYoutubeFeed(), { wrapper: makeWrapper() })
+
+    await waitFor(() => {
+      expect(result.current.data).toEqual([{
+        videoId: 'SYBRpPvuios',
+        title: 'Elam',
+        thumbnail: 'https://i.ytimg.com/vi/SYBRpPvuios/hq720.jpg',
+        description: '',
+        views: '54 görüntüleme',
+        published: '1 yıl önce',
+        url: 'https://www.youtube.com/watch?v=SYBRpPvuios',
+      }])
+    })
+  })
+
   it('parses gridRenderer and returns video objects', async () => {
     const ytData = {
       contents: {
