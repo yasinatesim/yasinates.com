@@ -123,18 +123,13 @@ export function PrivacyPolicy() {
         iletebilirsiniz.
       </p>
 
-      <h2>6. Çocukların Gizliliği</h2>
-      <p>
-        Site 13 yaşın altındaki çocuklara yönelik değildir ve bilerek bu yaş grubundan kişisel veri toplanmaz.
-      </p>
-
-      <h2>7. Değişiklikler</h2>
+      <h2>6. Değişiklikler</h2>
       <p>
         Bu politika gerektiğinde güncellenebilir. Güncel sürüm her zaman bu sayfada, son güncelleme tarihiyle birlikte
         yayınlanır.
       </p>
 
-      <h2>8. İletişim</h2>
+      <h2>7. İletişim</h2>
       <p>
         Gizlilik politikasıyla ilgili sorularınız için <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>{' '}
         adresinden veya <a href="/iletisim">iletişim sayfası</a> üzerinden bana ulaşabilirsiniz.
