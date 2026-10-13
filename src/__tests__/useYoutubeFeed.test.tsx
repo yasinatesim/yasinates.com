@@ -121,7 +121,7 @@ describe('useYoutubeFeed', () => {
                 image: {
                   sources: [
                     { url: `https://i.ytimg.com/vi/${contentId}/hq720.jpg?sqp=small&rs=a`, width: 360, height: 202 },
-                    { url: `https://i.ytimg.com/vi/${contentId}/hq720.jpg?sqp=large&rs=b`, width: 720, height: 404 },
+                    { url: `https://i.ytimg.com/vi/${contentId}/hq720.jpg?sqp=large&usqp=CBQ&rs=b`, width: 720, height: 404 },
                   ],
                 },
               },

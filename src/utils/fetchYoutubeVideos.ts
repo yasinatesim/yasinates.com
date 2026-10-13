@@ -94,7 +94,8 @@ function getBestThumbnail(thumbnails: YtThumbnail[] | undefined, videoId: string
     })
     const best = sorted[0]
     if (best?.url) {
-      return best.url.replace(/[?&](width|height|sqp|rs)=[^&]*/g, '').replace(/[?&]$/, '')
+      // drop the whole query: sqp/rs are a signature pair, and partial stripping left `hq720.jpg&usqp=…` (404 placeholder)
+      return best.url.split('?')[0]
     }
   }
   return `https://i.ytimg.com/vi/${videoId}/sddefault.jpg`

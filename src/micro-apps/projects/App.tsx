@@ -165,6 +165,17 @@ function ProjelerPage() {
 
         <div className={styles.block}>
           <h3 className={styles.blockTitle}>
+            <i className="ri-code-box-line ri-lg" aria-hidden="true" /> Öne Çıkan Projeler
+          </h3>
+          <div className={styles.grid}>
+            {OTHER_PROJECTS.map((project: OtherProject, idx) => (
+              <OtherProjectCard key={idx} project={project} />
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.block}>
+          <h3 className={styles.blockTitle}>
             <i className="ri-github-fill ri-lg" aria-hidden="true" /> Github Projeleri
           </h3>
           <div className={styles.grid}>
@@ -174,24 +185,13 @@ function ProjelerPage() {
           </div>
         </div>
 
-        <div className={styles.block}>
+        <div>
           <h3 className={styles.blockTitle}>
             <i className="ri-youtube-fill ri-lg" style={{ color: 'var(--color-red-600)' }} aria-hidden="true" /> YouTube İçeriklerim
           </h3>
           <div className={styles.grid}>
             {(youtubeFeed.data as YoutubeVideo[])?.map((video) => (
               <YoutubeVideoCard key={video.videoId} video={video} />
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h3 className={styles.blockTitle}>
-            <i className="ri-code-box-line ri-lg" aria-hidden="true" /> Diğer Projeler
-          </h3>
-          <div className={styles.grid}>
-            {OTHER_PROJECTS.map((project: OtherProject, idx) => (
-              <OtherProjectCard key={idx} project={project} />
             ))}
           </div>
         </div>

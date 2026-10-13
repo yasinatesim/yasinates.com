@@ -2,6 +2,7 @@ import { defineConfig } from '@tanstack/react-start/config'
 import tsConfigPaths from 'vite-tsconfig-paths'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import vue from '@vitejs/plugin-vue'
+import { routeCss } from './vite-plugins/routeCss'
 
 export default defineConfig({
   tsr: {
@@ -17,6 +18,7 @@ export default defineConfig({
       }),
       svelte({ compilerOptions: { css: 'injected', hydratable: true } }),
       vue(),
+      routeCss({ clientBase: '/_build', routesDirectory: 'src/routes', generatedRouteTree: 'src/routeTree.gen.ts' }),
     ],
     optimizeDeps: {
       include: ['@angular/compiler'],

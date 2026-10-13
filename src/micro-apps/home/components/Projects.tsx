@@ -100,69 +100,10 @@ const Projects = () => {
           <p className={styles.subtitle}>Geliştirdiğim web projeleri, açık kaynak katkılarım ve müzik çalışmalarım.</p>
         </div>
 
-        {/* GitHub */}
+        {/* Featured Projects */}
         <div className={styles.block}>
           <h3 className={styles.blockTitle}>
-            <i className="ri-github-fill ri-lg" aria-hidden="true" /> Son Github Projelerim
-          </h3>
-          <div className={styles.grid3}>
-            {slicedRepos?.map((repo: GithubRepo) => <RepoCard key={repo.id} repo={repo} />)}
-          </div>
-          <div className={styles.ctaRow}>
-            <Link to="/github" className={styles.ctaGithub}>
-              Tüm GitHub Projelerini Gör <i className="ri-arrow-right-line" aria-hidden="true" />
-            </Link>
-          </div>
-        </div>
-
-        {/* YouTube */}
-        <div className={styles.block}>
-          <h3 className={styles.blockTitle}>
-            <i className="ri-youtube-fill ri-lg" style={{ color: 'var(--color-red-600)' }} aria-hidden="true" /> Son YouTube İçeriklerim
-          </h3>
-          <div className={styles.grid3}>
-            {youtubeFeed.data?.slice(0, 3).map((video) => (
-              <div key={video.videoId} className={styles.card}>
-                <div className={styles.videoImageWrapper}>
-                  <span className={styles.dateBadge}>{video.published}</span>
-                  <a href={video.url} target="_blank" rel="noopener noreferrer">
-                    <img src={video.thumbnail} alt={video.title} className={styles.videoThumbnail} loading="lazy" width={480} height={270} />
-                    <div className={styles.playOverlay}>
-                      <div className={styles.playBtn}>
-                        <i className="ri-play-fill ri-2x" aria-hidden="true" />
-                      </div>
-                    </div>
-                  </a>
-                </div>
-                <div className={styles.cardBody}>
-                  <h4 className={styles.cardTitle}>{video.title}</h4>
-                  {video.description && <p className={styles.cardDesc}>{video.description}</p>}
-                  <div className={styles.spacer} />
-                  <div className={styles.videoMeta}>
-                    {video.views && (
-                      <span className={styles.views}>
-                        <i className="ri-eye-line" aria-hidden="true" /> {video.views}
-                      </span>
-                    )}
-                    <a href={video.url} target="_blank" rel="noopener noreferrer" className={styles.watchLink}>
-                      İzle <i className="ri-youtube-fill" aria-hidden="true" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className={styles.ctaRow}>
-            <Link to="/youtube" className={styles.ctaYoutube}>
-              Tüm Youtube İçeriklerimi Gör <i className="ri-arrow-right-line" aria-hidden="true" />
-            </Link>
-          </div>
-        </div>
-
-        {/* Other Projects */}
-        <div>
-          <h3 className={styles.blockTitle}>
-            <i className="ri-code-box-line ri-lg" aria-hidden="true" /> Diğer Projeler
+            <i className="ri-code-box-line ri-lg" aria-hidden="true" /> Öne Çıkan Projelerim
           </h3>
           <div className={styles.grid3}>
             {OTHER_PROJECTS.map((project: OtherProject, idx) => (
@@ -227,6 +168,65 @@ const Projects = () => {
                 )}
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* GitHub */}
+        <div className={styles.block}>
+          <h3 className={styles.blockTitle}>
+            <i className="ri-github-fill ri-lg" aria-hidden="true" /> Son Github Projelerim
+          </h3>
+          <div className={styles.grid3}>
+            {slicedRepos?.map((repo: GithubRepo) => <RepoCard key={repo.id} repo={repo} />)}
+          </div>
+          <div className={styles.ctaRow}>
+            <Link to="/github" className={styles.ctaGithub}>
+              Tüm GitHub Projelerini Gör <i className="ri-arrow-right-line" aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+
+        {/* YouTube */}
+        <div>
+          <h3 className={styles.blockTitle}>
+            <i className="ri-youtube-fill ri-lg" style={{ color: 'var(--color-red-600)' }} aria-hidden="true" /> Son YouTube İçeriklerim
+          </h3>
+          <div className={styles.grid3}>
+            {youtubeFeed.data?.slice(0, 3).map((video) => (
+              <div key={video.videoId} className={styles.card}>
+                <div className={styles.videoImageWrapper}>
+                  <span className={styles.dateBadge}>{video.published}</span>
+                  <a href={video.url} target="_blank" rel="noopener noreferrer">
+                    <img src={video.thumbnail} alt={video.title} className={styles.videoThumbnail} loading="lazy" width={480} height={270} />
+                    <div className={styles.playOverlay}>
+                      <div className={styles.playBtn}>
+                        <i className="ri-play-fill ri-2x" aria-hidden="true" />
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div className={styles.cardBody}>
+                  <h4 className={styles.cardTitle}>{video.title}</h4>
+                  {video.description && <p className={styles.cardDesc}>{video.description}</p>}
+                  <div className={styles.spacer} />
+                  <div className={styles.videoMeta}>
+                    {video.views && (
+                      <span className={styles.views}>
+                        <i className="ri-eye-line" aria-hidden="true" /> {video.views}
+                      </span>
+                    )}
+                    <a href={video.url} target="_blank" rel="noopener noreferrer" className={styles.watchLink}>
+                      İzle <i className="ri-youtube-fill" aria-hidden="true" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className={styles.ctaRow}>
+            <Link to="/youtube" className={styles.ctaYoutube}>
+              Tüm Youtube İçeriklerimi Gör <i className="ri-arrow-right-line" aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import {
   Outlet,
   Scripts,
   createRootRouteWithContext,
+  useMatches,
 } from '@tanstack/react-router'
 import * as React from 'react'
 import type { QueryClient } from '@tanstack/react-query'
@@ -15,6 +16,7 @@ import { HeaderApp } from '~/micro-apps/header'
 import { FooterApp } from '~/micro-apps/footer'
 import { renderSvelteToString } from '@tuvix.js/svelte/server'
 import FooterSvelte from '~/micro-apps/footer/Footer.svelte'
+import routeCss from 'virtual:route-css'
 
 const ADSENSE_CLIENT = 'ca-pub-5037834528497637'
 
@@ -36,36 +38,14 @@ const QueryDevtools =
       )
     : () => null
 
-// Vinxi client manifest types (only what we need)
-type VinxiAssetTag = { tag: string; attrs?: Record<string, string> }
-type VinxiClientManifest = {
-  handler: string
-  inputs: Record<string, { assets(): Promise<VinxiAssetTag[]> }>
-}
-
-async function getClientCssLinks(): Promise<string[]> {
-  try {
-    const manifest = (globalThis as { MANIFEST?: Record<string, VinxiClientManifest> }).MANIFEST
-    const client = manifest?.client
-    if (!client) return []
-    const tags = await client.inputs[client.handler]?.assets() ?? []
-    return tags
-      .filter(t => t.tag === 'link' && t.attrs?.rel === 'stylesheet' && t.attrs.href)
-      .map(t => t.attrs!.href!)
-  } catch {
-    // dev mode or non-Nitro context — Vinxi injects CSS via HMR in dev
-    return []
-  }
-}
-
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
   staleTime: Infinity, // loader data never refetches on client
   loader: async () => ({
     footerSsrHtml: await renderSvelteToString(FooterSvelte),
-    // client-bundle CSS that TanStack Start's rt() omits from the HTML head
-    clientCssLinks: await getClientCssLinks(),
+    // stylesheets of the client entry + code-split route chunks, which TanStack Start omits from the SSR head
+    routeCss,
   }),
   head: () => ({
     meta: [
@@ -124,7 +104,11 @@ function RootComponent() {
 }
 
 function RootDocument({ children }: { children: React.ReactNode }) {
-  const { footerSsrHtml, clientCssLinks } = Route.useLoaderData()
+  const { footerSsrHtml, routeCss: cssByRoute } = Route.useLoaderData()
+  const matches = useMatches()
+  // Frozen to the SSR-matched routes: on client navigation Vite's chunk loader injects route CSS itself,
+  // so re-deriving here would only duplicate those <link>s.
+  const [cssLinks] = React.useState(() => [...new Set(matches.flatMap((match) => cssByRoute[match.routeId] ?? []))])
   return (
     <html>
       <head>
@@ -133,8 +117,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
           src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`}
           crossOrigin="anonymous"
         />
-        {/* client-bundle CSS (header, footer, blog, post-detail) that TanStack Start omits */}
-        {clientCssLinks.map(href => (
+        {cssLinks.map((href) => (
           <link key={href} rel="stylesheet" href={href} />
         ))}
         <HeadContent />
