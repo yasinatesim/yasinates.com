@@ -3,5 +3,5 @@ import { fetchMediumPosts } from '~/utils/mediumArchive'
 import type { MediumPostListItem } from '~/utils/fetchBlogPosts'
 
 export const getMediumPosts = createServerFn({ method: 'GET' }).handler(
-  async (): Promise<MediumPostListItem[]> => (await fetchMediumPosts()).map(({ content: _, ...post }) => post),
+  async (): Promise<MediumPostListItem[]> => (await fetchMediumPosts()).posts.map(({ content: _, ...post }) => post),
 )

@@ -97,16 +97,17 @@ async function fetchFeed(): Promise<MediumPost[]> {
   return (data.items ?? []).map((item) => ({ ...item, readingMinutes: countReadingMinutes(item.content) }))
 }
 
-export async function fetchMediumPosts(): Promise<MediumPost[]> {
+export async function fetchMediumPosts(): Promise<{ posts: MediumPost[]; complete: boolean }> {
   const [feedResult, archiveResult] = await Promise.allSettled([fetchFeed(), readArchive()])
   const feed = feedResult.status === 'fulfilled' ? feedResult.value : []
+  const complete = feedResult.status === 'fulfilled' && archiveResult.status === 'fulfilled'
 
-  if (archiveResult.status === 'rejected') return mergeMediumPosts(feed, [])
+  if (archiveResult.status === 'rejected') return { posts: mergeMediumPosts(feed, []), complete }
   const archive = await writeArchive(feed, archiveResult.value).catch((e: unknown) => {
     if (e instanceof Error) return archiveResult.value
     throw e
   })
-  return mergeMediumPosts(feed, archive)
+  return { posts: mergeMediumPosts(feed, archive), complete }
 }
 
 export async function readArchivedMediumContent(hash: string): Promise<string> {

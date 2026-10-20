@@ -8,6 +8,7 @@ import {
   fetchDevtoArticle,
   cleanMediumContent,
   cleanDevtoContent,
+  getMediumExcerpt,
   getMediumImage,
 } from '~/utils/fetchBlogPosts'
 import { highlightCodeBlocks } from '~/utils/highlightCode'
@@ -19,36 +20,43 @@ export const loadPostDetail = createServerFn({ method: 'GET' })
   })
   .handler(async ({ data: postId }) => {
     const [mediumResult, devtoResult] = await Promise.allSettled([fetchMediumPosts(), fetchDevtoPosts()])
-    const mediumPosts = mediumResult.status === 'fulfilled' ? mediumResult.value : []
-    const devtoPosts = devtoResult.status === 'fulfilled' && Array.isArray(devtoResult.value) ? devtoResult.value : []
+    const medium = mediumResult.status === 'fulfilled' ? mediumResult.value : { posts: [], complete: false }
+    const devtoComplete = devtoResult.status === 'fulfilled' && Array.isArray(devtoResult.value)
+    const mediumPosts = medium.posts
+    const devtoPosts = devtoComplete ? devtoResult.value : []
 
     if (/^[0-9a-f]{8,16}$/.test(postId)) {
       const post = mediumPosts.find((p) => p.guid.split('/').pop() === postId)
-      if (post) return { redirectTo: `${slugify(post.title)}-${postId}` }
+      if (post) return { kind: 'redirect' as const, to: `${slugify(post.title)}-${postId}` }
     }
     if (/^\d{5,}$/.test(postId)) {
       const post = devtoPosts.find((p) => String(p.id) === postId)
-      if (post?.slug) return { redirectTo: post.slug }
+      if (post?.slug) return { kind: 'redirect' as const, to: post.slug }
     }
 
-    let content = ''
-    let postTitle = ''
-    let postImage = ''
-
     const mediumPost = mediumPosts.find((p) => `${slugify(p.title)}-${p.guid.split('/').pop() ?? p.guid}` === postId)
+    const devtoPost = mediumPost ? undefined : devtoPosts.find((p) => p.slug === postId)
+
+    let content: string
+    let postTitle: string
+    let postImage: string
+    let postDescription: string
+
     if (mediumPost) {
       postTitle = mediumPost.title
       postImage = getMediumImage(mediumPost)
+      postDescription = getMediumExcerpt(mediumPost.description)
       const body = mediumPost.content || await readArchivedMediumContent(mediumHash(mediumPost))
       content = highlightCodeBlocks(cleanMediumContent(body, mediumPost.title, postImage || undefined))
+    } else if (devtoPost) {
+      postTitle = devtoPost.title
+      postImage = devtoPost.cover_image ?? ''
+      postDescription = devtoPost.description
+      const bodyHtml = await fetchDevtoArticle(postId)
+      content = highlightCodeBlocks(cleanDevtoContent(bodyHtml || devtoPost.description))
     } else {
-      const devtoPost = devtoPosts.find((p) => p.slug === postId)
-      if (devtoPost) {
-        postTitle = devtoPost.title
-        postImage = devtoPost.cover_image ?? ''
-        const bodyHtml = await fetchDevtoArticle(postId)
-        content = highlightCodeBlocks(cleanDevtoContent(bodyHtml || devtoPost.description))
-      }
+      if (medium.complete && devtoComplete) return { kind: 'not-found' as const }
+      throw new Error('Blog sources are unavailable')
     }
 
     const mediumList = mediumPosts.map(({ content: _, ...p }) => p)
@@ -61,5 +69,15 @@ export const loadPostDetail = createServerFn({ method: 'GET' })
       devtoPosts: devtoList.map((p) => ({ ...p, body_html: '' })),
     }).catch(() => '')
 
-    return { redirectTo: null, ssrHtml, content, mediumPosts: mediumList, devtoPosts: devtoList, postTitle, postImage, postId }
+    return {
+      kind: 'post' as const,
+      ssrHtml,
+      content,
+      mediumPosts: mediumList,
+      devtoPosts: devtoList,
+      postTitle,
+      postImage,
+      postDescription,
+      postId,
+    }
   })

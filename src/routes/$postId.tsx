@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute, notFound, redirect } from '@tanstack/react-router'
 import { TuvixReactApp } from '@tuvix.js/react'
 import { seo } from '~/utils/seo'
 import prismCss from 'prismjs/themes/prism-okaidia.css?url'
@@ -9,14 +9,18 @@ export const Route = createFileRoute('/$postId')({
   staleTime: 1000 * 60 * 5,
   loader: async ({ params }) => {
     const data = await loadPostDetail({ data: params.postId })
-    if (data.redirectTo !== null) {
-      throw redirect({ to: '/$postId', params: { postId: data.redirectTo }, statusCode: 301 })
+    if (data.kind === 'redirect') {
+      throw redirect({ to: '/$postId', params: { postId: data.to }, statusCode: 301 })
     }
+    if (data.kind === 'not-found') throw notFound()
     return data
   },
   head: ({ loaderData }) => {
-    const title = loaderData?.postTitle || 'Blog Yazısı'
-    const url = `https://yasinates.com/${loaderData?.postId ?? ''}`
+    if (!loaderData) {
+      return { meta: [{ title: 'Sayfa bulunamadı | Yasin Ateş' }, { name: 'robots', content: 'noindex' }] }
+    }
+    const title = loaderData.postTitle
+    const url = `https://yasinates.com/${loaderData.postId}`
     return {
       title: `${title} | Yasin Ateş`,
       links: [
@@ -26,8 +30,8 @@ export const Route = createFileRoute('/$postId')({
       meta: [
         ...seo({
           title: `${title} | Yasin Ateş`,
-          description: 'Blog yazısının kısa özeti.',
-          image: loaderData?.postImage || 'https://yasinates.com/og-image.jpg',
+          description: loaderData.postDescription,
+          image: loaderData.postImage || 'https://yasinates.com/og-image.jpg',
           keywords: 'blog, yazı, medium, devto, yasin ateş, frontend, developer'
         }),
       ],
