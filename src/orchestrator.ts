@@ -1,6 +1,5 @@
 import { createOrchestrator, getGlobalBus } from '@tuvix.js/core'
 
-// TanStack Router owns navigation — orchestrator.reconcile() is called from client.tsx on each navigation instead.
 const orchestratorConfig = {
   onError: (error: Error, appName: string) => {
     console.error(`[tuvix] Error in micro app "${appName}":`, error.message)

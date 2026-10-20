@@ -2,10 +2,10 @@ import { createFileRoute } from '@tanstack/react-router'
 import { TuvixReactApp } from '@tuvix.js/react'
 import { seo } from '~/utils/seo'
 import ContactApp from '~/micro-apps/contact/App'
+import { renderContactStatic } from '~/micro-apps/contact/markup'
 
 export const Route = createFileRoute('/iletisim')({
-  // Angular JIT crashes Nitro SSR — bootstraps client-side only (page is not SEO-critical)
-  loader: async () => ({ ssrHtml: '' }),
+  loader: async () => ({ ssrHtml: renderContactStatic() }),
   head: () => ({
     title: 'İletişim | Yasin Ateş',
     meta: [

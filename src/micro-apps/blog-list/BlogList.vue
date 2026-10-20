@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import styles from './blog.module.scss'
 import type { MediumPostListItem, DevToPostListItem } from '~/utils/fetchBlogPosts'
-import { slugify } from '../../utils/slugify'
+import BlogCard from './components/BlogCard.vue'
+import TabFilter from './components/TabFilter.vue'
+import { toBlogPosts } from './posts'
+import type { Tab } from './types'
 
-type Tab = 'all' | 'medium' | 'devto'
-
-type MediumItem = MediumPostListItem & { id: string; image: string; reading: string }
-type DevToItem  = DevToPostListItem  & { id: string; image: string; reading: string }
-type Post = (MediumItem & { source: 'medium' }) | (DevToItem & { source: 'devto' })
+const PANEL_ID = 'posts-panel'
+const SOURCE_PARAM = 'kaynak'
 
 const props = defineProps<{
   mediumPosts: MediumPostListItem[]
@@ -17,93 +17,64 @@ const props = defineProps<{
 
 const tab = ref<Tab>('all')
 
-const mediumItems = computed<Post[]>(() =>
-  props.mediumPosts.map(p => {
-    const hash = p.guid.split('/').pop() ?? p.guid
-    const id = slugify(p.title) + '-' + hash
-    const image =
-      p.thumbnail
-      || p.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
-      || ''
-    return { ...p, source: 'medium' as const, id, image, reading: p.readingTime ?? '5 dk' }
-  })
+const allPosts = computed(() => toBlogPosts(props.mediumPosts, props.devtoPosts))
+
+const counts = computed<Record<Tab, number>>(() => ({
+  all: allPosts.value.length,
+  medium: allPosts.value.filter((p) => p.source === 'medium').length,
+  devto: allPosts.value.filter((p) => p.source === 'devto').length,
+}))
+
+const posts = computed(() =>
+  tab.value === 'all' ? allPosts.value : allPosts.value.filter((p) => p.source === tab.value),
 )
 
-const devtoItems = computed<Post[]>(() =>
-  props.devtoPosts.map(p => ({
-    ...p,
-    source: 'devto' as const,
-    id: p.slug,
-    image: p.cover_image ?? '',
-    reading: `${p.reading_time_minutes ?? 5} dk`,
-  }))
-)
-
-const posts = computed<Post[]>(() => {
-  if (tab.value === 'medium') return mediumItems.value
-  if (tab.value === 'devto')  return devtoItems.value
-  return [...mediumItems.value, ...devtoItems.value]
-})
-
-function desc(raw: string | undefined, isMedium: boolean): string {
-  const text = isMedium ? raw?.replace(/<[^>]+>/g, '') : raw
-  return (text?.slice(0, 120) ?? '') + '...'
+function selectTab(next: Tab) {
+  tab.value = next
+  const url = new URL(window.location.href)
+  if (next === 'all') url.searchParams.delete(SOURCE_PARAM)
+  else url.searchParams.set(SOURCE_PARAM, next)
+  history.replaceState(history.state, '', url)
 }
 
+onMounted(() => {
+  const source = new URLSearchParams(window.location.search).get(SOURCE_PARAM)
+  if (source === 'medium' || source === 'devto') tab.value = source
+})
 </script>
 
 <template>
-  <section :class="styles.section">
-    <div :class="styles.container">
-      <div :class="styles.heading">
-        <h2 :class="styles.title">Blog Yazılarım</h2>
-        <p :class="styles.subtitle">Frontend geliştirme, web teknolojileri ve müzik üzerine paylaştığım yazılar.</p>
+  <main id="main" class="page-top">
+    <div class="wrap">
+      <header :class="styles['page-head']" data-reveal>
+        <nav :class="['micro', styles['crumbs']]" aria-label="Sayfa konumu" data-rv>
+          <a href="/">Anasayfa</a><span aria-hidden="true">/</span><span aria-current="page">Blog</span>
+        </nav>
+        <h1 data-rv>Blog Yazılarım</h1>
+      </header>
+
+      <div :class="styles['blog-bar']" data-reveal>
+        <TabFilter :model-value="tab" :counts="counts" :panel-id="PANEL_ID" @update:model-value="selectTab" />
+        <p class="micro" data-rv>
+          <span :class="['live-badge', allPosts.length ? 'is-live' : '']">
+            <span class="status-dot" />{{ allPosts.length ? 'Canlı · Medium + Dev.to' : 'Önbellek · son anlık görüntü' }}
+          </span>
+        </p>
       </div>
 
-      <div :class="styles.inner">
-        <div :class="styles.tabRow">
-          <div :class="styles.tabGroup">
-            <button
-              v-for="t in (['all', 'medium', 'devto'] as Tab[])"
-              :key="t"
-              :class="[styles.tab, tab === t ? styles.tabActive : '']"
-              @click="tab = t"
-            >
-              {{ t === 'all' ? 'Tüm Yazılar' : t === 'medium' ? 'Medium' : 'Dev.to' }}
-            </button>
-          </div>
-        </div>
-
-        <div :class="styles.postList">
-          <template v-if="posts.length === 0">
-            <div :class="styles.status">Yükleniyor...</div>
-          </template>
-
-          <article v-for="post in posts" :key="post.id" :class="styles.article">
-            <div :class="styles.articleImg">
-              <img v-if="post.image" :src="post.image" :alt="post.title" referrerpolicy="no-referrer" />
-            </div>
-            <div :class="styles.articleBody">
-              <div :class="styles.articleMeta">
-                <span :class="styles.metaItem">
-                  <i class="ri-time-line" aria-hidden="true" /> {{ post.reading }}
-                </span>
-                <span :class="styles.metaItem">
-                  <i :class="post.source === 'medium' ? 'ri-medium-fill' : 'ri-code-box-fill'" aria-hidden="true" />
-                  {{ post.source === 'medium' ? 'Medium' : 'Dev.to' }}
-                </span>
-              </div>
-              <h3 :class="styles.articleTitle">
-                <a :href="`/${post.id}`">{{ post.title }}</a>
-              </h3>
-              <p :class="styles.articleDesc">{{ desc(post.description, post.source === 'medium') }}</p>
-              <a :href="`/${post.id}`" :class="styles.readMore">
-                Devamını oku <i class="ri-arrow-right-line" aria-hidden="true" />
-              </a>
-            </div>
-          </article>
+      <div
+        :id="PANEL_ID"
+        :key="tab"
+        :class="styles['bgrid']"
+        role="tabpanel"
+        :aria-labelledby="`tab-${tab}`"
+        aria-live="polite"
+      >
+        <p v-if="posts.length === 0" :class="['micro', styles['loading']]">Yükleniyor...</p>
+        <div v-for="post in posts" :key="post.id" :class="styles['bgrid__cell']" data-reveal data-rv-self>
+          <BlogCard :post="post" />
         </div>
       </div>
     </div>
-  </section>
+  </main>
 </template>

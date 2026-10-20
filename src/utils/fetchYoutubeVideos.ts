@@ -94,7 +94,6 @@ function getBestThumbnail(thumbnails: YtThumbnail[] | undefined, videoId: string
     })
     const best = sorted[0]
     if (best?.url) {
-      // drop the whole query: sqp/rs are a signature pair, and partial stripping left `hq720.jpg&usqp=…` (404 placeholder)
       return best.url.split('?')[0]
     }
   }
@@ -160,7 +159,6 @@ export function extractVideosFromYtData(ytData: YtInitialData): YoutubeVideo[] {
   for (const tab of tabs) {
     const tabContent = tab.tabRenderer?.content
 
-    // richGridRenderer
     for (const item of tabContent?.richGridRenderer?.contents ?? []) {
       const content = item?.richItemRenderer?.content
       const video = content?.videoRenderer
@@ -171,7 +169,6 @@ export function extractVideosFromYtData(ytData: YtInitialData): YoutubeVideo[] {
       if (video) videos.push(video)
     }
 
-    // gridRenderer
     for (const item of tabContent?.gridRenderer?.items ?? []) {
       const renderer = item?.gridVideoRenderer
       if (renderer) {
@@ -195,7 +192,6 @@ export function parseYoutubeHtml(html: string): YoutubeVideo[] {
       try {
         return extractVideosFromYtData(JSON.parse(match[1]) as YtInitialData)
       } catch {
-        // continue to next pattern
       }
     }
   }
@@ -203,7 +199,6 @@ export function parseYoutubeHtml(html: string): YoutubeVideo[] {
 }
 
 export async function fetchYoutubeVideos(): Promise<YoutubeVideo[]> {
-  // youtube.com sends no CORS headers — loaders running in the browser go through the same-origin proxy
   const url = typeof window === 'undefined'
     ? `https://www.youtube.com/channel/${YOUTUBE_CHANNEL_ID}/videos`
     : '/api/youtube'

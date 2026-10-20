@@ -1,13 +1,15 @@
-import { useEffect, useRef } from 'react'
-import 'zone.js'
-import { bootstrapApplication, provideClientHydration } from '@angular/platform-browser'
+import { VERSION as NG_COMPILER_VERSION } from '@angular/compiler'
+import { useEffect, useRef, useState } from 'react'
+import { NgZone, ɵNoopNgZone as NoopNgZone } from '@angular/core'
+import { bootstrapApplication } from '@angular/platform-browser'
 import { ContactComponent } from './contact.component'
 
 export default function ContactApp({ ssrHtml = '' }: { ssrHtml?: string }) {
   const ref = useRef<HTMLDivElement>(null)
+  const [innerHtml] = useState(() => ({ __html: ssrHtml }))
 
   useEffect(() => {
-    if (!ref.current) return
+    if (!ref.current || !NG_COMPILER_VERSION.full) return
     const container = ref.current
     let appRef: { destroy: () => void } | undefined
 
@@ -16,7 +18,7 @@ export default function ContactApp({ ssrHtml = '' }: { ssrHtml?: string }) {
     }
 
     bootstrapApplication(ContactComponent, {
-      providers: [provideClientHydration()],
+      providers: [{ provide: NgZone, useClass: NoopNgZone }],
     }).then(app => {
       appRef = app
     }).catch((e: unknown) => {
@@ -32,7 +34,7 @@ export default function ContactApp({ ssrHtml = '' }: { ssrHtml?: string }) {
   return (
     <div
       ref={ref}
-      dangerouslySetInnerHTML={{ __html: ssrHtml }}
+      dangerouslySetInnerHTML={innerHtml}
       suppressHydrationWarning
     />
   )

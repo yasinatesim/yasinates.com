@@ -8,8 +8,31 @@ vi.mock('@tanstack/react-router', () => ({
       {children}
     </a>
   ),
-  useLocation: () => ({ pathname: '/' }),
+  useLocation: (opts?: { select?: (l: { pathname: string }) => string }) =>
+    opts?.select ? opts.select({ pathname: '/' }) : { pathname: '/' },
+  useRouter: () => ({ history: { push: vi.fn() }, subscribe: () => () => {}, flatRoutes: [], basepath: '/', preloadRoute: vi.fn() }),
+  useRouterState: () => false,
+  matchPathname: () => undefined,
+  rootRouteId: '__root__',
 }))
+
+vi.mock('@tanstack/react-query', () => ({ useQueryClient: () => ({ getQueryData: () => undefined }) }))
+
+vi.mock('~/micro-apps/header/runtime', () => ({
+  mountSignalRuntime: () => ({
+    openPalette: vi.fn(),
+    toggleTheme: vi.fn(),
+    setMenuLocked: vi.fn(),
+    navigationStarted: vi.fn(),
+    routeChanged: vi.fn(),
+    destroy: vi.fn(),
+  }),
+}))
+
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: (query: string) => ({ matches: false, media: query, addEventListener: vi.fn(), removeEventListener: vi.fn() }),
+})
 
 describe('Header', () => {
   it('renders the header element', () => {
@@ -50,7 +73,7 @@ describe('Header', () => {
 
   it('mobile menu is hidden by default', () => {
     const { container } = render(<Header />)
-    const mobileMenu = container.querySelector('[aria-expanded]')
+    const mobileMenu = container.querySelector('[aria-controls="mobile-nav"]')
     expect(mobileMenu?.getAttribute('aria-expanded')).toBe('false')
   })
 

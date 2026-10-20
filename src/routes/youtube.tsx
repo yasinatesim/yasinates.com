@@ -12,7 +12,6 @@ export const Route = createFileRoute('/youtube')({
       const videos = await fetchYoutubeVideos()
       qc.setQueryData(YOUTUBE_QUERY_KEY, videos)
     } catch {
-      // fetch failed — client will load via /api/youtube
     }
     return { dehydratedState: dehydrate(qc) }
   },

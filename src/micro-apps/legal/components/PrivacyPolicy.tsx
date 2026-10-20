@@ -4,7 +4,6 @@ const CONTACT_EMAIL = 'yasinatesim@gmail.com'
 
 const thirdPartyServices = [
   { name: 'Google AdSense (reklam)', href: 'https://policies.google.com/technologies/ads' },
-  { name: 'Google Fonts (yazı tipleri)', href: 'https://policies.google.com/privacy' },
   { name: 'YouTube (video küçük resimleri ve bağlantılar)', href: 'https://policies.google.com/privacy' },
   { name: 'GitHub (proje listesi)', href: 'https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement' },
   { name: 'Medium (blog yazıları)', href: 'https://policy.medium.com/medium-privacy-policy-f03bf92035c9' },

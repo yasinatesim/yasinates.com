@@ -19,7 +19,7 @@ export const APIRoute = createAPIFileRoute('/api/youtube')({
     return new Response(html, {
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
-        'Cache-Control': 'public, max-age=1800', // 30 min
+        'Cache-Control': 'public, max-age=1800',
       },
     })
   },

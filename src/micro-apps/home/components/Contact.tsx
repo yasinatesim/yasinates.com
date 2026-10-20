@@ -1,14 +1,10 @@
-/**
- * React bridge — mounts the Vue 3 Contact component.
- * SSR HTML is pre-rendered by the home route loader via renderVueToString.
- * Client: uses createSSRApp to hydrate the existing SSR HTML.
- */
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createSSRApp } from 'vue'
 import ContactVue from './Contact.vue'
 
 export default function Contact({ ssrHtml = '' }: { ssrHtml?: string }) {
   const ref = useRef<HTMLDivElement>(null)
+  const [innerHtml] = useState(() => ({ __html: ssrHtml }))
 
   useEffect(() => {
     if (!ref.current) return
@@ -20,7 +16,7 @@ export default function Contact({ ssrHtml = '' }: { ssrHtml?: string }) {
   return (
     <div
       ref={ref}
-      dangerouslySetInnerHTML={{ __html: ssrHtml }}
+      dangerouslySetInnerHTML={innerHtml}
       suppressHydrationWarning
     />
   )

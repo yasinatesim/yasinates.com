@@ -5,16 +5,17 @@ import prismCss from 'prismjs/themes/prism-okaidia.css?url'
 import BlogListApp from '~/micro-apps/blog-list/App'
 import BlogListVue from '~/micro-apps/blog-list/BlogList.vue'
 import { renderVueToString } from '@tuvix.js/vue/server'
-import { fetchMediumPosts, fetchDevtoPosts } from '~/utils/fetchBlogPosts'
+import { fetchDevtoPosts } from '~/utils/fetchBlogPosts'
+import { getMediumPosts } from '~/utils/getMediumPosts'
 
 export const Route = createFileRoute('/blog')({
   staleTime: 1000 * 60 * 5,
   loader: async () => {
     const [mediumResult, devtoResult] = await Promise.allSettled([
-      fetchMediumPosts(),
+      getMediumPosts(),
       fetchDevtoPosts(),
     ])
-    const mediumPosts = mediumResult.status === 'fulfilled' ? mediumResult.value.map(({ content: _, ...p }) => p) : []
+    const mediumPosts = mediumResult.status === 'fulfilled' ? mediumResult.value : []
     const devtoPosts  = devtoResult.status  === 'fulfilled' ? devtoResult.value.map(({ body_html: _, ...p }) => p) : []
     const ssrHtml = await renderVueToString(BlogListVue, { mediumPosts, devtoPosts }).catch(() => '')
     return { ssrHtml, mediumPosts, devtoPosts }

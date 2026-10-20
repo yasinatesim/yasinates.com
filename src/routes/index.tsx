@@ -6,7 +6,8 @@ import { renderVueToString } from '@tuvix.js/vue/server'
 import ContactVue from '~/micro-apps/home/components/Contact.vue'
 import BlogsVue from '~/micro-apps/home/components/Blogs.vue'
 import { fetchYoutubeVideos, YOUTUBE_QUERY_KEY } from '~/utils/fetchYoutubeVideos'
-import { fetchMediumPosts, fetchDevtoPosts } from '~/utils/fetchBlogPosts'
+import { fetchDevtoPosts } from '~/utils/fetchBlogPosts'
+import { getMediumPosts } from '~/utils/getMediumPosts'
 import { fetchAllGithubRepos, GITHUB_REPOS_QUERY_KEY } from '~/hooks/useGithubRepos'
 import { seo } from '~/utils/seo'
 
@@ -14,13 +15,11 @@ export const Route = createFileRoute('/')(({
   loader: async () => {
     const qc = new QueryClient()
     const [mediumResult, devtoResult, contactResult] = await Promise.allSettled([
-      fetchMediumPosts(),
+      getMediumPosts(),
       fetchDevtoPosts(),
       renderVueToString(ContactVue),
     ])
-    const mediumPosts = mediumResult.status === 'fulfilled'
-      ? mediumResult.value.map(({ content: _, ...p }) => p)
-      : []
+    const mediumPosts = mediumResult.status === 'fulfilled' ? mediumResult.value : []
     const devtoPosts = devtoResult.status === 'fulfilled'
       ? devtoResult.value.map(({ body_html: _, ...p }) => p)
       : []

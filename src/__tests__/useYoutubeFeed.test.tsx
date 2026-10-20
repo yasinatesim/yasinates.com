@@ -11,7 +11,6 @@ vi.mock('axios', () => ({
 import axios from 'axios'
 const mockGet = vi.mocked(axios.get)
 
-// Mock global fetch so thumbnail HEAD checks don't hit the network
 const mockFetch = vi.fn().mockResolvedValue({ ok: true })
 vi.stubGlobal('fetch', mockFetch)
 
@@ -299,7 +298,6 @@ describe('useYoutubeFeed', () => {
                 content: {
                   richGridRenderer: {
                     contents: [
-                      // item without videoId
                       { richItemRenderer: { content: { videoRenderer: { videoId: '', title: { runs: [{ text: 'No ID' }] } } } } },
                       buildRichGridItem('real123', 'Real Video', '10 views', '1 day ago'),
                     ],

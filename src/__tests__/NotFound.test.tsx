@@ -11,30 +11,30 @@ vi.mock('@tanstack/react-router', () => ({
 describe('NotFound', () => {
   it('renders default message when no children provided', () => {
     render(<NotFound />)
-    expect(screen.getByText('The page you are looking for does not exist.')).toBeTruthy()
+    expect(screen.getByText('Bağlantı değişmiş ya da sayfa kaldırılmış olabilir.')).toBeTruthy()
   })
 
   it('renders custom children when provided', () => {
     render(<NotFound><span>Özel mesaj</span></NotFound>)
     expect(screen.getByText('Özel mesaj')).toBeTruthy()
-    expect(screen.queryByText('The page you are looking for does not exist.')).toBeNull()
+    expect(screen.queryByText('Bağlantı değişmiş ya da sayfa kaldırılmış olabilir.')).toBeNull()
   })
 
-  it('renders Go back button', () => {
+  it('renders Geri git button', () => {
     render(<NotFound />)
-    expect(screen.getByRole('button', { name: /go back/i })).toBeTruthy()
+    expect(screen.getByRole('button', { name: /geri git/i })).toBeTruthy()
   })
 
-  it('renders Start Over link pointing to /', () => {
+  it('renders Anasayfaya dön link pointing to /', () => {
     render(<NotFound />)
-    const link = screen.getByRole('link', { name: /start over/i })
+    const link = screen.getByRole('link', { name: /anasayfaya dön/i })
     expect(link.getAttribute('href')).toBe('/')
   })
 
-  it('calls window.history.back on Go back click', () => {
+  it('calls window.history.back on Geri git click', () => {
     const backSpy = vi.spyOn(window.history, 'back').mockImplementation(() => {})
     render(<NotFound />)
-    fireEvent.click(screen.getByRole('button', { name: /go back/i }))
+    fireEvent.click(screen.getByRole('button', { name: /geri git/i }))
     expect(backSpy).toHaveBeenCalled()
     backSpy.mockRestore()
   })

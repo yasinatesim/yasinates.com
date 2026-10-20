@@ -1,0 +1,132 @@
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-size: 1.0625rem;
+  white-space: nowrap;
+}
+.brand__mark {
+  width: 28px;
+  height: 20px;
+  color: var(--accent-text);
+}
+.brand__mark path {
+  stroke-dasharray: 90;
+  stroke-dashoffset: 0;
+}
+@media (hover: hover) and (pointer: fine) {
+  .brand:hover .brand__mark path {
+    animation: draw-wave 1s var(--ease-out) both;
+  }
+}
+@keyframes draw-wave {
+  from {
+    stroke-dashoffset: 90;
+  }
+}
+
+.site-footer {
+  padding: var(--section-gap) 0 16px;
+}
+.footer-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-xl);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  -webkit-backdrop-filter: var(--glass-filter);
+  backdrop-filter: var(--glass-filter);
+  padding: 80px clamp(20px, 4vw, 48px) 24px;
+}
+.signal-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 80px;
+  color: var(--accent-text);
+  opacity: 0.8;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
+  gap: 40px;
+  padding: 24px 0 48px;
+}
+.footer-intro__bio {
+  margin-top: 18px;
+  max-width: 42ch;
+  color: var(--ink-2);
+}
+.footer-mail {
+  display: inline-block;
+  margin-top: 22px;
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  font-weight: 550;
+  letter-spacing: -0.02em;
+  color: var(--accent-text);
+}
+.footer-mail:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--accent-2);
+}
+.footer-col h2 {
+  margin-bottom: 16px;
+}
+.footer-col li + li {
+  margin-top: 8px;
+}
+.footer-col a {
+  color: var(--ink-2);
+  transition: color 0.2s ease;
+}
+.footer-col a:hover {
+  color: var(--ink);
+}
+.footer-col p {
+  color: var(--ink-2);
+}
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.footer-legal {
+  display: flex;
+  gap: 20px;
+  font-size: var(--fs-small);
+  color: var(--ink-3);
+}
+.footer-legal a:hover {
+  color: var(--ink);
+}
+.footer-top {
+  margin-left: auto;
+  padding: 8px 0;
+}
+.footer-top:hover {
+  color: var(--ink);
+}
+@media (max-width: 960px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .footer-intro {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 520px) {
+  .footer-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .footer-top {
+    margin-left: 0;
+  }
+}
+

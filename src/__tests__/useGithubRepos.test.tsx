@@ -71,7 +71,7 @@ describe('useGithubRepos', () => {
     await waitFor(() => expect(result.current.data).toBeDefined())
     expect(mockGet).toHaveBeenCalledWith(
       'https://api.github.com/users/yasinatesim/repos',
-      { params: { per_page: 100, page: 1 } },
+      { params: { per_page: 100, page: 1 }, headers: {} },
     )
   })
 

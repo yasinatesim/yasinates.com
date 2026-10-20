@@ -1,8 +1,3 @@
-/**
- * Turkish-aware slugify.
- * Maps Turkish characters to ASCII equivalents before lowercasing,
- * so "Sıfırdan İleri" → "sifirdan-ileri", not "sfrdan-leri".
- */
 const TURKISH_MAP: Record<string, string> = {
   ı: 'i', İ: 'i',
   ğ: 'g', Ğ: 'g',
@@ -16,10 +11,10 @@ export function slugify(text: string): string {
   return text
     .split('').map(c => TURKISH_MAP[c] ?? c).join('')
     .toLowerCase()
-    .replace(/[^\w\s-]/g, '')   // drop non-word chars (keeps letters, digits, _, -, spaces)
-    .replace(/[\s_]+/g, '-')    // spaces and underscores → dash
-    .replace(/-+/g, '-')        // collapse multiple dashes
-    .replace(/^-+|-+$/g, '')    // trim leading/trailing dashes
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '')
 }
 
 export function pascalCase(str: string): string {

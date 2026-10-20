@@ -1,87 +1,18 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
 import { TuvixReactApp } from '@tuvix.js/react'
-import { renderVueToString } from '@tuvix.js/vue/server'
 import { seo } from '~/utils/seo'
 import prismCss from 'prismjs/themes/prism-okaidia.css?url'
 import PostDetailApp from '~/micro-apps/post-detail/App'
-import PostDetailVue from '~/micro-apps/post-detail/PostDetail.vue'
-import { slugify } from '~/utils/slugify'
-import { fetchMediumPosts, fetchDevtoPosts, fetchDevtoArticle, cleanMediumContent, cleanDevtoContent, getMediumImage } from '~/utils/fetchBlogPosts'
-import { highlightCodeBlocks } from '~/utils/highlightCode'
+import { loadPostDetail } from '~/utils/loadPostDetail'
 
 export const Route = createFileRoute('/$postId')({
   staleTime: 1000 * 60 * 5,
   loader: async ({ params }) => {
-    const { postId } = params
-
-    if (/^[0-9a-f]{8,16}$/.test(postId)) {
-      try {
-        const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@yasinatesim')
-        const data = await res.json() as { items?: Array<{ guid: string; title: string }> }
-        const post = data.items?.find(p => p.guid?.split('/').pop() === postId)
-        if (post) {
-          throw redirect({ to: '/$postId', params: { postId: `${slugify(post.title)}-${postId}` }, statusCode: 301 })
-        }
-      } catch (e: unknown) {
-        if (e && typeof e === 'object' && 'statusCode' in e) throw e
-      }
+    const data = await loadPostDetail({ data: params.postId })
+    if (data.redirectTo !== null) {
+      throw redirect({ to: '/$postId', params: { postId: data.redirectTo }, statusCode: 301 })
     }
-    if (/^\d{5,}$/.test(postId)) {
-      try {
-        const res = await fetch('https://dev.to/api/articles?username=yasinatesim')
-        const data = await res.json() as Array<{ id: number; slug: string }>
-        const post = data.find(p => String(p.id) === postId)
-        if (post?.slug) {
-          throw redirect({ to: '/$postId', params: { postId: post.slug }, statusCode: 301 })
-        }
-      } catch (e: unknown) {
-        if (e && typeof e === 'object' && 'statusCode' in e) throw e
-      }
-    }
-
-    const [mediumResult, devtoResult] = await Promise.allSettled([
-      fetchMediumPosts(),
-      fetchDevtoPosts(),
-    ])
-    const mediumPosts = mediumResult.status === 'fulfilled' ? mediumResult.value : []
-    const devtoPosts  = devtoResult.status  === 'fulfilled' ? devtoResult.value : []
-
-    let content = ''
-    let postTitle = ''
-    let postImage = ''
-
-    const mediumPost = mediumPosts.find(p => {
-      const hash = p.guid.split('/').pop() ?? p.guid
-      return (slugify(p.title) + '-' + hash) === postId
-    })
-    if (mediumPost) {
-      postTitle = mediumPost.title
-      postImage = getMediumImage(mediumPost)
-      const cleaned = cleanMediumContent(mediumPost.content, mediumPost.title, postImage || undefined)
-      content = highlightCodeBlocks(cleaned)
-    } else {
-      const devtoPost = devtoPosts.find(p => p.slug === postId)
-      if (devtoPost) {
-        postTitle = devtoPost.title
-        postImage = devtoPost.cover_image ?? ''
-        const bodyHtml = await fetchDevtoArticle(postId)
-        const cleaned = cleanDevtoContent(bodyHtml || devtoPost.description)
-        content = highlightCodeBlocks(cleaned)
-      }
-    }
-
-    // Strip full content from list (too large to serialise)
-    const mediumList = mediumPosts.map(({ content: _, ...p }) => p)
-    const devtoList  = devtoPosts.map(({ body_html: _, ...p }) => p)
-
-    const ssrHtml = await renderVueToString(PostDetailVue, {
-      postId,
-      content,
-      mediumPosts: mediumPosts.map(({ content: _, ...p }) => ({ ...p, content: '' })),
-      devtoPosts:  devtoPosts.map(({ body_html: _, ...p }) => ({ ...p, body_html: p.slug === postId ? devtoPosts.find(d => d.slug === postId)?.body_html ?? '' : '' })),
-    }).catch(() => '')
-
-    return { ssrHtml, content, mediumPosts: mediumList, devtoPosts: devtoList, postTitle, postImage, postId }
+    return data
   },
   head: ({ loaderData }) => {
     const title = loaderData?.postTitle || 'Blog Yazısı'
@@ -118,6 +49,7 @@ export const Route = createFileRoute('/$postId')({
     const { postId } = Route.useParams()
     return (
       <TuvixReactApp
+        key={postId}
         name="post-detail-app"
         App={PostDetailApp}
         ssrHtml={ssrHtml}

@@ -1,206 +1,165 @@
-import { Component, type ReactNode, Suspense } from 'react'
-import { QueryClientProvider } from '@tanstack/react-query'
+import { Component, type CSSProperties, type ReactNode, Suspense } from 'react'
+import { QueryClientProvider, HydrationBoundary, type DehydratedState } from '@tanstack/react-query'
+import { Link } from '@tanstack/react-router'
 import { sharedQueryClient } from '../_shared/queryClient'
 import { useGithubRepos, type GithubRepo } from '~/hooks/useGithubRepos'
-import { useReadmeImage } from '~/hooks/useReadmeImage'
 import { OTHER_PROJECTS } from '~/constants/projects'
-import { useYoutubeFeed } from '~/hooks/useYoutubeFeed'
-import { pascalCase } from '~/utils/slugify'
+import { useYoutubeFeed, type YoutubeVideo } from '~/hooks/useYoutubeFeed'
+import { ArrowRightIcon, ArrowUpRightIcon, CalendarIcon, EyeIcon, FolderIcon, ForkIcon, PlayIcon, RepoIcon, StarIcon } from '~/assets/icons/react'
+import { LogoPlate } from './components/LogoPlate'
 import styles from './projeler.module.scss'
 
-type OtherProject = {
-  image?: string
-  alt?: string
-  title: string
-  desc: string
-  tags: { text: string; color: string }[]
-  link: string
-  features?: string[]
+type Project = (typeof OTHER_PROJECTS)[number]
+type Repo = GithubRepo & { stargazers_count?: number }
+
+const REPO_COUNT = 9
+
+const LANG_COLOR: Record<string, string> = {
+  TypeScript: '#3178c6',
+  JavaScript: '#f1e05a',
+  HTML: '#e34c26',
+  CSS: '#663399',
+  SCSS: '#c6538c',
+  Vue: '#41b883',
+  Python: '#3572a5',
+  Shell: '#89e051',
+  Svelte: '#ff3e00',
+  Dart: '#00b4ab',
+  Swift: '#f05138',
+  Kotlin: '#a97bff',
+  'Jupyter Notebook': '#da5b0b',
 }
 
-type YoutubeVideo = {
-  videoId: string
-  title: string
-  thumbnail: string
-  description?: string
-  views?: string
-  published: string
-  url: string
-}
+const dateFmt = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
 
-const tagColorMap: Record<string, string> = {
-  orange:  styles.tagOrange,
-  blue:    styles.tagBlue,
-  yellow:  styles.tagYellow,
-  teal:    styles.tagTeal,
-  green:   styles.tagGreen,
-  red:     styles.tagRed,
-  purple:  styles.tagPurple,
-  gray:    styles.tagGray,
-  zinc:    styles.tagZinc,
-  fuchsia: styles.tagFuchsia,
-  rose:    styles.tagRose,
-}
-
-function GithubProjectCard({ repo }: { repo: GithubRepo }) {
-  const image = useReadmeImage(repo.owner.login, repo.name)
+function ProjectCard({ project }: { project: Project }) {
+  const [title, ...rest] = project.title.split(' - ')
+  const subtitle = rest.join(' - ')
   return (
-    <div className={`${styles.card} ${styles.cardGithub}`}>
-      <div className={styles.cardImg}>
-        {image?.startsWith('emoji:') ? (
-          <span style={{ fontSize: 'var(--font-size-6xl)' }}>{image.slice(6)}</span>
-        ) : image ? (
-          <img src={image} alt={repo.name + ' görseli'} />
-        ) : (
-          <span style={{ fontSize: 'var(--font-size-3xl)', color: 'var(--color-gray-400)' }}>
-            <i className="ri-github-fill" aria-hidden="true" />
-          </span>
-        )}
-      </div>
-      <div className={styles.cardBody}>
-        <h4 className={styles.cardTitle}>
-          {repo.name}
-          {repo.fork && (
-            <span title="Forked Repository" className={styles.forkBadge}>
-              <svg width="150" height="150" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M7 5C7 3.89543 7.89543 3 9 3C10.1046 3 11 3.89543 11 5C11 5.74028 10.5978 6.38663 10 6.73244V14.0396H11.7915C12.8961 14.0396 13.7915 13.1441 13.7915 12.0396V10.7838C13.1823 10.4411 12.7708 9.78837 12.7708 9.03955C12.7708 7.93498 13.6662 7.03955 14.7708 7.03955C15.8753 7.03955 16.7708 7.93498 16.7708 9.03955C16.7708 9.77123 16.3778 10.4111 15.7915 10.7598V12.0396C15.7915 14.2487 14.0006 16.0396 11.7915 16.0396H10V17.2676C10.5978 17.6134 11 18.2597 11 19C11 20.1046 10.1046 21 9 21C7.89543 21 7 20.1046 7 19C7 18.2597 7.4022 17.6134 8 17.2676V6.73244C7.4022 6.38663 7 5.74028 7 5Z" fill="currentColor" />
-              </svg>
-            </span>
-          )}
-        </h4>
-        {repo.description && <p className={styles.cardDesc}>{repo.description}</p>}
-        <div className={styles.tagList}>
-          {repo.topics?.slice(0, 3).map((topic) => (
-            <span key={topic} className={`${styles.tag} ${styles.tagTopic}`}>{pascalCase(topic)}</span>
-          ))}
+    <article className={styles.pcard} data-spot data-tilt="5">
+      <span className="spot" aria-hidden="true" />
+      <a className={styles['pcard__link']} href={project.link} target="_blank" rel="noopener noreferrer" aria-label={`${title}: İncele`} />
+      {'imageFit' in project && project.imageFit === 'contain' ? (
+        <div className="media">
+          <LogoPlate src={project.image} alt={project.alt ?? project.title} label={title} />
         </div>
-        <div className={styles.cardFooter}>
-          <span>{repo.language}</span>
-          <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className={styles.cardLink}>
-            GitHub <i className="ri-external-link-line" aria-hidden="true" />
-          </a>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function OtherProjectCard({ project }: { project: OtherProject }) {
-  return (
-    <div className={`${styles.card} ${styles.cardOther}`}>
-      {project.image && (
-        <div className={`${styles.cardImg} ${styles.cardImgCover}`}>
-          <img src={project.image} alt={project.alt ?? project.title} />
+      ) : (
+        <div className="media">
+          <img src={project.image} alt={project.alt ?? project.title} loading="lazy" decoding="async" />
         </div>
       )}
-      <div className={styles.cardBody}>
-        <h4 className={styles.cardTitle}>{project.title}</h4>
-        <p className={styles.cardDesc}>{project.desc}</p>
-        <div className={styles.tagList}>
+      <div className={styles['pcard__body']}>
+        <h3 className={styles['pcard__title']}>{title}</h3>
+        {subtitle && <p className={styles['pcard__sub']}>{subtitle}</p>}
+        <p className={styles['pcard__desc']}>{project.desc}</p>
+        <ul className="tags" aria-label="Teknolojiler">
           {project.tags.slice(0, 4).map((tag) => (
-            <span key={tag.text} className={`${styles.tag} ${tagColorMap[tag.color] ?? styles.tagGray}`}>
+            <li key={tag.text} className="chip">
               {tag.text}
-            </span>
+            </li>
           ))}
-        </div>
-        <div className={styles.cardFooter}>
-          <span />
-          <a href={project.link} target="_blank" rel="noopener noreferrer" className={`${styles.cardLink} ${styles.cardLinkBlue}`}>
-            İncele <i className="ri-external-link-line" aria-hidden="true" />
-          </a>
-        </div>
+        </ul>
+        <span className={styles['pcard__cta']}>
+          İncele <ArrowRightIcon />
+        </span>
       </div>
-    </div>
+    </article>
   )
 }
 
-function YoutubeVideoCard({ video }: { video: YoutubeVideo }) {
+function RepoCard({ repo }: { repo: Repo }) {
   return (
-    <div className={`${styles.card} ${styles.cardYoutube}`}>
-      <div className={styles.videoImgWrapper}>
-        <a href={video.url} target="_blank" rel="noopener noreferrer" style={{ display: 'block', width: '100%', height: '100%' }}>
-          <img src={video.thumbnail} alt={video.title} />
-          <div className={styles.videoOverlay}>
-            <div className={styles.playBtn}>
-              <i className="ri-play-fill ri-xl" aria-hidden="true" />
-            </div>
-          </div>
-        </a>
-        <span className={styles.dateBadge}>{video.published}</span>
+    <article className={styles.rcard} data-spot>
+      <span className="spot" aria-hidden="true" />
+      <div className={styles['rcard__top']}>
+        <span className={styles['rcard__ico']}>
+          <RepoIcon />
+        </span>
+        <p className="micro">Oluşturulma: {dateFmt.format(new Date(repo.created_at))}</p>
       </div>
-      <div className={styles.cardBody}>
-        <h4 className={styles.cardTitle}>{video.title}</h4>
-        {video.description && <p className={styles.cardDesc}>{video.description}</p>}
-        <div className={styles.cardFooter}>
-          {video.views && (
-            <span className={styles.views}>
-              <i className="ri-eye-line" aria-hidden="true" /> {video.views}
+      <h3 className={styles['rcard__name']}>{repo.name}</h3>
+      <p className={styles['rcard__desc']}>{repo.description || 'Açıklama eklenmemiş.'}</p>
+      {repo.topics && repo.topics.length > 0 && (
+        <ul className="tags">
+          {repo.topics.slice(0, 5).map((topic) => (
+            <li key={topic} className="chip">
+              {topic}
+            </li>
+          ))}
+        </ul>
+      )}
+      <div className={styles['rcard__foot']}>
+        <div className={styles['rcard__meta']}>
+          {repo.language && (
+            <span>
+              <span className={styles['lang__dot']} style={{ '--c': LANG_COLOR[repo.language] ?? '#8a93a3' } as CSSProperties} />
+              {repo.language}
             </span>
           )}
-          <a href={video.url} target="_blank" rel="noopener noreferrer" className={`${styles.cardLink} ${styles.cardLinkRed}`}>
-            İzle <i className="ri-youtube-fill" aria-hidden="true" />
-          </a>
+          <span>
+            <StarIcon />
+            {repo.stargazers_count ?? 0}
+          </span>
+          {repo.fork && (
+            <span className={`chip ${styles['chip--fork']}`}>
+              <ForkIcon />
+              Fork
+            </span>
+          )}
         </div>
+        <a className="link-arrow" href={repo.html_url} target="_blank" rel="noopener noreferrer">
+          GitHub'da Gör <ArrowUpRightIcon />
+          <span className="sr-only"> ({repo.name})</span>
+        </a>
       </div>
+    </article>
+  )
+}
+
+function VideoCard({ video }: { video: YoutubeVideo }) {
+  return (
+    <article className={styles.vcard} data-spot>
+      <span className="spot" aria-hidden="true" />
+      <a className={styles['vcard__link']} href={video.url} target="_blank" rel="noopener noreferrer">
+        <div className={styles['vcard__thumb']}>
+          <img src={video.thumbnail} alt="" loading="lazy" decoding="async" width={480} height={360} />
+          <span className={styles['vcard__play']}>
+            <PlayIcon />
+          </span>
+        </div>
+        <h3 className={styles['vcard__title']}>{video.title}</h3>
+        <p className={`${styles['vcard__meta']} micro`}>
+          <span>
+            <CalendarIcon />
+            {video.published}
+          </span>
+          <span>
+            <EyeIcon />
+            {video.views}
+          </span>
+        </p>
+        <span className={styles['vcard__cta']}>
+          İzle <ArrowUpRightIcon />
+        </span>
+      </a>
+    </article>
+  )
+}
+
+function Repos() {
+  const repos: Repo[] = useGithubRepos()
+    .data.slice()
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+  return (
+    <div className={styles.rgrid} aria-live="polite">
+      {repos.slice(0, REPO_COUNT).map((repo) => (
+        <RepoCard key={repo.id} repo={repo} />
+      ))}
     </div>
   )
 }
 
-function ProjelerPage() {
-  const githubRepos = useGithubRepos()
-  const orderedRepos = githubRepos.data
-    ?.slice()
-    .sort((a: GithubRepo, b: GithubRepo) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-  const youtubeFeed = useYoutubeFeed()
-
-  return (
-    <section className={styles.section}>
-      <div className={styles.container}>
-        <div className={styles.heading}>
-          <h2 className={styles.title}>
-            <i className="ri-folder-3-fill ri-xl" aria-hidden="true" /> Tüm Projelerim
-          </h2>
-          <p className={styles.subtitle}>Açık kaynak kodlu projelerim ve diğer geliştirdiğim uygulamalar.</p>
-        </div>
-
-        <div className={styles.block}>
-          <h3 className={styles.blockTitle}>
-            <i className="ri-code-box-line ri-lg" aria-hidden="true" /> Öne Çıkan Projeler
-          </h3>
-          <div className={styles.grid}>
-            {OTHER_PROJECTS.map((project: OtherProject, idx) => (
-              <OtherProjectCard key={idx} project={project} />
-            ))}
-          </div>
-        </div>
-
-        <div className={styles.block}>
-          <h3 className={styles.blockTitle}>
-            <i className="ri-github-fill ri-lg" aria-hidden="true" /> Github Projeleri
-          </h3>
-          <div className={styles.grid}>
-            {orderedRepos?.map((repo: GithubRepo) => (
-              <GithubProjectCard key={repo.id} repo={repo} />
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h3 className={styles.blockTitle}>
-            <i className="ri-youtube-fill ri-lg" style={{ color: 'var(--color-red-600)' }} aria-hidden="true" /> YouTube İçeriklerim
-          </h3>
-          <div className={styles.grid}>
-            {(youtubeFeed.data as YoutubeVideo[])?.map((video) => (
-              <YoutubeVideoCard key={video.videoId} video={video} />
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | null }> {
+class RepoErrorBoundary extends Component<{ children: ReactNode }, { error: Error | null }> {
   constructor(props: { children: ReactNode }) {
     super(props)
     this.state = { error: null }
@@ -209,25 +168,109 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { error: Error | 
     return { error }
   }
   render() {
-    if (this.state.error) {
-      return (
-        <div style={{ padding: '5rem 1rem', color: '#6b7280', textAlign: 'center' }}>
-          Projeler yüklenirken bir hata oluştu.
-        </div>
-      )
-    }
+    if (this.state.error) return <p className={styles['error-note']}>Projeler yüklenirken bir hata oluştu.</p>
     return this.props.children
   }
 }
 
-export default function ProjectsApp() {
+function ProjelerPage() {
+  const videos = useYoutubeFeed().data ?? []
+
+  return (
+    <main id="main" className="page-top">
+      <div className="wrap">
+        <header className={styles['page-head']} data-reveal>
+          <nav className={`${styles.crumbs} micro`} aria-label="Sayfa konumu" data-rv>
+            <Link to="/">Anasayfa</Link>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">Projeler</span>
+          </nav>
+          <h1 data-rv>
+            <span className="sec-head__icon">
+              <FolderIcon />
+            </span>
+            Tüm Projelerim
+          </h1>
+          <p className={styles['page-head__sub']} data-rv>
+            Açık kaynak kodlu projelerim ve diğer geliştirdiğim uygulamalar.
+          </p>
+          <nav className={styles.jump} aria-label="Bölümler" data-rv>
+            <a className="chip" href="#featured">
+              Öne Çıkan Projeler
+            </a>
+            <a className="chip" href="#github">
+              Github Projeleri
+            </a>
+            <a className="chip" href="#youtube">
+              YouTube İçeriklerim
+            </a>
+          </nav>
+        </header>
+
+        <section className={`section ${styles['section--tight']}`} id="featured" aria-labelledby="featured-title">
+          <div className={styles['list-head']} data-reveal>
+            <h2 id="featured-title" className={styles['list-head__title']} data-rv>
+              Öne Çıkan Projeler
+            </h2>
+            <p className="micro" data-rv>
+              {OTHER_PROJECTS.length} proje
+            </p>
+          </div>
+          <div className={styles.pgrid}>
+            {OTHER_PROJECTS.map((project) => (
+              <div key={project.link} className={styles['pgrid__cell']} data-reveal data-rv-self>
+                <ProjectCard project={project} />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="section" id="github" aria-labelledby="github-title">
+          <div className={styles['list-head']} data-reveal>
+            <h2 id="github-title" className={styles['list-head__title']} data-rv>
+              Github Projeleri
+            </h2>
+          </div>
+          <RepoErrorBoundary>
+            <Suspense fallback={<p className={styles.loading}>Yükleniyor...</p>}>
+              <Repos />
+            </Suspense>
+          </RepoErrorBoundary>
+          <div className="sec-cta">
+            <Link className="btn btn--ghost" to="/github" data-magnetic>
+              <span className="btn__label" data-magnetic-label>
+                Tüm GitHub Projelerini Gör
+              </span>
+            </Link>
+          </div>
+        </section>
+
+        <section className="section" id="youtube" aria-labelledby="youtube-title">
+          <div className={styles['list-head']} data-reveal>
+            <h2 id="youtube-title" className={styles['list-head__title']} data-rv>
+              YouTube İçeriklerim
+            </h2>
+            <Link className="link-arrow" to="/youtube" data-rv>
+              Tüm Youtube İçeriklerimi Gör
+            </Link>
+          </div>
+          <div className={styles.vgrid}>
+            {videos.map((video) => (
+              <VideoCard key={video.videoId} video={video} />
+            ))}
+          </div>
+        </section>
+      </div>
+    </main>
+  )
+}
+
+export default function ProjectsApp({ dehydratedState }: { dehydratedState?: DehydratedState }) {
   return (
     <QueryClientProvider client={sharedQueryClient}>
-      <ErrorBoundary>
-        <Suspense fallback={<div style={{ padding: '5rem 1rem', color: '#6b7280' }}>Yükleniyor...</div>}>
-          <ProjelerPage />
-        </Suspense>
-      </ErrorBoundary>
+      <HydrationBoundary state={dehydratedState}>
+        <ProjelerPage />
+      </HydrationBoundary>
     </QueryClientProvider>
   )
 }

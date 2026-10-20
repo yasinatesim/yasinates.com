@@ -7,7 +7,6 @@ const reset = vi.fn()
 let mockIsRoot = true
 
 vi.mock('@tanstack/react-router', () => ({
-  ErrorComponent: ({ error }: { error: Error }) => <div data-testid="error-component">{error.message}</div>,
   Link: ({ to, children, className, onClick }: { to: string; children: React.ReactNode; className?: string; onClick?: (e: React.MouseEvent) => void }) => (
     <a href={to} className={className} onClick={onClick}>{children}</a>
   ),
@@ -19,33 +18,33 @@ vi.mock('@tanstack/react-router', () => ({
 describe('DefaultCatchBoundary', () => {
   const error = new Error('Test error')
 
-  it('renders ErrorComponent with the error', () => {
+  it('renders the error message', () => {
     render(<DefaultCatchBoundary error={error} reset={reset} />)
-    expect(screen.getByTestId('error-component')).toBeTruthy()
+    expect(screen.getByRole('alert')).toBeTruthy()
     expect(screen.getByText('Test error')).toBeTruthy()
   })
 
-  it('renders Try Again button', () => {
+  it('renders Tekrar dene button', () => {
     render(<DefaultCatchBoundary error={error} reset={reset} />)
-    expect(screen.getByRole('button', { name: /try again/i })).toBeTruthy()
+    expect(screen.getByRole('button', { name: /tekrar dene/i })).toBeTruthy()
   })
 
-  it('calls router.invalidate on Try Again click', () => {
+  it('calls router.invalidate on Tekrar dene click', () => {
     render(<DefaultCatchBoundary error={error} reset={reset} />)
-    fireEvent.click(screen.getByRole('button', { name: /try again/i }))
+    fireEvent.click(screen.getByRole('button', { name: /tekrar dene/i }))
     expect(mockInvalidate).toHaveBeenCalled()
   })
 
-  it('renders Home link when at root', () => {
+  it('renders Anasayfa link when at root', () => {
     mockIsRoot = true
     render(<DefaultCatchBoundary error={error} reset={reset} />)
-    expect(screen.getByRole('link', { name: /home/i })).toBeTruthy()
+    expect(screen.getByRole('link', { name: /anasayfa/i })).toBeTruthy()
   })
 
-  it('renders Go Back link when not at root', () => {
+  it('renders Geri git link when not at root', () => {
     mockIsRoot = false
     render(<DefaultCatchBoundary error={error} reset={reset} />)
-    expect(screen.getByRole('link', { name: /go back/i })).toBeTruthy()
+    expect(screen.getByRole('link', { name: /geri git/i })).toBeTruthy()
   })
 
   it('does not call console.error', () => {

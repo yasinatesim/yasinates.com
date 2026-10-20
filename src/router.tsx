@@ -13,6 +13,8 @@ export function createRouter() {
       routeTree,
       context: { queryClient },
       defaultPreload: 'intent',
+      scrollRestoration: true,
+      defaultViewTransition: true,
       defaultErrorComponent: DefaultCatchBoundary,
       defaultNotFoundComponent: () => <NotFound />,
     }),

@@ -11,7 +11,6 @@ const router = createRouter()
 
 hydrateRoot(document, <StartClient router={router} />)
 
-// Defer until after React hydration; onLoad doesn't fire on initial SSR load.
 setTimeout(() => {
   initOrchestrator()
 

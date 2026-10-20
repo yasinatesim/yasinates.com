@@ -10,15 +10,29 @@ type LegalLayoutProps = {
 
 export function LegalLayout({ badge, title, updatedAt, children }: LegalLayoutProps) {
   return (
-    <section className={styles.section}>
-      <div className={styles.container}>
-        <div className={styles.heading}>
-          <span className={styles.badge}>{badge}</span>
-          <h1 className={styles.title}>{title}</h1>
-          <p className={styles.updated}>Son güncelleme: {updatedAt}</p>
-        </div>
-        <article className={styles.content}>{children}</article>
+    <main id="main" className="page-top">
+      <div className="wrap">
+        <article className={styles['post']} data-field-dim="">
+          <nav className={`${styles['crumbs']} micro`} aria-label="Sayfa konumu">
+            <a href="/">Anasayfa</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">{title}</span>
+          </nav>
+          <header className={styles['post__head']} data-reveal="">
+            <p className={`${styles['page-head__badge']} micro`} data-rv="">
+              <span className="status-dot" />
+              {badge}
+            </p>
+            <h1 className={styles['post__title']} data-rv="">
+              {title}
+            </h1>
+            <p className="micro" data-rv="">
+              Son güncelleme: {updatedAt}
+            </p>
+          </header>
+          <div className={styles['prose']}>{children}</div>
+        </article>
       </div>
-    </section>
+    </main>
   )
 }

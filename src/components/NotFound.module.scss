@@ -1,40 +1,45 @@
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  padding: var(--space-2);
+.page-head {
+  display: grid;
+  gap: 16px;
+  margin-bottom: clamp(40px, 6vw, 80px);
+  max-width: 820px;
 }
-
-.message {
-  color: var(--color-gray-600);
-}
-
-.actions {
+.page-head h1 {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: 16px;
+  font-size: var(--fs-display);
+  letter-spacing: -0.045em;
+}
+.page-head__sub {
+  font-size: var(--fs-lead);
+  color: var(--ink-2);
+  max-width: 56ch;
+}
+.page-head__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-2);
+}
+.actions {
+  display: flex;
   flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
 }
-
-.btnBack {
-  background-color: #10b981;
-  color: var(--color-white);
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
-  border: none;
-  cursor: pointer;
-  text-transform: uppercase;
-  font-weight: 900;
-  font-size: var(--font-size-sm);
-}
-
-.btnHome {
-  background-color: #0891b2;
-  color: var(--color-white);
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  text-transform: uppercase;
-  font-weight: 900;
-  font-size: var(--font-size-sm);
+.error {
+  margin: 0;
+  padding: 14px 16px;
+  border-radius: var(--r-sm);
+  background: var(--hover);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }

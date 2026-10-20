@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { createApp, createSSRApp } from 'vue'
 import BlogsVue from './Blogs.vue'
 import type { MediumPostListItem, DevToPostListItem } from '~/utils/fetchBlogPosts'
@@ -13,6 +13,7 @@ export default function Blogs({
   devtoPosts?: DevToPostListItem[]
 }) {
   const ref = useRef<HTMLDivElement>(null)
+  const [innerHtml] = useState(() => ({ __html: ssrHtml }))
 
   useEffect(() => {
     const el = ref.current
@@ -24,5 +25,5 @@ export default function Blogs({
     return () => app.unmount()
   }, [])
 
-  return <div ref={ref} dangerouslySetInnerHTML={{ __html: ssrHtml }} suppressHydrationWarning />
+  return <div ref={ref} dangerouslySetInnerHTML={innerHtml} suppressHydrationWarning />
 }

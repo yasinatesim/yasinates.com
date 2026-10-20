@@ -1,94 +1,53 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import styles from './Blogs.module.scss'
+import ArrowRightIcon from '../../../assets/icons/vue/arrow-right.vue'
 import type { MediumPostListItem, DevToPostListItem } from '~/utils/fetchBlogPosts'
-import { slugify } from '../../../utils/slugify'
+import { toHomePosts, sourceLabel } from '../posts'
+import { ART_HEIGHT, ART_WIDTH, signalArtPaths } from '../art'
 
 const props = defineProps<{
   mediumPosts: MediumPostListItem[]
-  devtoPosts:  DevToPostListItem[]
+  devtoPosts: DevToPostListItem[]
 }>()
 
-type BlogCard = {
-  id: string
-  title: string
-  description: string
-  image: string
-  reading: string
-  source: 'medium' | 'devto'
-}
-
-const cards = computed<BlogCard[]>(() => [
-  ...props.mediumPosts.map(p => {
-    const hash = p.guid.split('/').pop() ?? p.guid
-    const image =
-      p.thumbnail
-      || p.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
-      || ''
-    return {
-      id: slugify(p.title) + '-' + hash,
-      title: p.title,
-      description: (p.description?.replace(/<[^>]+>/g, '').slice(0, 120) ?? '') + '...',
-      image,
-      reading: p.readingTime ?? '5 dk',
-      source: 'medium' as const,
-    }
-  }),
-  ...props.devtoPosts.map(p => ({
-    id: p.slug,
-    title: p.title,
-    description: (p.description?.slice(0, 120) ?? '') + '...',
-    image: p.cover_image ?? '',
-    reading: `${p.reading_time_minutes ?? 5} dk`,
-    source: 'devto' as const,
-  })),
-])
-
+const posts = computed(() => toHomePosts(props.mediumPosts.slice(0, 3), props.devtoPosts.slice(0, 3)))
 </script>
 
 <template>
-  <section id="blog" :class="styles.section">
-    <div :class="styles.container">
-      <div :class="styles.heading">
-        <h2 :class="styles.title">Blog Yazılarım</h2>
-        <p :class="styles.subtitle">Frontend geliştirme, web teknolojileri ve müzik üzerine paylaştığım yazılar.</p>
+  <section class="section" aria-labelledby="blog-title">
+    <div class="wrap">
+      <header class="sec-head" data-reveal>
+        <h2 id="blog-title" data-rv>Blog Yazılarım</h2>
+      </header>
+      <ul :class="styles['prows']">
+        <li v-for="p in posts" :key="p.id" :class="styles['prow']">
+          <a :class="styles['prow__link']" :href="`/${p.id}`" data-spot>
+            <span class="spot" aria-hidden="true" />
+            <span :class="styles['prow__thumb']">
+              <img v-if="p.cover" :src="p.cover" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+              <svg
+                v-else
+                class="art"
+                :viewBox="`0 0 ${ART_WIDTH} ${ART_HEIGHT}`"
+                preserveAspectRatio="xMidYMid slice"
+                role="img"
+                :aria-label="`${sourceLabel(p.source)} için üretilmiş sinyal görseli`"
+              >
+                <path v-for="(d, i) in signalArtPaths(p.id + p.title)" :key="i" :d="d" class="art__ridge" />
+              </svg>
+            </span>
+            <span :class="styles['prow__title']"><span :class="styles['prow__title-text']">{{ p.title }}</span></span>
+            <span :class="[styles['prow__src'], 'micro']">
+              <span :class="[styles['src'], styles[`src--${p.source}`]]">{{ sourceLabel(p.source, p.publication) }}</span> · {{ p.reading }}
+            </span>
+            <span :class="styles['prow__go']"><ArrowRightIcon /></span>
+          </a>
+        </li>
+      </ul>
+      <div class="sec-cta">
+        <a class="btn btn--ghost" href="/blog" data-magnetic><span class="btn__label" data-magnetic-label>Tüm Yazılar</span></a>
       </div>
-
-      <div :class="styles.grid">
-        <article v-for="card in cards" :key="card.id" :class="styles.card">
-          <div :class="styles.imageWrapper">
-            <img
-              v-if="card.image"
-              :src="card.image"
-              :alt="card.title"
-              :class="[styles.image, card.source === 'devto' ? styles.imageCover : '']"
-              referrerpolicy="no-referrer"
-            />
-          </div>
-          <div :class="styles.cardBody">
-            <div :class="styles.meta">
-              <span :class="styles.metaItem">
-                <i class="ri-time-line" aria-hidden="true" /> {{ card.reading }}
-              </span>
-              <span :class="styles.metaItem">
-                <i :class="card.source === 'medium' ? 'ri-medium-fill' : 'ri-code-box-fill'" aria-hidden="true" />
-                {{ card.source === 'medium' ? 'Medium' : 'Dev.to' }}
-              </span>
-            </div>
-            <h3 :class="styles.cardTitle">{{ card.title }}</h3>
-            <p :class="styles.cardDesc">{{ card.description }}</p>
-            <a :href="`/${card.id}`" :class="styles.readLink">
-              Devamını Oku <i class="ri-arrow-right-line" aria-hidden="true" />
-            </a>
-          </div>
-        </article>
-      </div>
-    </div>
-
-    <div :class="styles.wave">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" :class="styles.wavesvg">
-        <path fill="currentColor" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z" />
-      </svg>
     </div>
   </section>
 </template>

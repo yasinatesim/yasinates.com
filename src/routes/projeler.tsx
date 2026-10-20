@@ -1,10 +1,24 @@
 import { createFileRoute } from '@tanstack/react-router'
+import { QueryClient, dehydrate } from '@tanstack/react-query'
 import { TuvixReactApp } from '@tuvix.js/react'
 import { seo } from '~/utils/seo'
 import ProjectsApp from '~/micro-apps/projects/App'
+import { fetchYoutubeVideos, YOUTUBE_QUERY_KEY } from '~/utils/fetchYoutubeVideos'
 
 export const Route = createFileRoute('/projeler')({
-  component: () => <TuvixReactApp name="projects-app" App={ProjectsApp} />,
+  loader: async () => {
+    const qc = new QueryClient()
+    try {
+      const videos = await fetchYoutubeVideos()
+      qc.setQueryData(YOUTUBE_QUERY_KEY, videos)
+    } catch {
+    }
+    return { dehydratedState: dehydrate(qc) }
+  },
+  component: () => {
+    const { dehydratedState } = Route.useLoaderData()
+    return <TuvixReactApp name="projects-app" App={ProjectsApp} dehydratedState={dehydratedState} />
+  },
   head: () => ({
     title: 'Projeler | Yasin Ateş',
     meta: [

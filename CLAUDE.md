@@ -12,7 +12,7 @@ independent micro-app, potentially using a different framework (React, Svelte, V
 | Frontend framework | React 19 + TanStack Router + TanStack Query |
 | Build tool | Vinxi (Vite-based) |
 | SSR | TanStack Start (full SSR — SEO critical) |
-| Styling | CSS Modules (`.module.scss`) — Tailwind removal in progress |
+| Styling | CSS Modules (`.module.scss`) + Signal tokens (`src/styles/variables.css`); Tailwind removed |
 | Test framework | Vitest |
 | Module system | ESM only |
 | Deployment | Netlify |
@@ -102,7 +102,7 @@ src/
 ├── hooks/                           # TanStack Query hooks (shared, server-agnostic)
 ├── utils/                           # Pure utility functions
 ├── constants/                       # Static data
-├── styles/                          # Global CSS (app.css — Tailwind removal WIP)
+├── styles/                          # Global CSS (variables.css tokens, app.css base + .sg-* primitives)
 ├── client.tsx                       # Client entry — hydrate + orchestrator init
 ├── ssr.tsx                          # SSR entry
 └── router.tsx                       # Router config
@@ -391,13 +391,36 @@ Cross-app communication:
 
 - **`any[]` in useGithubRepos.ts** — `allRepos: any[]` should be typed
 - **`console.log` in useGithubRepos.ts** — remove before production
-- **Tailwind in app.css** — `@tailwind` directives remain until migration complete
+- **Tailwind** — removed; `app.css` holds the base styles + the prototype's shared classes
+- **Angular contact app runs zoneless** — never import `zone.js`: in the SSR process it replaces the global `Promise`, which breaks every server-side `fetch` and crashes the Vinxi dev worker
+- **GitHub API on the server** — `fetchAllGithubRepos` keeps a 30-min in-memory server cache (stale copy served on errors) and sends `GITHUB_TOKEN` from the server env if set. Without a token the limit is 60 requests/hour per IP; when it is exhausted locally, GitHub sections render empty in dev. Set `GITHUB_TOKEN` in `.env` (gitignored) or Netlify env.
+- **Medium archive** — Medium's RSS (via rss2json) only returns the 10 newest posts, and every other medium.com endpoint (profile, post pages, `?format=json`, GraphQL) is behind Cloudflare (403 for scripts). `src/utils/mediumArchive.ts` (server-only) remembers every post the feed returns in the Netlify Blobs store `medium-archive` (`index` = list metadata + `contentHash`, `content/<hash>` = bodies) and merges the live feed over it; archive-only fields like `publication` survive. Writes happen only when a post is new or edited, so edits show up while a post is still among the newest 10; after that its last version stays. The feed has no reading time: `readingMinutes` is computed from the post body (`countReadingMinutes`, 200 words/min) and stored in the index; Dev.to's own `reading_time_minutes` is used as-is. Route loaders read the list through the `getMediumPosts` server function (also on client-side navigations); `loadPostDetail` reads archived bodies. Netlify functions get Blobs access automatically; local dev needs `NETLIFY_SITE_ID` + `NETLIFY_AUTH_TOKEN` in `.env`, otherwise only the live feed renders.
+- **Live content** — Medium, Dev.to, YouTube and GitHub are fetched live on every SSR request; new posts/videos appear without a deploy. The GitHub profile README (`yasinatesim/yasinatesim`) has its own "Update Blog Articles" workflow; GitHub auto-disables scheduled workflows after 60 days without repo activity.
 - **tuvix.js local copy** — source at `./tuvix.js/`; use npm package in app
 - **Turkish route names** — `projeler`, `hakkimda`, `iletisim` are intentional
 - **BlogApp.tsx** — standalone SPA version; listens to `tuvix:pathchange` event
 - **src/components/Home/** — legacy, to be deleted after micro-app migration
 
 ---
+
+## Design System: "Signal"
+
+The site applies the "Signal" prototype **1:1** (dark-first, WebGL field background, bento home, sticky stacking project cards, pinned horizontal video track, ⌘K palette, light + dark mode). The standalone prototype was deleted after the port; the code below is the source of truth. Never redesign sections; changes must keep this look.
+- **Tokens:** `src/styles/variables.css`. Dark is the default, light lives under `[data-theme='light']`. Use only these tokens.
+- **Global classes:** `src/styles/app.css` holds the prototype's shared classes verbatim (`.wrap .section .page-top .micro .mono .btn(--primary,--ghost,--sm) .chip .tags .status-dot .live-badge .socials .sec-head .sec-cta .glass .spot .media .art .toast`…). Use them as plain class names from any framework; page-specific CSS lives in co-located `.module.scss` with the prototype's class names.
+- **Theme / first paint:** inline head script in `__root.tsx` sets `data-theme` (localStorage `theme`, else `prefers-color-scheme`) and `motion-ready`. SSR `<head>` carries every route stylesheet in dev and prod (`vite-plugins/routeCss.ts`), so there is no unstyled first paint.
+- **Motion runtime:** `src/micro-apps/header/runtime/`, mounted once by the header. Micro-apps only add markup attributes: `data-reveal` on a container with `data-rv` children (or `data-rv-self`), `data-spot` (render `<span class="spot" aria-hidden="true">` as first child), `data-tilt` (+`data-glare`), `data-magnetic` (+`data-magnetic-label`), `data-parallax`, `data-tilt-in`, `data-pan` (+`data-pan-track`), `data-stack`/`data-stack-card`, `data-copy-email`, `data-to-top`, `data-field-dim`. Reveals use the Web Animations API from a pre-hydration script: no class/attribute is added, above-the-fold content is never hidden.
+- **Rules from the user:**
+  - No giant type (headings ≤ 3.5rem).
+  - Project, blog and video cards are equal size; no oversized "featured" card (the home stack keeps its scroll effect with equal cards; the /youtube featured video block is part of the design).
+  - Blog cover images are always visible inside the item, not only on hover.
+  - The last item of the home video track must be fully visible.
+  - No horizontal overflow at 360–1600px.
+  - No contact form.
+  - No coordinates or clock widgets.
+  - Native `<select>` elements are replaced by the custom Signal dropdown.
+- **SSR content must not depend on external APIs:** static texts render without data; data-driven parts get their own Suspense/error boundary, so a GitHub 403 never blanks a page.
+- **AdSense** is injected after hydration (auto-ads otherwise insert `<ins>` into `<body>` before React hydrates and cause hydration errors).
 
 ## Micro Frontend Migration Status
 
@@ -416,7 +439,7 @@ Cross-app communication:
 | Event bus typed contract | TODO |
 | @tuvix.js/svelte adapter | VERIFY |
 | @tuvix.js/vue adapter | VERIFY |
-| Tailwind removal | IN PROGRESS |
+| Tailwind removal | DONE |
 | CSS Modules adoption | IN PROGRESS |
 | Lighthouse CI guard | TODO |
 | Vitest setup | TODO |

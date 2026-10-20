@@ -23,7 +23,7 @@ export function TermsOfUse() {
         Aksi belirtilmedikçe sitedeki yazı, görsel ve tasarımların hakları Yasin Ateş’e aittir. İçerikler, kaynak
         gösterilerek ve <a href="https://yasinates.com">yasinates.com</a> bağlantısı verilerek kısmen alıntılanabilir;
         izinsiz olarak tamamen kopyalanamaz veya ticari amaçla çoğaltılamaz. GitHub’da açık kaynak olarak yayınlanan
-        projeler, ilgili depodaki lisans koşullarına tabidir.
+        projeler, ilgili repository’deki lisans koşullarına tabidir.
       </p>
 
       <h2>3. Dış Bağlantılar</h2>

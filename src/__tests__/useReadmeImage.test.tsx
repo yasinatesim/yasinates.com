@@ -125,7 +125,6 @@ describe('useReadmeImage', () => {
   })
 
   it('returns null when badge URL has no emoji (text badge only)', async () => {
-    // badge URL whose text is NOT an emoji → extractEmojiFromBadgeUrl returns null
     const md = `# Repo\n![status](https://img.shields.io/badge/status-active-green)`
     mockGet.mockResolvedValueOnce({ data: md })
 
@@ -137,12 +136,9 @@ describe('useReadmeImage', () => {
   })
 
   it('collects badge img tags and extracts emoji from them', async () => {
-    // img tag with badge URL (no emoji in path), markdown badge too → reach secondary img loop
     const md = [
       '# Repo',
-      // First img tag is a badge → skipped by initial check
       '<img src="https://img.shields.io/badge/🚀-blue" />',
-      // Markdown image is also a badge (no emoji text) → collected in badgeUrls
       '![ci](https://travis-ci.org/badge)',
     ].join('\n')
     mockGet.mockResolvedValueOnce({ data: md })
@@ -151,7 +147,6 @@ describe('useReadmeImage', () => {
       wrapper: makeWrapper(),
     })
 
-    // The badge img tag has 🚀 emoji → returns emoji:🚀
     await waitFor(() => expect(result.current).toBe('emoji:🚀'))
   })
 
