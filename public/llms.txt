@@ -1,0 +1,32 @@
+# Yasin Ateş
+
+> Yasin Ateş'in kişisel web sitesi ve geliştirici blogu. İstanbul merkezli bir frontend geliştirici; React, TypeScript, micro frontend mimarisi, Git ve geliştirici araçları üzerine Türkçe yazılar yazıyor, açık kaynak projeler geliştiriyor ve müzik içerikleri paylaşıyor. Site dili Türkçe'dir.
+
+Blog yazıları Medium ve DEV.to'da da yayınlanır; her yazının tam metni kendi sayfasında (`https://yasinates.com/<yazı-slug>`) okunabilir. Tüm yazıların güncel listesi `/blog` sayfasında ve sitemap'te bulunur.
+
+## Ana sayfalar
+
+- [Ana sayfa](https://yasinates.com/): Öne çıkan projeler, son blog yazıları ve videolar.
+- [Hakkımda](https://yasinates.com/hakkimda): Yasin Ateş hakkında bilgiler, deneyimler ve kullandığı teknolojiler.
+- [Blog](https://yasinates.com/blog): Frontend geliştirme, web teknolojileri ve müzik üzerine blog yazıları (Medium ve DEV.to).
+- [Projeler](https://yasinates.com/projeler): Açık kaynak projeler ve geliştirilen uygulamalar.
+- [GitHub](https://yasinates.com/github): Tüm açık kaynak GitHub projeleri ve detayları.
+- [YouTube](https://yasinates.com/youtube): YouTube kanalında yayınlanan videolar.
+- [İletişim](https://yasinates.com/iletisim): E-posta ve sosyal medya hesapları.
+
+## Profiller
+
+- [GitHub](https://github.com/yasinatesim): Açık kaynak kodlar.
+- [Medium](https://medium.com/@yasinatesim): Blog yazıları.
+- [DEV.to](https://dev.to/yasinatesim): Blog yazıları (DEV.to).
+- [LinkedIn](https://linkedin.com/in/yasinatesim): Profesyonel profil.
+
+## Yasal
+
+- [Gizlilik politikası](https://yasinates.com/gizlilik-politikasi): Çerezler, Google AdSense, üçüncü taraf hizmetler ve KVKK kapsamındaki haklar.
+- [Kullanım koşulları](https://yasinates.com/kullanim-kosullari): İçerik kullanımı, fikri mülkiyet, dış bağlantılar ve reklamlar.
+
+## Optional
+
+- [Sitemap](https://yasinates.com/sitemap.xml): Tüm sayfaların ve blog yazılarının güncel listesi.
+- [İletişim e-postası](mailto:yasinatesim@gmail.com)
