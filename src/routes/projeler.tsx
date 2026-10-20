@@ -20,17 +20,17 @@ export const Route = createFileRoute('/projeler')({
     return <TuvixReactApp name="projects-app" App={ProjectsApp} dehydratedState={dehydratedState} />
   },
   head: () => ({
-    title: 'Projeler | Yasin Ateş',
     meta: [
       ...seo({
         title: 'Projeler | Yasin Ateş',
+        url: 'https://yasinates.com/projeler',
         description: 'Açık kaynak kodlu projelerim ve geliştirdiğim uygulamalar.',
         image: 'https://yasinates.com/og-image.jpg',
         keywords: 'projeler, açık kaynak, yazılım, uygulama, yasin ateş, developer, frontend'
       }),
     ],
     links: [{ rel: 'canonical', href: 'https://yasinates.com/projeler' }],
-    script: [
+    scripts: [
       {
         type: 'application/ld+json',
         children: JSON.stringify({

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { TuvixReactApp } from '@tuvix.js/react'
-import { seo } from '~/utils/seo'
+import { DEFAULT_OG_IMAGE, seo } from '~/utils/seo'
 import LegalApp from '~/micro-apps/legal/App'
 
 export const Route = createFileRoute('/kullanim-kosullari')({
@@ -9,6 +9,8 @@ export const Route = createFileRoute('/kullanim-kosullari')({
     meta: [
       ...seo({
         title: 'Kullanım Koşulları | Yasin Ateş',
+        url: 'https://yasinates.com/kullanim-kosullari',
+        image: DEFAULT_OG_IMAGE,
         description: 'yasinates.com kullanım koşulları: içerik kullanımı, fikri mülkiyet, dış bağlantılar ve reklamlar.',
       }),
     ],

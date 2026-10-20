@@ -19,6 +19,8 @@ export type DevToPostListItem = {
   description: string
   cover_image: string | null
   reading_time_minutes: number
+  published_at?: string
+  tag_list?: string[]
 }
 
 export type DevToPost = DevToPostListItem & { body_html: string }

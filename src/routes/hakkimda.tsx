@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { QueryClient, dehydrate } from '@tanstack/react-query'
 import { TuvixReactApp } from '@tuvix.js/react'
-import { seo } from '~/utils/seo'
+import { PERSON_LD, seo } from '~/utils/seo'
 import AboutApp from '~/micro-apps/about/App'
 import { fetchYoutubeVideos, YOUTUBE_QUERY_KEY } from '~/utils/fetchYoutubeVideos'
 import { fetchDevtoPosts } from '~/utils/fetchBlogPosts'
@@ -26,28 +26,26 @@ export const Route = createFileRoute('/hakkimda')({
     return <TuvixReactApp name="about-app" App={AboutApp} dehydratedState={dehydratedState} postCount={postCount} />
   },
   head: () => ({
-    title: 'Hakkımda | Yasin Ateş',
     meta: [
       ...seo({
         title: 'Hakkımda | Yasin Ateş',
+        url: 'https://yasinates.com/hakkimda',
         description: 'Yasin Ateş hakkında bilgiler, deneyimler ve kullandığı teknolojiler.',
         image: 'https://yasinates.com/yasin-ates-hakkimda.jpg',
         keywords: 'hakkımda, frontend, developer, yasin ateş, deneyim, teknoloji'
       }),
     ],
     links: [{ rel: 'canonical', href: 'https://yasinates.com/hakkimda' }],
-    script: [
+    scripts: [
       {
         type: 'application/ld+json',
         children: JSON.stringify({
           '@context': 'https://schema.org',
-          '@type': 'Person',
-          name: 'Yasin Ateş',
+          '@type': 'ProfilePage',
           url: 'https://yasinates.com/hakkimda',
-          jobTitle: 'Frontend Developer',
-          image: 'https://yasinates.com/yasin-ates-hakkimda.jpg',
-          description: 'Frontend geliştirici, web teknolojileri ve müzik ile ilgilenen yazılımcı.'
-        })
+          inLanguage: 'tr-TR',
+          mainEntity: PERSON_LD,
+        }),
       }
     ]
   }),

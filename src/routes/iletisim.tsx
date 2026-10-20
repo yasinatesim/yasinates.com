@@ -7,17 +7,17 @@ import { renderContactStatic } from '~/micro-apps/contact/markup'
 export const Route = createFileRoute('/iletisim')({
   loader: async () => ({ ssrHtml: renderContactStatic() }),
   head: () => ({
-    title: 'İletişim | Yasin Ateş',
     meta: [
       ...seo({
         title: 'İletişim | Yasin Ateş',
+        url: 'https://yasinates.com/iletisim',
         description: 'Yasin Ateş ile iletişime geçmek için e-posta ve sosyal medya hesapları.',
         image: 'https://yasinates.com/og-image.jpg',
         keywords: 'iletişim, e-posta, sosyal medya, yasin ateş, frontend, developer'
       }),
     ],
     links: [{ rel: 'canonical', href: 'https://yasinates.com/iletisim' }],
-    script: [
+    scripts: [
       {
         type: 'application/ld+json',
         children: JSON.stringify({

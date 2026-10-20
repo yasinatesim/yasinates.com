@@ -1,6 +1,6 @@
 import { createFileRoute, notFound, redirect } from '@tanstack/react-router'
 import { TuvixReactApp } from '@tuvix.js/react'
-import { seo } from '~/utils/seo'
+import { DEFAULT_OG_IMAGE, PERSON_REF, SITE_URL, seo } from '~/utils/seo'
 import prismCss from 'prismjs/themes/prism-okaidia.css?url'
 import PostDetailApp from '~/micro-apps/post-detail/App'
 import { loadPostDetail } from '~/utils/loadPostDetail'
@@ -19,33 +19,41 @@ export const Route = createFileRoute('/$postId')({
     if (!loaderData) {
       return { meta: [{ title: 'Sayfa bulunamadı | Yasin Ateş' }, { name: 'robots', content: 'noindex' }] }
     }
-    const title = loaderData.postTitle
-    const url = `https://yasinates.com/${loaderData.postId}`
+    const title = `${loaderData.postTitle} | Yasin Ateş`
+    const url = `${SITE_URL}/${loaderData.postId}`
+    const image = loaderData.postImage || DEFAULT_OG_IMAGE
     return {
-      title: `${title} | Yasin Ateş`,
       links: [
         { rel: 'stylesheet', href: prismCss },
         { rel: 'canonical', href: url },
       ],
-      meta: [
-        ...seo({
-          title: `${title} | Yasin Ateş`,
-          description: loaderData.postDescription,
-          image: loaderData.postImage || 'https://yasinates.com/og-image.jpg',
-          keywords: 'blog, yazı, medium, devto, yasin ateş, frontend, developer'
-        }),
-      ],
-      script: [
+      meta: seo({
+        title,
+        description: loaderData.postDescription,
+        image,
+        url,
+        keywords: loaderData.postTags.join(', ') || undefined,
+        article: { publishedTime: loaderData.postPublished },
+      }),
+      scripts: [
         {
           type: 'application/ld+json',
           children: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'BlogPosting',
-            headline: title,
-            author: { '@type': 'Person', name: 'Yasin Ateş', url: 'https://yasinates.com/hakkimda' }
-          })
-        }
-      ]
+            headline: loaderData.postTitle,
+            description: loaderData.postDescription,
+            image,
+            url,
+            mainEntityOfPage: url,
+            datePublished: loaderData.postPublished,
+            inLanguage: 'tr-TR',
+            keywords: loaderData.postTags,
+            author: PERSON_REF,
+            publisher: PERSON_REF,
+          }),
+        },
+      ],
     }
   },
   component: () => {

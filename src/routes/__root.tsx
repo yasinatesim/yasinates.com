@@ -14,7 +14,7 @@ import remixiconCss from 'remixicon/fonts/remixicon.css?url'
 import geistCss from '@fontsource-variable/geist/index.css?url'
 import geistMonoCss from '@fontsource-variable/geist-mono/index.css?url'
 import geistLatinWoff2 from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url'
-import { seo } from '~/utils/seo'
+import { DEFAULT_OG_IMAGE, seo } from '~/utils/seo'
 import { HeaderApp } from '~/micro-apps/header'
 import { FooterApp } from '~/micro-apps/footer'
 import { renderSvelteToString } from '@tuvix.js/svelte/server'
@@ -64,7 +64,7 @@ export const Route = createRootRouteWithContext<{
       ...seo({
         title: 'Yasin Ateş | Frontend Developer, Web & Müzik',
         description: `Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri.`,
-        image: 'https://yasinates.com/yasin-ates-hakkimda.jpg',
+        image: DEFAULT_OG_IMAGE,
         keywords: 'frontend, yazılım, web, müzik, yasin ateş, developer, react, blog, proje',
       }),
     ],

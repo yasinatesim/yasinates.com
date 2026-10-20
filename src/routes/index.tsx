@@ -9,7 +9,7 @@ import { fetchYoutubeVideos, YOUTUBE_QUERY_KEY } from '~/utils/fetchYoutubeVideo
 import { fetchDevtoPosts } from '~/utils/fetchBlogPosts'
 import { getMediumPosts } from '~/utils/getMediumPosts'
 import { fetchAllGithubRepos, GITHUB_REPOS_QUERY_KEY } from '~/hooks/useGithubRepos'
-import { seo } from '~/utils/seo'
+import { PERSON_LD, SITE_NAME, SITE_URL, seo } from '~/utils/seo'
 
 export const Route = createFileRoute('/')(({
   loader: async () => {
@@ -37,36 +37,33 @@ export const Route = createFileRoute('/')(({
     }
   },
   head: () => ({
-    title: 'Yasin Ateş | Frontend Developer, Web & Müzik',
     meta: [
       ...seo({
         title: 'Yasin Ateş | Frontend Developer, Web & Müzik',
+        url: 'https://yasinates.com/',
         description: "Yasin Ateş'in kişisel web sitesi. Frontend geliştirme, projeler, blog yazıları ve müzik içerikleri.",
         image: 'https://yasinates.com/og-image.jpg',
         keywords: 'frontend, yazılım, web, müzik, yasin ateş, developer, react, blog, proje',
       }),
     ],
     links: [{ rel: 'canonical', href: 'https://yasinates.com/' }],
-    script: [
+    scripts: [
       {
         type: 'application/ld+json',
         children: JSON.stringify({
           '@context': 'https://schema.org',
-          '@type': 'Person',
-          name: 'Yasin Ateş',
-          url: 'https://yasinates.com/',
-          sameAs: [
-            'https://github.com/yasinatesim',
-            'https://linkedin.com/in/yasinatesim',
-            'https://twitter.com/yasinatesim',
-            'https://instagram.com/yasinatesim',
-            'https://medium.com/@yasinatesim',
-            'https://dev.to/yasinatesim'
+          '@graph': [
+            {
+              '@type': 'WebSite',
+              '@id': `${SITE_URL}/#website`,
+              url: `${SITE_URL}/`,
+              name: SITE_NAME,
+              inLanguage: 'tr-TR',
+              publisher: { '@id': PERSON_LD['@id'] },
+            },
+            PERSON_LD,
           ],
-          jobTitle: 'Frontend Developer',
-          image: 'https://yasinates.com/yasin-ates-hakkimda.jpg',
-          description: 'Frontend geliştirici, web teknolojileri ve müzik ile ilgilenen yazılımcı.'
-        })
+        }),
       }
     ]
   }),

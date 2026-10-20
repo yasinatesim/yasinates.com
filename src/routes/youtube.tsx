@@ -16,17 +16,17 @@ export const Route = createFileRoute('/youtube')({
     return { dehydratedState: dehydrate(qc) }
   },
   head: () => ({
-    title: 'YouTube Videoları | Yasin Ateş',
     meta: [
       ...seo({
         title: 'YouTube Videoları | Yasin Ateş',
+        url: 'https://yasinates.com/youtube',
         description: "Yasin Ateş'in YouTube kanalında yayınladığı tüm videolar.",
         image: 'https://yasinates.com/og-image.jpg',
         keywords: 'youtube, video, içerik, yasin ateş, frontend, müzik'
       }),
     ],
     links: [{ rel: 'canonical', href: 'https://yasinates.com/youtube' }],
-    script: [
+    scripts: [
       {
         type: 'application/ld+json',
         children: JSON.stringify({

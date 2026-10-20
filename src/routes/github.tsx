@@ -6,17 +6,17 @@ import GithubApp from '~/micro-apps/github/App'
 export const Route = createFileRoute('/github')({
   component: () => <TuvixReactApp name="github-app" App={GithubApp} />,
   head: () => ({
-    title: 'GitHub Projeleri | Yasin Ateş',
     meta: [
       ...seo({
         title: 'GitHub Projeleri | Yasin Ateş',
+        url: 'https://yasinates.com/github',
         description: 'Açık kaynak kodlu tüm GitHub projelerim ve detayları.',
         image: 'https://yasinates.com/og-image.jpg',
         keywords: 'github, açık kaynak, yazılım, proje, yasin ateş, developer, frontend'
       }),
     ],
     links: [{ rel: 'canonical', href: 'https://yasinates.com/github' }],
-    script: [
+    scripts: [
       {
         type: 'application/ld+json',
         children: JSON.stringify({

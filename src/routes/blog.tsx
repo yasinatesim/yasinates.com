@@ -21,7 +21,6 @@ export const Route = createFileRoute('/blog')({
     return { ssrHtml, mediumPosts, devtoPosts }
   },
   head: () => ({
-    title: 'Blog | Yasin Ateş',
     links: [
       { rel: 'stylesheet', href: prismCss },
       { rel: 'canonical', href: 'https://yasinates.com/blog' },
@@ -29,12 +28,13 @@ export const Route = createFileRoute('/blog')({
     meta: [
       ...seo({
         title: 'Blog | Yasin Ateş',
+        url: 'https://yasinates.com/blog',
         description: 'Frontend geliştirme, web teknolojileri ve müzik üzerine blog yazılarım.',
         image: 'https://yasinates.com/og-image.jpg',
         keywords: 'frontend, yazılım, web, müzik, blog, yasin ateş, developer, react, proje'
       }),
     ],
-    script: [
+    scripts: [
       {
         type: 'application/ld+json',
         children: JSON.stringify({

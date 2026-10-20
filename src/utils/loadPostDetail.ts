@@ -41,17 +41,23 @@ export const loadPostDetail = createServerFn({ method: 'GET' })
     let postTitle: string
     let postImage: string
     let postDescription: string
+    let postPublished: string | undefined
+    let postTags: string[]
 
     if (mediumPost) {
       postTitle = mediumPost.title
       postImage = getMediumImage(mediumPost)
       postDescription = getMediumExcerpt(mediumPost.description)
+      postPublished = mediumPost.pubDate ? `${mediumPost.pubDate.replace(' ', 'T')}Z` : undefined
+      postTags = mediumPost.categories ?? []
       const body = mediumPost.content || await readArchivedMediumContent(mediumHash(mediumPost))
       content = highlightCodeBlocks(cleanMediumContent(body, mediumPost.title, postImage || undefined))
     } else if (devtoPost) {
       postTitle = devtoPost.title
       postImage = devtoPost.cover_image ?? ''
       postDescription = devtoPost.description
+      postPublished = devtoPost.published_at
+      postTags = devtoPost.tag_list ?? []
       const bodyHtml = await fetchDevtoArticle(postId)
       content = highlightCodeBlocks(cleanDevtoContent(bodyHtml || devtoPost.description))
     } else {
@@ -78,6 +84,8 @@ export const loadPostDetail = createServerFn({ method: 'GET' })
       postTitle,
       postImage,
       postDescription,
+      postPublished,
+      postTags,
       postId,
     }
   })
