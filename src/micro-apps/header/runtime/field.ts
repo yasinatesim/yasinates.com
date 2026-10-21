@@ -47,6 +47,28 @@ float fbm(vec2 p) {
   return v;
 }
 float hash(vec2 p) { return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453); }
+vec2 hash2(vec2 p) {
+  p = vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)));
+  return fract(sin(p) * 43758.5453);
+}
+
+// One layer of drifting dust. depth 0..1: nearer layers drift and scroll faster and are pushed further by the cursor.
+float dustLayer(vec2 p, vec2 m, float scale, float depth, float seed, out float glow) {
+  vec2 dm = p - m;
+  float md = length(dm);
+  p += dm / max(md, 1e-3) * 0.035 * exp(-md * md * 7.0) * uMouseAmt * depth;
+  vec2 g = p * scale + vec2(uTime * 0.02 * depth + seed, uScroll * scale * (0.15 + 0.45 * depth));
+  vec2 id = floor(g);
+  vec2 h = hash2(id + seed);
+  float d = length(fract(g) - (0.15 + 0.7 * h));
+  float on = step(0.55, hash(id * 1.31 + seed));
+  float twinkle = 0.55 + 0.45 * sin(uTime * (0.6 + 2.0 * h.x) + h.y * 6.283);
+  float aa = fwidth(g.x);
+  float rad = (0.02 + 0.035 * h.y) * (0.6 + 0.6 * depth);
+  float core = 1.0 - smoothstep(rad - aa, rad + aa * 1.5, d);
+  glow = exp(-d * d * 90.0) * on * twinkle;
+  return core * on * twinkle;
+}
 
 void main() {
   vec2 frag = gl_FragCoord.xy;
@@ -57,29 +79,39 @@ void main() {
   vec2 dm = p - m;
   float md = length(dm);
   float lens = exp(-md * md * 9.0) * uMouseAmt;
-  p -= dm * lens * 0.42;
+  vec2 pw = p - dm * lens * 0.42;
 
-  vec2 q = p * 1.25 + vec2(0.0, uScroll * 0.32);
+  vec2 q = pw * 1.25 + vec2(0.0, uScroll * 0.32);
   vec2 w = vec2(fbm(q + t), fbm(q + vec2(5.2, 1.3) - t * 0.8));
   float f = fbm(q + 1.7 * w + vec2(t * 0.5, -uScroll * 0.12));
-
-  float g = f * 6.5 + uScroll * 0.9 + t * 1.6;
-  float d = abs(fract(g) - 0.5);
-  float fw = max(fwidth(g), 1e-4);
-  float line = 1.0 - smoothstep(0.0, fw * 1.25, d);
-  float halo = exp(-d * d / (fw * fw * 14.0));
 
   float region = smoothstep(0.0, 0.75, w.x + 0.3 * sin(uScroll * 0.6 + w.y * 3.0));
   float vign = smoothstep(1.2, 0.2, length((p - vec2(0.35, 0.05)) * vec2(0.8, 1.0)));
 
+  // Few, dim contour lines; part of the dust gathers along them, the rest drifts freely.
+  float g = f * 1.6 + uScroll * 0.45 + t * 1.1;
+  float d = abs(fract(g) - 0.5);
+  float fw = max(fwidth(g), 1e-4);
+  float line = 1.0 - smoothstep(0.0, fw * 1.1, d);
+  float halo = exp(-d * d / (fw * fw * 10.0));
+  float band = exp(-d * d / (fw * fw * 140.0));
+  float energy = (0.05 + 0.95 * region) * vign * uGain + lens * 0.6;
+  float lines = line * energy * 0.42 + halo * 0.04 * energy;
+
+  float g1, g2, g3;
+  float s1 = dustLayer(p, m, 34.0, 0.3, 3.1, g1);
+  float s2 = dustLayer(p, m, 22.0, 0.6, 7.7, g2);
+  float s3 = dustLayer(p, m, 12.0, 0.9, 12.9, g3);
+  float onContour = (s1 * 0.9 + s2 + g2 * 0.25) * band * (0.1 + 0.9 * region) * vign;
+  float loose = (s2 * 0.3 + s3 * 0.75 + g3 * 0.12) * (0.55 + 0.45 * vign);
+  float dust = (onContour * 1.4 + loose) * (1.0 + lens * 1.2);
+
   vec3 tint = mix(uC1, uC2, smoothstep(-0.5, 0.6, f));
   tint = mix(tint, uC3, clamp(lens * 1.4, 0.0, 1.0));
+  float strength = lines + dust * uGain;
 
-  float energy = (0.05 + 0.95 * region) * vign * uGain + lens * 0.8;
-  float strength = line * energy + halo * 0.1 * energy;
-
-  vec3 dark = uBg + tint * strength * 0.62 + tint * lens * 0.05;
-  vec3 light = mix(uBg, tint, clamp(strength * 0.42, 0.0, 0.7)) + vec3(lens * 0.025);
+  vec3 dark = uBg + tint * strength * 0.62;
+  vec3 light = mix(uBg, tint, clamp(strength * 0.42, 0.0, 0.7));
   vec3 col = mix(dark, light, uLight);
 
   col += (hash(frag + uTime) - 0.5) / 255.0;
