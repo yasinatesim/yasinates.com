@@ -70,6 +70,10 @@
     position: relative;
     top: auto;
   }
+  .stack:global(.is-stacked) .stack__card {
+    position: sticky;
+    top: calc(var(--header-h) + 8px + var(--i) * 14px);
+  }
   .scard {
     grid-template-columns: minmax(0, 1fr);
     min-height: 0;

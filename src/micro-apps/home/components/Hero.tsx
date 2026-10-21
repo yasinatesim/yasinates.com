@@ -18,25 +18,25 @@ function useHeroTilt() {
     const heroMq = window.matchMedia('(min-width: 901px)')
     let frame = 0
     let done = false
+    let wasDesktop = heroMq.matches
 
     const update = () => {
       frame = 0
-      if (!heroMq.matches) {
-        if (screen.style.transform) {
-          screen.style.transform = ''
-          content.style.opacity = ''
-          content.style.transform = ''
-        }
-        return
-      }
-      const range = Math.max(1, hero.offsetHeight - window.innerHeight)
-      const p = Math.min(1, Math.max(0, -hero.getBoundingClientRect().top / range))
+      const desktop = heroMq.matches
+      if (desktop !== wasDesktop) done = false
+      wasDesktop = desktop
+      const rect = hero.getBoundingClientRect()
+      const range = desktop ? Math.max(1, hero.offsetHeight - window.innerHeight) : Math.max(1, rect.height * 0.9)
+      const p = Math.min(1, Math.max(0, -rect.top / range))
       if (p >= 1 && done) return
       done = p >= 1
       const e = p * p * (3 - 2 * p)
-      screen.style.transform = `translate3d(0, ${(-e * 3).toFixed(2)}vh, 0) rotateX(${(e * 24).toFixed(2)}deg) scale(${(1 - e * 0.16).toFixed(4)})`
-      content.style.opacity = (1 - Math.min(1, Math.max(0, (p - 0.3) * 1.5))).toFixed(3)
-      content.style.transform = `translate3d(0, ${(-e * 40).toFixed(1)}px, 0)`
+      const fade = 1 - Math.min(1, Math.max(0, (p - (desktop ? 0.3 : 0.15)) * 1.5))
+      screen.style.transform = desktop
+        ? `translate3d(0, ${(-e * 3).toFixed(2)}vh, 0) rotateX(${(e * 24).toFixed(2)}deg) scale(${(1 - e * 0.16).toFixed(4)})`
+        : `rotateX(${(e * 16).toFixed(2)}deg) scale(${(1 - e * 0.1).toFixed(4)})`
+      content.style.opacity = fade.toFixed(3)
+      content.style.transform = `translate3d(0, ${(-e * (desktop ? 40 : 28)).toFixed(1)}px, 0)`
     }
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update)

@@ -136,25 +136,27 @@ export function createMotion(): Motion {
     }),
   )
 
-  type Pan = { section: HTMLElement; track: HTMLElement; bar: HTMLElement | null; distance: number }
+  type Pan = { section: HTMLElement; track: HTMLElement; bar: HTMLElement | null; distance: number; pin: number }
   const pans = new Set<Pan>()
   const panClaimed = new WeakSet<Element>()
-  const panQuery = window.matchMedia('(min-width: 900px)')
+  const unpin = (pan: Pan): void => {
+    pan.section.classList.remove('is-pinned')
+    pan.section.style.height = ''
+    pan.track.style.transform = ''
+    if (pan.bar) pan.bar.style.transform = ''
+  }
   const measurePan = (pan: Pan): void => {
-    const active = panQuery.matches && !reduced
-    pan.section.classList.toggle('is-pinned', active)
-    if (!active) {
-      pan.section.style.height = ''
-      pan.track.style.transform = ''
-      if (pan.bar) pan.bar.style.transform = ''
-      return
-    }
+    if (reduced) return unpin(pan)
+    pan.section.classList.add('is-pinned')
+    const sticky = pan.section.firstElementChild
+    if (sticky instanceof HTMLElement && sticky.scrollHeight > sticky.clientHeight + 1) return unpin(pan)
+    pan.pin = sticky instanceof HTMLElement ? sticky.offsetHeight : vh
     const prev = pan.track.style.transform
     pan.track.style.transform = ''
     const left = pan.track.getBoundingClientRect().left
     pan.track.style.transform = prev
     pan.distance = Math.max(0, Math.ceil(left + pan.track.scrollWidth - vw + 48))
-    pan.section.style.height = `${vh + pan.distance}px`
+    pan.section.style.height = `${pan.pin + pan.distance}px`
   }
   const measurePans = (): void => {
     for (const pan of pans) {
@@ -165,13 +167,12 @@ export function createMotion(): Motion {
   }
   window.addEventListener('resize', measurePans, { signal })
   window.addEventListener('load', measurePans, { signal })
-  panQuery.addEventListener('change', measurePans, { signal })
   cleanups.push(
     onScroll(() => {
       for (const pan of pans) {
         if (!pan.section.classList.contains('is-pinned')) continue
         const r = pan.section.getBoundingClientRect()
-        const p = clamp(-r.top / Math.max(1, r.height - vh))
+        const p = clamp(-r.top / Math.max(1, r.height - pan.pin))
         pan.track.style.transform = `translate3d(${(-p * pan.distance).toFixed(1)}px, 0, 0)`
         if (pan.bar) pan.bar.style.transform = `scaleX(${p.toFixed(4)})`
       }
@@ -181,6 +182,42 @@ export function createMotion(): Motion {
   const stacks = new Set<HTMLElement>()
   const stackClaimed = new WeakSet<Element>()
   const stackQuery = window.matchMedia('(min-width: 861px)')
+  // Below 861px the stack is enabled from here (desktop is pure CSS). A card taller than the space under its
+  // sticky offset sticks by its bottom edge instead, so it is fully readable before the next card covers it.
+  const measureStack = (stack: HTMLElement): void => {
+    const cards = Array.from(stack.querySelectorAll<HTMLElement>('[data-stack-card]'))
+    for (const card of cards) card.style.top = ''
+    const mobile = !stackQuery.matches && cards.length > 1
+    stack.classList.toggle('is-stacked', mobile)
+    if (!mobile) return
+    const view = Math.min(vh, document.documentElement.clientHeight)
+    const tops = cards.map((card) => Math.min(parseFloat(getComputedStyle(card).top) || 0, view - card.offsetHeight))
+    cards.forEach((card, i) => {
+      card.style.top = `${Math.floor(tops[i])}px`
+    })
+  }
+  const measureStacks = (): void => {
+    for (const stack of stacks) {
+      if (stack.isConnected) measureStack(stack)
+      else stacks.delete(stack)
+    }
+    schedule()
+  }
+  // innerHeight changes while the iOS toolbar slides; clientHeight and width only change on real resizes.
+  let stackWidth = vw
+  let stackHeight = document.documentElement.clientHeight
+  window.addEventListener(
+    'resize',
+    () => {
+      const height = document.documentElement.clientHeight
+      if (window.innerWidth === stackWidth && height === stackHeight) return
+      stackWidth = window.innerWidth
+      stackHeight = height
+      measureStacks()
+    },
+    { signal },
+  )
+  window.addEventListener('load', measureStacks, { signal })
   cleanups.push(
     onScroll(() => {
       for (const stack of stacks) {
@@ -193,7 +230,7 @@ export function createMotion(): Motion {
           const inner = cards[i].firstElementChild
           if (!(inner instanceof HTMLElement)) continue
           const next = cards[i + 1]
-          if (!next || !stackQuery.matches) {
+          if (!next || !(stackQuery.matches || stack.classList.contains('is-stacked'))) {
             inner.style.transform = ''
             inner.style.filter = ''
             inner.style.opacity = ''
@@ -215,7 +252,7 @@ export function createMotion(): Motion {
       }
     }),
   )
-  stackQuery.addEventListener('change', schedule, { signal })
+  stackQuery.addEventListener('change', measureStacks, { signal })
 
   const magneticClaimed = new WeakSet<Element>()
   const tiltClaimed = new WeakSet<Element>()
@@ -228,7 +265,12 @@ export function createMotion(): Motion {
 
     if (!reduced) {
       document.querySelectorAll<HTMLElement>('[data-stack]').forEach((el) => {
-        if (claim(stackClaimed, el)) stacks.add(el)
+        if (!claim(stackClaimed, el)) return
+        stacks.add(el)
+        measureStack(el)
+        const ro = new ResizeObserver(() => measureStack(el))
+        ro.observe(el)
+        cleanups.push(() => ro.disconnect())
       })
       document.querySelectorAll<HTMLElement>('[data-tilt-in]').forEach((el) => {
         if (claim(tiltInClaimed, el)) tiltIn.add(el)
@@ -241,7 +283,7 @@ export function createMotion(): Motion {
     document.querySelectorAll<HTMLElement>('[data-pan]').forEach((section) => {
       const track = section.querySelector<HTMLElement>('[data-pan-track]')
       if (!track || !claim(panClaimed, section)) return
-      const pan: Pan = { section, track, bar: section.querySelector<HTMLElement>('[data-pan-progress]'), distance: 0 }
+      const pan: Pan = { section, track, bar: section.querySelector<HTMLElement>('[data-pan-progress]'), distance: 0, pin: vh }
       pans.add(pan)
       measurePan(pan)
       const ro = new ResizeObserver(() => measurePan(pan))
