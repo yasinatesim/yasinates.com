@@ -10,7 +10,6 @@ import { LogoPlate } from './components/LogoPlate'
 import styles from './projeler.module.scss'
 
 type Project = (typeof OTHER_PROJECTS)[number]
-type Repo = GithubRepo & { stargazers_count?: number }
 
 const REPO_COUNT = 9
 
@@ -67,7 +66,7 @@ function ProjectCard({ project }: { project: Project }) {
   )
 }
 
-function RepoCard({ repo }: { repo: Repo }) {
+function RepoCard({ repo }: { repo: GithubRepo }) {
   return (
     <article className={styles.rcard} data-spot>
       <span className="spot" aria-hidden="true" />
@@ -147,7 +146,7 @@ function VideoCard({ video }: { video: YoutubeVideo }) {
 }
 
 function Repos() {
-  const repos: Repo[] = useGithubRepos()
+  const repos = useGithubRepos()
     .data.slice()
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
   return (

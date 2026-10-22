@@ -1,4 +1,4 @@
-import { QueryClientProvider } from '@tanstack/react-query'
+import { HydrationBoundary, QueryClientProvider, type DehydratedState } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
 import { Component, type CSSProperties, type ReactNode, Suspense, useMemo, useState } from 'react'
 import { sharedQueryClient } from '~/micro-apps/_shared/queryClient'
@@ -7,7 +7,6 @@ import { ArrowUpRightIcon, ForkIcon, RepoIcon, SearchIcon, StarIcon } from '~/as
 import { SortSelect, type SelectOption } from './components/SortSelect'
 import styles from './github.module.scss'
 
-type Repo = GithubRepo & { stargazers_count?: number }
 type SortKey = 'new' | 'stars' | 'name'
 
 const ALL = 'all'
@@ -37,7 +36,7 @@ const FALLBACK_LANG_COLOR = '#8a93a3'
 
 const dateFmt = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
 
-function RepoCard({ repo }: { repo: Repo }) {
+function RepoCard({ repo }: { repo: GithubRepo }) {
   return (
     <article className={styles.rcard} data-spot>
       <span className="spot" aria-hidden="true" />
@@ -87,7 +86,7 @@ function RepoCard({ repo }: { repo: Repo }) {
 }
 
 function Repos() {
-  const repos: Repo[] = useGithubRepos().data
+  const repos = useGithubRepos().data
   const [query, setQuery] = useState('')
   const [lang, setLang] = useState(ALL)
   const [sort, setSort] = useState<SortKey>('new')
@@ -191,10 +190,12 @@ export function GithubPage() {
   )
 }
 
-export default function GithubApp() {
+export default function GithubApp({ dehydratedState }: { dehydratedState?: DehydratedState }) {
   return (
     <QueryClientProvider client={sharedQueryClient}>
-      <GithubPage />
+      <HydrationBoundary state={dehydratedState}>
+        <GithubPage />
+      </HydrationBoundary>
     </QueryClientProvider>
   )
 }

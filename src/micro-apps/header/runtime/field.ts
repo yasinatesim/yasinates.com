@@ -183,7 +183,16 @@ export function initField(canvas: HTMLCanvasElement, onLive: () => void): FieldC
   const u = {} as Record<UniformName, WebGLUniformLocation | null>
   for (const n of UNIFORMS) u[n] = ctx.getUniformLocation(prog, n)
 
-  const reduced = prefersReducedMotion()
+  // A software rasterizer (no GPU: SwiftShader, llvmpipe) renders this full-screen noise shader on the CPU every
+  // frame, which blocks the page. Draw one still frame there, the same as for reduced motion. Chrome and Safari
+  // mask RENDERER as "WebKit WebGL" (the real name needs the debug extension); Firefox reports it directly and
+  // warns when the extension is requested.
+  let renderer = String(ctx.getParameter(ctx.RENDERER))
+  if (/^webkit webgl$/i.test(renderer)) {
+    const info = ctx.getExtension('WEBGL_debug_renderer_info')
+    if (info) renderer = String(ctx.getParameter(info.UNMASKED_RENDERER_WEBGL))
+  }
+  const still = prefersReducedMotion() || /swiftshader|llvmpipe|softpipe|software/i.test(renderer)
   const mobile = window.matchMedia('(max-width: 760px)').matches
   let scale = Math.min(window.devicePixelRatio || 1, 1.5) * (mobile ? 0.55 : 0.75)
   const isLight = (): number => (root.dataset.theme === 'light' ? 1 : 0)
@@ -274,7 +283,7 @@ export function initField(canvas: HTMLCanvasElement, onLive: () => void): FieldC
   }
 
   const start = (): void => {
-    if (reduced) {
+    if (still) {
       draw()
       return
     }
@@ -290,7 +299,7 @@ export function initField(canvas: HTMLCanvasElement, onLive: () => void): FieldC
 
   const onResize = (): void => {
     resize()
-    if (reduced) draw()
+    if (still) draw()
   }
   const onVisibility = (): void => (document.hidden ? stop() : start())
   const onPointerMove = (e: PointerEvent): void => {
@@ -305,7 +314,7 @@ export function initField(canvas: HTMLCanvasElement, onLive: () => void): FieldC
 
   window.addEventListener('resize', onResize)
   document.addEventListener('visibilitychange', onVisibility)
-  if (!reduced) {
+  if (!still) {
     window.addEventListener('pointermove', onPointerMove, { passive: true })
     document.addEventListener('pointerleave', onPointerLeave)
   }
@@ -315,12 +324,12 @@ export function initField(canvas: HTMLCanvasElement, onLive: () => void): FieldC
 
   return {
     setScroll(v) {
-      scrollTarget = reduced ? 0 : v
+      scrollTarget = still ? 0 : v
     },
     themeChanged() {
       readColors()
       lightTarget = isLight()
-      if (reduced) {
+      if (still) {
         light = lightTarget
         draw()
       }

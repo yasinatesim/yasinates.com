@@ -55,6 +55,33 @@ export function getMediumExcerpt(description: string | undefined): string {
   return htmlToText(firstParagraph ?? description)
 }
 
+const LEADING_HEADING_RE = /^\s*<h[1-4][^>]*>[\s\S]*?<\/h[1-4]>/i
+const FIRST_IMG_RE = /<img[^>]*src=["']([^"'>]+)["'][^>]*>/i
+const FIRST_PARAGRAPH_RE = /<p[^>]*>[\s\S]*?<\/p>/i
+
+export function compactMediumDescription(description: string): string {
+  const paragraph = description.match(FIRST_PARAGRAPH_RE)?.[0]
+  if (!paragraph) return description
+  return (description.match(LEADING_HEADING_RE)?.[0] ?? '') + (description.match(FIRST_IMG_RE)?.[0] ?? '') + paragraph
+}
+
+const MEDIUM_IMAGE_RE = /^https:\/\/(?:cdn-images-1\.medium\.com\/max\/\d+|miro\.medium\.com\/v2(?:\/[a-z]+:[^/]+)*)\/([^/?#]+)$/i
+const CARD_IMAGE_WIDTH = 800
+
+export function mediumImageUrl(url: string, width: number): string {
+  const id = url.match(MEDIUM_IMAGE_RE)?.[1]
+  return id ? `https://miro.medium.com/v2/resize:fit:${width}/format:webp/${id}` : url
+}
+
+export function toMediumListItem(post: MediumPost): MediumPostListItem {
+  const { content: _, ...meta } = post
+  return {
+    ...meta,
+    thumbnail: mediumImageUrl(getMediumImage(post), CARD_IMAGE_WIDTH),
+    description: compactMediumDescription(post.description),
+  }
+}
+
 export async function fetchDevtoPosts(): Promise<DevToPost[]> {
   const res = await fetch('https://dev.to/api/articles?username=yasinatesim')
   return res.json() as Promise<DevToPost[]>
@@ -85,8 +112,8 @@ export function getMediumPostId(post: MediumPostListItem): string {
 export function getMediumImage(post: Pick<MediumPost, 'thumbnail' | 'description' | 'content'>): string {
   return (
     post.thumbnail
-    || post.description?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
-    || (post as MediumPost).content?.match(/<img[^>]*src=["']([^"'>]+)["'][^>]*>/i)?.[1]
+    || post.description?.match(FIRST_IMG_RE)?.[1]
+    || (post as MediumPost).content?.match(FIRST_IMG_RE)?.[1]
     || ''
   )
 }

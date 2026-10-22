@@ -71,8 +71,8 @@ onMounted(() => {
         aria-live="polite"
       >
         <p v-if="posts.length === 0" :class="['micro', styles['loading']]">Yükleniyor...</p>
-        <div v-for="post in posts" :key="post.id" :class="styles['bgrid__cell']" data-reveal data-rv-self>
-          <BlogCard :post="post" />
+        <div v-for="(post, i) in posts" :key="post.id" :class="styles['bgrid__cell']" data-reveal data-rv-self>
+          <BlogCard :post="post" :eager="i < 3" />
         </div>
       </div>
     </div>

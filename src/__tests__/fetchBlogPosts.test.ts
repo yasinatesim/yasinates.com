@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { cleanMediumContent, countReadingMinutes, getMediumExcerpt, htmlToText } from '~/utils/fetchBlogPosts'
+import {
+  cleanMediumContent,
+  compactMediumDescription,
+  countReadingMinutes,
+  getMediumExcerpt,
+  getMediumImage,
+  htmlToText,
+  mediumImageUrl,
+} from '~/utils/fetchBlogPosts'
 
 describe('htmlToText', () => {
   it('strips tags, decodes entities once and collapses whitespace', () => {
@@ -34,6 +42,51 @@ describe('getMediumExcerpt', () => {
 
   it('returns an empty string for a missing description', () => {
     expect(getMediumExcerpt(undefined)).toBe('')
+  })
+})
+
+describe('compactMediumDescription', () => {
+  const article =
+    '<h3>Dependabot ile Paket Güncelleme: Tam Başlık</h3>' +
+    '<p>Projelerimizde <strong>bağımlılık</strong> güncellemeleri</p>' +
+    '<figure><img alt="" src="https://cdn-images-1.medium.com/max/1024/cover.png"><figcaption>Kapak</figcaption></figure>' +
+    '<p>İkinci paragraf</p><pre>kod</pre><figure><img src="https://cdn-images-1.medium.com/max/1024/other.png"></figure>' +
+    '<p>Son</p>'
+
+  it('keeps the excerpt, cover image and leading heading that list views read', () => {
+    const compact = compactMediumDescription(article)
+    expect(getMediumExcerpt(compact)).toBe(getMediumExcerpt(article))
+    expect(getMediumImage({ thumbnail: null, description: compact, content: '' })).toBe(
+      'https://cdn-images-1.medium.com/max/1024/cover.png',
+    )
+    expect(compact.startsWith('<h3>Dependabot ile Paket Güncelleme: Tam Başlık</h3>')).toBe(true)
+    expect(compact).not.toContain('İkinci paragraf')
+  })
+
+  it('leaves a description without paragraphs unchanged, so the excerpt fallback still works', () => {
+    expect(compactMediumDescription('<div>Sadece metin</div>')).toBe('<div>Sadece metin</div>')
+  })
+})
+
+describe('mediumImageUrl', () => {
+  it('asks Medium for a WebP at the given width, for both CDN URL styles', () => {
+    expect(mediumImageUrl('https://cdn-images-1.medium.com/max/1024/1*-TftnWyQ8wrTpXM1Ub5IIQ.png', 800)).toBe(
+      'https://miro.medium.com/v2/resize:fit:800/format:webp/1*-TftnWyQ8wrTpXM1Ub5IIQ.png',
+    )
+    expect(mediumImageUrl('https://miro.medium.com/v2/da:true/resize:fit:1200/0*v6g2xetIL2FIMQgG', 800)).toBe(
+      'https://miro.medium.com/v2/resize:fit:800/format:webp/0*v6g2xetIL2FIMQgG',
+    )
+  })
+
+  it('can resize an already rewritten card URL again', () => {
+    expect(mediumImageUrl('https://miro.medium.com/v2/resize:fit:800/format:webp/0*v6g2xetIL2FIMQgG', 1400)).toBe(
+      'https://miro.medium.com/v2/resize:fit:1400/format:webp/0*v6g2xetIL2FIMQgG',
+    )
+  })
+
+  it('leaves other hosts and empty values alone', () => {
+    expect(mediumImageUrl('https://media2.dev.to/cover.png', 800)).toBe('https://media2.dev.to/cover.png')
+    expect(mediumImageUrl('', 800)).toBe('')
   })
 })
 

@@ -344,9 +344,6 @@
   fill: currentColor;
   filter: drop-shadow(0 0 8px color-mix(in srgb, var(--c) 45%, transparent));
 }
-.tech__ring i {
-  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--c) 45%, transparent));
-}
 .tech__text {
   font-family: var(--font-mono);
   font-size: 7.5px;

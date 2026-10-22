@@ -8,7 +8,8 @@ import { formatShort } from '../posts'
 import { signalArt } from '../art'
 import type { BlogPost } from '../types'
 
-const props = defineProps<{ post: BlogPost }>()
+// eager: card is in the first row (above the fold), so its cover is the page's LCP candidate.
+const props = defineProps<{ post: BlogPost; eager?: boolean }>()
 
 const SOURCE_ICONS = { medium: MediumIcon, devto: DevtoIcon }
 
@@ -24,7 +25,14 @@ const art = computed(() => (props.post.cover ? '' : signalArt(props.post.id + pr
     <span class="spot" aria-hidden="true" />
     <a :class="styles['bcard__link']" :href="`/${post.id}`">
       <div v-if="post.cover" class="media">
-        <img :src="post.cover" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" />
+        <img
+          :src="post.cover"
+          alt=""
+          :loading="eager ? 'eager' : 'lazy'"
+          :fetchpriority="eager ? 'high' : undefined"
+          decoding="async"
+          referrerpolicy="no-referrer"
+        />
       </div>
       <div v-else class="media media--art" v-html="art" />
       <div :class="styles['bcard__body']">

@@ -10,6 +10,7 @@ import {
   cleanDevtoContent,
   getMediumExcerpt,
   getMediumImage,
+  toMediumListItem,
 } from '~/utils/fetchBlogPosts'
 import { highlightCodeBlocks } from '~/utils/highlightCode'
 
@@ -65,7 +66,7 @@ export const loadPostDetail = createServerFn({ method: 'GET' })
       throw new Error('Blog sources are unavailable')
     }
 
-    const mediumList = mediumPosts.map(({ content: _, ...p }) => p)
+    const mediumList = mediumPosts.map(toMediumListItem)
     const devtoList = devtoPosts.map(({ body_html: _, ...p }) => p)
 
     const ssrHtml = await renderVueToString(PostDetailVue, {

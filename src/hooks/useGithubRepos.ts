@@ -4,13 +4,13 @@ import axios from "axios"
 export type GithubRepo = {
   id: number
   name: string
-  owner: { login: string }
   description: string | null
   language: string | null
   html_url: string
   topics?: string[]
   created_at: string
   fork?: boolean
+  stargazers_count?: number
 }
 
 export const GITHUB_REPOS_QUERY_KEY = ['github-repos', 'yasinatesim'] as const
@@ -35,9 +35,13 @@ async function requestAllRepos(): Promise<GithubRepo[]> {
       },
       headers: githubHeaders(),
     });
-    const repos = res.data;
-    allRepos = allRepos.concat(repos);
-    if (repos.length < perPage) break;
+    // The API returns ~80 fields per repo; keep only what the UI reads, since the list is serialized into the SSR HTML.
+    allRepos = allRepos.concat(
+      res.data.map(({ id, name, description, language, html_url, topics, created_at, fork, stargazers_count }) => ({
+        id, name, description, language, html_url, topics, created_at, fork, stargazers_count,
+      })),
+    );
+    if (res.data.length < perPage) break;
     page++;
   }
   return allRepos;

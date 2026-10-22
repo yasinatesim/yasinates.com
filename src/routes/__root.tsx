@@ -10,7 +10,6 @@ import type { QueryClient } from '@tanstack/react-query'
 import { DefaultCatchBoundary } from '~/components/DefaultCatchBoundary'
 import { NotFound } from '~/components/NotFound'
 import appCss from '~/styles/app.css?url'
-import remixiconCss from 'remixicon/fonts/remixicon.css?url'
 import geistCss from '@fontsource-variable/geist/index.css?url'
 import geistMonoCss from '@fontsource-variable/geist-mono/index.css?url'
 import geistLatinWoff2 from '@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url'
@@ -79,7 +78,6 @@ export const Route = createRootRouteWithContext<{
       { rel: 'stylesheet', href: stableHref(appCss) },
       { rel: 'stylesheet', href: stableHref(geistCss) },
       { rel: 'stylesheet', href: stableHref(geistMonoCss) },
-      { rel: 'stylesheet', href: stableHref(remixiconCss) },
       { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
       { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
       { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },

@@ -15,6 +15,8 @@ const startHandler = createStartHandler({
   getRouterManifest,
 })(defaultStreamHandler)
 
+const PAGE_CDN_CACHE = 'public, durable, s-maxage=300, stale-while-revalidate=86400'
+
 export default defineEventHandler(async (event) => {
   if (getRequestURL(event).pathname === '/sitemap.xml') {
     return new Response(await buildSitemap(), {
@@ -24,5 +26,9 @@ export default defineEventHandler(async (event) => {
       },
     })
   }
-  return startHandler(event)
+  const response = await startHandler(event)
+  if (response instanceof Response && response.status === 200) {
+    response.headers.set('Netlify-CDN-Cache-Control', PAGE_CDN_CACHE)
+  }
+  return response
 })

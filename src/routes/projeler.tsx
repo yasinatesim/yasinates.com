@@ -4,15 +4,15 @@ import { TuvixReactApp } from '@tuvix.js/react'
 import { seo } from '~/utils/seo'
 import ProjectsApp from '~/micro-apps/projects/App'
 import { fetchYoutubeVideos, YOUTUBE_QUERY_KEY } from '~/utils/fetchYoutubeVideos'
+import { fetchAllGithubRepos, GITHUB_REPOS_QUERY_KEY } from '~/hooks/useGithubRepos'
 
 export const Route = createFileRoute('/projeler')({
   loader: async () => {
     const qc = new QueryClient()
-    try {
-      const videos = await fetchYoutubeVideos()
-      qc.setQueryData(YOUTUBE_QUERY_KEY, videos)
-    } catch {
-    }
+    await Promise.allSettled([
+      fetchYoutubeVideos().then((videos) => qc.setQueryData(YOUTUBE_QUERY_KEY, videos)),
+      fetchAllGithubRepos().then((repos) => qc.setQueryData(GITHUB_REPOS_QUERY_KEY, repos)),
+    ])
     return { dehydratedState: dehydrate(qc) }
   },
   component: () => {

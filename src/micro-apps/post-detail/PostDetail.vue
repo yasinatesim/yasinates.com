@@ -2,6 +2,7 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import styles from './post-detail.module.scss'
 import type { MediumPostListItem, DevToPostListItem } from '~/utils/fetchBlogPosts'
+import { mediumImageUrl } from '../../utils/fetchBlogPosts'
 import ArrowLeftIcon from '../../assets/icons/vue/arrow-left.vue'
 import ArrowUpRightIcon from '../../assets/icons/vue/arrow-up-right.vue'
 import DevtoIcon from '../../assets/icons/vue/devto.vue'
@@ -23,6 +24,8 @@ const allPosts = computed(() => toPostSummaries(props.mediumPosts, props.devtoPo
 const post = computed(() => allPosts.value.find((p) => p.id === props.postId))
 const others = computed(() => allPosts.value.filter((p) => p.id !== props.postId).slice(0, 6))
 const articleHtml = computed(() => normaliseArticle(props.content))
+// List covers are 800px card images; the article column is up to 760 CSS px, so ask for a sharper copy.
+const coverSrc = computed(() => (post.value?.cover ? mediumImageUrl(post.value.cover, 1400) : ''))
 
 const sourceLabel = (source: 'medium' | 'devto') => (source === 'medium' ? 'Medium' : 'Dev.to')
 const fullSourceLabel = (p: { source: 'medium' | 'devto'; publication?: string }) =>
@@ -91,7 +94,7 @@ onBeforeUnmount(() => {
           </header>
 
           <figure v-if="post.cover" :class="styles['post__cover']">
-            <img :src="post.cover" alt="" referrerpolicy="no-referrer" />
+            <img :src="coverSrc" alt="" referrerpolicy="no-referrer" />
           </figure>
 
           <section :class="styles['prose']" v-html="articleHtml" />
