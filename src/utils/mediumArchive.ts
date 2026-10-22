@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto'
 import { getStore, type Store } from '@netlify/blobs'
 import { countReadingMinutes, type MediumPost, type MediumPostListItem } from '~/utils/fetchBlogPosts'
 
-const MEDIUM_FEED_URL = 'https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@yasinatesim'
+const MEDIUM_FEED_URL = 'https://medium.com/feed/@yasinatesim'
 const STORE_NAME = 'medium-archive'
 const INDEX_KEY = 'index'
 const INDEX_TTL_MS = 10 * 60 * 1000
@@ -90,11 +90,47 @@ async function writeArchive(feed: MediumPost[], archive: ArchivedMediumPost[]): 
   return update.archive
 }
 
+const CDATA_RE = /^<!\[CDATA\[([\s\S]*)\]\]>$/
+const XML_ENTITIES: Record<string, string> = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'" }
+
+function tagText(xml: string, tag: string): string | undefined {
+  const raw = xml.match(new RegExp(`<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)</${tag}>`))?.[1]?.trim()
+  if (raw === undefined) return undefined
+  return raw.match(CDATA_RE)?.[1] ?? raw.replace(/&(amp|lt|gt|quot|#39);/g, (m) => XML_ENTITIES[m] ?? m)
+}
+
+// RFC 822 date → "YYYY-MM-DD HH:MM:SS" in UTC, the format the archive and the UI already use.
+function toFeedDate(rfc822: string | undefined): string | undefined {
+  const time = rfc822 ? Date.parse(rfc822) : Number.NaN
+  return Number.isNaN(time) ? undefined : new Date(time).toISOString().slice(0, 19).replace('T', ' ')
+}
+
+export function parseMediumFeed(xml: string): MediumPost[] {
+  return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].flatMap(([, item]): MediumPost[] => {
+    const guid = tagText(item, 'guid')
+    const title = tagText(item, 'title')
+    const content = tagText(item, 'content:encoded')
+    if (!guid || !title || content === undefined) return []
+    return [{
+      guid,
+      title,
+      link: tagText(item, 'link'),
+      pubDate: toFeedDate(tagText(item, 'pubDate')),
+      categories: [...item.matchAll(/<category>([\s\S]*?)<\/category>/g)].map(([, c]) => c.trim().match(CDATA_RE)?.[1] ?? c.trim()),
+      thumbnail: '',
+      description: content,
+      content,
+      readingMinutes: countReadingMinutes(content),
+    }]
+  })
+}
+
 async function fetchFeed(): Promise<MediumPost[]> {
   const res = await fetch(MEDIUM_FEED_URL)
   if (!res.ok) throw new Error(`Medium feed request failed: ${res.status}`)
-  const data = await res.json() as { items?: Omit<MediumPost, 'readingMinutes'>[] }
-  return (data.items ?? []).map((item) => ({ ...item, readingMinutes: countReadingMinutes(item.content) }))
+  const posts = parseMediumFeed(await res.text())
+  if (posts.length === 0) throw new Error('Medium feed has no items')
+  return posts
 }
 
 export async function fetchMediumPosts(): Promise<{ posts: MediumPost[]; complete: boolean }> {

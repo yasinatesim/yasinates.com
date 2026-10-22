@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { mergeMediumPosts, updateArchive, type ArchivedMediumPost } from '~/utils/mediumArchive'
+import { mergeMediumPosts, parseMediumFeed, updateArchive, type ArchivedMediumPost } from '~/utils/mediumArchive'
 import type { MediumPost } from '~/utils/fetchBlogPosts'
 
 const feedPost = (hash: string, title: string, pubDate: string, content = `<p>${title}</p>`): MediumPost => ({
@@ -65,5 +65,38 @@ describe('updateArchive', () => {
 
     expect(update).toMatchObject({ changed: true, changedContent: [] })
     expect(update.archive[0].title).toBe('New title')
+  })
+})
+
+describe('parseMediumFeed', () => {
+  const rss = `<?xml version="1.0"?><rss><channel><title>Stories</title>
+    <item>
+      <title><![CDATA[Git & React: <Bölüm 1>]]></title>
+      <link>https://medium.com/@yasinatesim/git-react-3cafd5b53f9a?source=rss</link>
+      <guid isPermaLink="false">https://medium.com/p/3cafd5b53f9a</guid>
+      <category><![CDATA[git]]></category>
+      <category><![CDATA[türkçe]]></category>
+      <pubDate>Mon, 15 Jun 2026 16:07:28 GMT</pubDate>
+      <content:encoded><![CDATA[<h3>Başlık</h3><p>a &amp; b</p>]]></content:encoded>
+    </item>
+    <item><title>No body</title><guid>https://medium.com/p/deadbeef00</guid></item>
+  </channel></rss>`
+
+  it('reads CDATA fields verbatim and stores the date as UTC "YYYY-MM-DD HH:MM:SS"', () => {
+    const [post] = parseMediumFeed(rss)
+    expect(post).toMatchObject({
+      guid: 'https://medium.com/p/3cafd5b53f9a',
+      title: 'Git & React: <Bölüm 1>',
+      pubDate: '2026-06-15 16:07:28',
+      categories: ['git', 'türkçe'],
+      content: '<h3>Başlık</h3><p>a &amp; b</p>',
+      description: '<h3>Başlık</h3><p>a &amp; b</p>',
+      readingMinutes: 1,
+    })
+  })
+
+  it('skips items without a body and returns nothing for a non-RSS page', () => {
+    expect(parseMediumFeed(rss)).toHaveLength(1)
+    expect(parseMediumFeed('<!DOCTYPE html><html><title>Just a moment...</title></html>')).toEqual([])
   })
 })

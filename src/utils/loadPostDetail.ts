@@ -26,9 +26,12 @@ export const loadPostDetail = createServerFn({ method: 'GET' })
     const mediumPosts = medium.posts
     const devtoPosts = devtoComplete ? devtoResult.value : []
 
-    if (/^[0-9a-f]{8,16}$/.test(postId)) {
-      const post = mediumPosts.find((p) => p.guid.split('/').pop() === postId)
-      if (post) return { kind: 'redirect' as const, to: `${slugify(post.title)}-${postId}` }
+    // A bare Medium hash, or an old slug whose title has since changed, redirects to the current slug.
+    const hash = postId.match(/(?:^|-)([0-9a-f]{8,16})$/)?.[1]
+    if (hash) {
+      const post = mediumPosts.find((p) => p.guid.split('/').pop() === hash)
+      const current = post && `${slugify(post.title)}-${hash}`
+      if (current && current !== postId) return { kind: 'redirect' as const, to: current }
     }
     if (/^\d{5,}$/.test(postId)) {
       const post = devtoPosts.find((p) => String(p.id) === postId)

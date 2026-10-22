@@ -69,7 +69,6 @@ export const Route = createRootRouteWithContext<{
     ],
     links: [
       { rel: 'dns-prefetch', href: 'https://api.github.com' },
-      { rel: 'dns-prefetch', href: 'https://api.rss2json.com' },
       { rel: 'dns-prefetch', href: 'https://dev.to' },
       { rel: 'dns-prefetch', href: 'https://www.googleapis.com' },
       { rel: 'dns-prefetch', href: 'https://i.ytimg.com' },
