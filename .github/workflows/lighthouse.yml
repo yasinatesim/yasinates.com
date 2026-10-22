@@ -13,6 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     # 6 pages × 2 devices × 3 runs takes ~15 min; a hung run used to block the runner for the 6 h default.
     timeout-minutes: 30
+    # The action posts the score table as a PR comment; the default read-only token got 403 on that call.
+    permissions:
+      contents: read
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
@@ -53,11 +57,12 @@ jobs:
           delay-between-pages: 15000
           max-retries: 3
 
-          # Posts score table as a PR comment
+          # Posts score table as a PR comment (Dependabot PRs always get a read-only token: there it only logs a warning)
           github-token: ${{ github.token }}
 
-          # Dashboard → Actions → Artifacts → lighthouse-dashboard → open index.html
-          upload-dashboard: true
+          # The action's artifact upload fails on the Node 24 runtime GitHub forces on it
+          # ("Cannot set property close of #<Object> which has only a getter"), so it stays off.
+          upload-dashboard: false
 
       - name: Show Results
         if: always()

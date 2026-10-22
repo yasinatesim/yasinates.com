@@ -29,7 +29,8 @@ const LANG_COLOR: Record<string, string> = {
   'Jupyter Notebook': '#da5b0b',
 }
 
-const dateFmt = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
+// Fixed time zone: the server renders in UTC, so the browser's local zone would shift dates and break hydration.
+const dateFmt = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Istanbul' })
 
 function ProjectCard({ project }: { project: Project }) {
   const [title, ...rest] = project.title.split(' - ')

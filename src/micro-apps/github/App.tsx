@@ -34,7 +34,8 @@ const LANG_COLOR: Record<string, string> = {
 }
 const FALLBACK_LANG_COLOR = '#8a93a3'
 
-const dateFmt = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
+// Fixed time zone: the server renders in UTC, so the browser's local zone would shift dates and break hydration.
+const dateFmt = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Istanbul' })
 
 function RepoCard({ repo }: { repo: GithubRepo }) {
   return (
