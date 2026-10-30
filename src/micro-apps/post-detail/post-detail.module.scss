@@ -101,22 +101,6 @@
   border-top: 1px solid var(--line);
 }
 
-.src {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-.src :global(.i) {
-  width: 14px;
-  height: 14px;
-}
-.src--medium {
-  color: var(--ink);
-}
-.src--devto {
-  color: var(--accent-text);
-}
-
 .prose {
   font-size: 1.125rem;
   line-height: 1.75;

@@ -4,9 +4,6 @@ import styles from './post-detail.module.scss'
 import type { MediumPostListItem, DevToPostListItem } from '~/utils/fetchBlogPosts'
 import { mediumImageUrl } from '../../utils/fetchBlogPosts'
 import ArrowLeftIcon from '../../assets/icons/vue/arrow-left.vue'
-import ArrowUpRightIcon from '../../assets/icons/vue/arrow-up-right.vue'
-import DevtoIcon from '../../assets/icons/vue/devto.vue'
-import MediumIcon from '../../assets/icons/vue/medium.vue'
 import TimeIcon from '../../assets/icons/vue/time.vue'
 import { formatDate, formatShort, normaliseArticle, toPostSummaries } from './posts'
 import { signalArt } from './art'
@@ -18,18 +15,12 @@ const props = defineProps<{
   content: string
 }>()
 
-const SOURCE_ICONS = { medium: MediumIcon, devto: DevtoIcon }
-
 const allPosts = computed(() => toPostSummaries(props.mediumPosts, props.devtoPosts))
 const post = computed(() => allPosts.value.find((p) => p.id === props.postId))
 const others = computed(() => allPosts.value.filter((p) => p.id !== props.postId).slice(0, 6))
 const articleHtml = computed(() => normaliseArticle(props.content))
 // List covers are 800px card images; the article column is up to 760 CSS px, so ask for a sharper copy.
 const coverSrc = computed(() => (post.value?.cover ? mediumImageUrl(post.value.cover, 1400) : ''))
-
-const sourceLabel = (source: 'medium' | 'devto') => (source === 'medium' ? 'Medium' : 'Dev.to')
-const fullSourceLabel = (p: { source: 'medium' | 'devto'; publication?: string }) =>
-  p.publication ? `${sourceLabel(p.source)} · ${p.publication}` : sourceLabel(p.source)
 
 const article = ref<HTMLElement | null>(null)
 const bar = ref<HTMLElement | null>(null)
@@ -83,7 +74,6 @@ onBeforeUnmount(() => {
         <template v-else>
           <header :class="styles['post__head']" data-reveal>
             <p :class="['micro', styles['post__meta']]" data-rv>
-              <span :class="[styles['src'], styles[`src--${post.source}`]]"><component :is="SOURCE_ICONS[post.source]" />{{ fullSourceLabel(post) }}</span>
               <span><TimeIcon />{{ post.reading }}</span>
               <time v-if="post.time" :datetime="new Date(post.time).toISOString()">{{ formatDate(post.time) }}</time>
             </p>
@@ -101,9 +91,6 @@ onBeforeUnmount(() => {
 
           <footer :class="styles['post__foot']">
             <a class="btn btn--ghost btn--sm" href="/blog"><ArrowLeftIcon /> Blog Yazılarım</a>
-            <a class="link-arrow" :href="post.url" target="_blank" rel="noopener">
-              {{ sourceLabel(post.source) }}'da oku <ArrowUpRightIcon />
-            </a>
           </footer>
         </template>
       </article>
@@ -119,11 +106,12 @@ onBeforeUnmount(() => {
                 </span>
                 <span
                   v-else
+                  aria-hidden="true"
                   :class="['media', 'media--art', styles['other__thumb']]"
-                  v-html="signalArt(p.id + p.title, sourceLabel(p.source))"
+                  v-html="signalArt(p.id + p.title)"
                 />
                 <span :class="styles['other__text']">
-                  <span class="micro">{{ fullSourceLabel(p) }} · {{ formatShort(p.time) }}</span>
+                  <span class="micro">{{ formatShort(p.time) }}</span>
                   <span :class="styles['other__title']">{{ p.title }}</span>
                 </span>
               </a>

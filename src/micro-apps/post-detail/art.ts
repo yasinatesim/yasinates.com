@@ -1,7 +1,3 @@
-
-const ESCAPES: Record<string, string> = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }
-const esc = (value: string): string => value.replace(/[&<>"']/g, (c) => ESCAPES[c] ?? c)
-
 function hash(str: string): number {
   let h = 2166136261
   for (let i = 0; i < str.length; i++) {
@@ -22,7 +18,7 @@ function rng(start: number): () => number {
   }
 }
 
-export function signalArt(seedText: string, label: string): string {
+export function signalArt(seedText: string): string {
   const rand = rng(hash(seedText))
   const W = 480
   const H = 300
@@ -44,8 +40,5 @@ export function signalArt(seedText: string, label: string): string {
     }
     paths += `<path d="${d} L${W} ${H} L0 ${H}Z" class="art__ridge"/>`
   }
-  const tag = label ? `<text x="24" y="${H - 22}" class="art__label">${esc(label)}</text>` : ''
-  return `<svg class="art" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" role="img" aria-label="${esc(
-    label || seedText,
-  )} için üretilmiş sinyal görseli">${paths}${tag}</svg>`
+  return `<svg class="art" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice">${paths}</svg>`
 }

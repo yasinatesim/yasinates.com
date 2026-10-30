@@ -2,8 +2,8 @@ import { htmlToText } from '../../utils/fetchBlogPosts'
 import type { MediumPostListItem, DevToPostListItem } from '../../utils/fetchBlogPosts'
 import { slugify } from '../../utils/slugify'
 
-export type MediumFeedItem = MediumPostListItem & { pubDate?: string; link?: string; categories?: string[] }
-export type DevToFeedItem = DevToPostListItem & { published_at?: string; url?: string; tag_list?: string[] }
+export type MediumFeedItem = MediumPostListItem & { pubDate?: string; categories?: string[] }
+export type DevToFeedItem = DevToPostListItem & { published_at?: string; tag_list?: string[] }
 
 export type PostSummary = {
   id: string
@@ -11,10 +11,7 @@ export type PostSummary = {
   cover: string
   time: number
   reading: string
-  source: 'medium' | 'devto'
-  publication?: string
   tags: string[]
-  url: string
 }
 
 const IMG_SRC_RE = /<img[^>]*src=["']([^"'>]+)["'][^>]*>/i
@@ -54,10 +51,7 @@ export function toPostSummaries(medium: MediumFeedItem[], devto: DevToFeedItem[]
         cover: p.thumbnail || p.description?.match(IMG_SRC_RE)?.[1] || '',
         time: toTime(p.pubDate),
         reading: `${p.readingMinutes} dk`,
-        source: 'medium',
-        publication: p.publication,
         tags: p.categories ?? [],
-        url: p.link || p.guid,
       }
     }),
     ...devto.map((p): PostSummary => ({
@@ -66,9 +60,7 @@ export function toPostSummaries(medium: MediumFeedItem[], devto: DevToFeedItem[]
       cover: p.cover_image ?? '',
       time: toTime(p.published_at),
       reading: `${p.reading_time_minutes} dk`,
-      source: 'devto',
       tags: Array.isArray(p.tag_list) ? p.tag_list : [],
-      url: p.url || `https://dev.to/yasinatesim/${p.slug}`,
     })),
   ]
   return posts.sort((a, b) => b.time - a.time)

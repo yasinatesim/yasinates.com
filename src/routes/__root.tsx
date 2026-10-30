@@ -4,6 +4,7 @@ import {
   Scripts,
   createRootRouteWithContext,
   useMatches,
+  useRouterState,
 } from '@tanstack/react-router'
 import * as React from 'react'
 import type { QueryClient } from '@tanstack/react-query'
@@ -23,6 +24,9 @@ import { THEME_COLORS, THEME_STORAGE_KEY } from '~/micro-apps/header/runtime/the
 import { REVEAL_SCRIPT } from '~/micro-apps/header/runtime/reveal'
 
 const ADSENSE_CLIENT = 'ca-pub-5037834528497637'
+// These pages only list GitHub repos / YouTube videos. AdSense forbids ads on screens whose content
+// comes from elsewhere, so a visit that lands on them never loads the ad script.
+const AD_FREE_PATHS: Record<string, true> = { '/github': true, '/youtube': true }
 
 const stableHref = (url: string): string => (import.meta.env.DEV ? url.replace(/[?&]t=\d+$/, '') : url)
 
@@ -107,12 +111,17 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   const { footerSsrHtml, routeCss: cssByRoute } = Route.useLoaderData()
   const matches = useMatches()
   const [cssLinks] = React.useState(() => [...new Set(matches.flatMap((match) => cssByRoute[match.routeId] ?? []))])
+  const pathname = useRouterState({ select: (state) => state.location.pathname })
+  const adFree = AD_FREE_PATHS[pathname.replace(/\/+$/, '') || '/'] === true
   React.useEffect(() => {
+    if (adFree || document.querySelector('script[src*="adsbygoogle.js"]')) return
     const ads = document.createElement('script')
     ads.async = true
     ads.crossOrigin = 'anonymous'
     ads.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`
-    if (!document.querySelector('script[src*="adsbygoogle.js"]')) document.head.append(ads)
+    document.head.append(ads)
+  }, [adFree])
+  React.useEffect(() => {
     if (!import.meta.env.DEV) return
     document.querySelectorAll<HTMLLinkElement>('link[data-route-css]').forEach((link) => {
       link.disabled = true
