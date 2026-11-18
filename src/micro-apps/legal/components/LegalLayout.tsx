@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { AdSlot } from '../../_shared/ads/AdSlot'
 import styles from './LegalLayout.module.scss'
 
 type LegalLayoutProps = {
@@ -32,6 +33,7 @@ export function LegalLayout({ badge, title, updatedAt, children }: LegalLayoutPr
           </header>
           <div className={styles['prose']}>{children}</div>
         </article>
+        <AdSlot kind="inline" className={styles['legal-ad']} />
       </div>
     </main>
   )

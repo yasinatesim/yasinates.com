@@ -2,6 +2,7 @@ import { Component, type ComponentType, type CSSProperties, type ReactNode, type
 import { QueryClientProvider, HydrationBoundary, type DehydratedState } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
 import { sharedQueryClient } from '../_shared/queryClient'
+import { AdSlot } from '../_shared/ads/AdSlot'
 import { useGithubRepos } from '~/hooks/useGithubRepos'
 import { useYoutubeFeed } from '~/hooks/useYoutubeFeed'
 import { YOUTUBE_CHANNEL_ID } from '~/utils/fetchYoutubeVideos'
@@ -189,6 +190,8 @@ export function Hakkimda({ postCount }: { postCount: number | null }) {
           </div>
         </section>
 
+        <AdSlot kind="inline" className={styles['profile-ad']} />
+
         <section className="section" aria-labelledby="tech-title">
           <div className={styles['list-head']} data-reveal>
             <h2 id="tech-title" className={styles['list-head__title']} data-rv>
@@ -210,6 +213,8 @@ export function Hakkimda({ postCount }: { postCount: number | null }) {
             ))}
           </ul>
         </section>
+
+        <AdSlot kind="inline" />
 
         <section className={`section ${styles.music}`} aria-labelledby="music-title">
           <div className={`${styles['music__panel']} glass`} data-reveal data-spot>
@@ -254,6 +259,8 @@ export function Hakkimda({ postCount }: { postCount: number | null }) {
             )}
           </div>
         </section>
+
+        <AdSlot kind="inline" />
       </div>
     </main>
   )

@@ -6,6 +6,7 @@ import PostDetailApp from '~/micro-apps/post-detail/App'
 import { loadPostDetail } from '~/utils/loadPostDetail'
 
 export const Route = createFileRoute('/$postId')({
+  staticData: { adRails: true },
   staleTime: 1000 * 60 * 5,
   loader: async ({ params }) => {
     const data = await loadPostDetail({ data: params.postId })

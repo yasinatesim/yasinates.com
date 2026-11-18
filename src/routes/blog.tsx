@@ -9,6 +9,7 @@ import { fetchDevtoPosts } from '~/utils/fetchBlogPosts'
 import { getMediumPosts } from '~/utils/getMediumPosts'
 
 export const Route = createFileRoute('/blog')({
+  staticData: { adRails: true },
   staleTime: 1000 * 60 * 5,
   loader: async () => {
     const [mediumResult, devtoResult] = await Promise.allSettled([

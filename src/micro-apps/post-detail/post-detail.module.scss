@@ -210,7 +210,7 @@
   color: inherit;
   text-shadow: none;
 }
-.prose iframe {
+.prose iframe:not(:global(.adsbygoogle) iframe) {
   width: 100%;
   border: 0;
   border-radius: 14px;
@@ -284,9 +284,22 @@
 .prose pre :global(.token.bold) { font-weight: 700; }
 .prose pre :global(.token.italic) { font-style: italic; }
 
+// The aside runs the full article height so its ad can stay in view while the list above scrolls away.
 .post-aside {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.post-aside > :global(.ad-slot) {
   position: sticky;
   top: calc(var(--header-h) + 16px);
+}
+.prose > :global(.ad-slot) {
+  margin-block: 2em;
+}
+.post__ads {
+  margin-top: 40px;
 }
 .post-aside__inner {
   padding: 22px;
@@ -337,7 +350,7 @@
   .post-layout {
     grid-template-columns: minmax(0, 1fr);
   }
-  .post-aside {
+  .post-aside > :global(.ad-slot) {
     position: relative;
     top: auto;
   }

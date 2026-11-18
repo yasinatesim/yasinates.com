@@ -7,6 +7,7 @@ import Projects from './components/Projects'
 import Youtube from './components/Youtube'
 import Blogs from './components/Blogs'
 import Contact from './components/Contact'
+import HomeAd from './components/HomeAd'
 import type { MediumPostListItem, DevToPostListItem } from '~/utils/fetchBlogPosts'
 import { toHomePosts } from './posts'
 
@@ -29,11 +30,16 @@ export default function HomeApp({
     <QueryClientProvider client={sharedQueryClient}>
       <HydrationBoundary state={dehydratedState}>
         <Suspense fallback={<div />}>
+          {/* Nothing between Hero and About: About slides up over the pinned hero (`.hero + .section`). */}
           <Hero />
           <About latestPost={toHomePosts(mediumPosts, devtoPosts)[0]} />
+          <HomeAd />
           <Projects />
+          <HomeAd />
           <Youtube />
+          <HomeAd />
           <Blogs ssrHtml={blogsSsrHtml} mediumPosts={mediumPosts} devtoPosts={devtoPosts} />
+          <HomeAd />
           <Contact ssrHtml={ssrHtml} />
         </Suspense>
       </HydrationBoundary>

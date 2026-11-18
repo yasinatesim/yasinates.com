@@ -8,6 +8,7 @@ import DataBoundary from './DataBoundary'
 import { useLatestRepos } from '../useLatestRepos'
 import SignalArt from './SignalArt'
 import LogoPlate from './LogoPlate'
+import HomeAd from './HomeAd'
 import styles from './Projects.module.scss'
 
 type Project = (typeof OTHER_PROJECTS)[number]
@@ -133,6 +134,8 @@ const Projects = () => {
           </div>
         </div>
       </section>
+
+      <HomeAd />
 
       <section className="section" aria-labelledby="gh-title">
         <div className="wrap">

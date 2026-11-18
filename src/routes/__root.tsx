@@ -22,8 +22,17 @@ import FooterSvelte from '~/micro-apps/footer/Footer.svelte'
 import { getRouteCss } from 'virtual:route-css'
 import { THEME_COLORS, THEME_STORAGE_KEY } from '~/micro-apps/header/runtime/theme'
 import { REVEAL_SCRIPT } from '~/micro-apps/header/runtime/reveal'
+import { ADSENSE_CLIENT } from '~/micro-apps/_shared/ads/config'
+import { startAds } from '~/micro-apps/_shared/ads/runtime'
+import { AdRails } from '~/micro-apps/_shared/ads/AdSlot'
 
-const ADSENSE_CLIENT = 'ca-pub-5037834528497637'
+declare module '@tanstack/react-router' {
+  interface StaticDataRouteOption {
+    // Route content stays inside `.wrap`, so the fixed gutter rails never cover it.
+    adRails?: true
+  }
+}
+
 // These pages only list GitHub repos / YouTube videos. AdSense forbids ads on screens whose content
 // comes from elsewhere, so a visit that lands on them never loads the ad script.
 const AD_FREE_PATHS: Record<string, true> = { '/github': true, '/youtube': true }
@@ -113,13 +122,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   const [cssLinks] = React.useState(() => [...new Set(matches.flatMap((match) => cssByRoute[match.routeId] ?? []))])
   const pathname = useRouterState({ select: (state) => state.location.pathname })
   const adFree = AD_FREE_PATHS[pathname.replace(/\/+$/, '') || '/'] === true
+  // Error and 404 screens carry no content of their own, so they get no rails either.
+  const adRails = !adFree && matches.some((match) => match.staticData.adRails) && matches.every((match) => match.status === 'success')
   React.useEffect(() => {
-    if (adFree || document.querySelector('script[src*="adsbygoogle.js"]')) return
-    const ads = document.createElement('script')
-    ads.async = true
-    ads.crossOrigin = 'anonymous'
-    ads.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT}`
-    document.head.append(ads)
+    if (adFree) return
+    return startAds()
   }, [adFree])
   React.useEffect(() => {
     if (!import.meta.env.DEV) return
@@ -140,6 +147,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeaderApp />
         {children}
         <FooterApp ssrHtml={footerSsrHtml} />
+        {/* Keyed by the committed leaf match, not the pathname: the location changes while the old page is still shown. */}
+        {adRails && <AdRails key={matches[matches.length - 1]?.id} />}
         <React.Suspense>
           <RouterDevtools position="bottom-right" />
           <QueryDevtools buttonPosition="bottom-left" />

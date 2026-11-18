@@ -62,3 +62,10 @@
 .bgrid__cell {
   min-width: 0;
 }
+.bgrid__ad {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+.blog-ads {
+  margin-top: 40px;
+}

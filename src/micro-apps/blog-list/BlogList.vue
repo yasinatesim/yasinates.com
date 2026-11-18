@@ -4,11 +4,14 @@ import styles from './blog.module.scss'
 import type { MediumPostListItem, DevToPostListItem } from '~/utils/fetchBlogPosts'
 import BlogCard from './components/BlogCard.vue'
 import TabFilter from './components/TabFilter.vue'
+import AdSlot from '../_shared/ads/AdSlot.vue'
 import { toBlogPosts } from './posts'
 import type { Tab } from './types'
 
 const PANEL_ID = 'posts-panel'
 const SOURCE_PARAM = 'kaynak'
+// A full-width ad row after every N cards: 2 rows on desktop, 3 on tablet, 6 cards on mobile.
+const FEED_AD_EVERY = 6
 
 const props = defineProps<{
   mediumPosts: MediumPostListItem[]
@@ -71,10 +74,16 @@ onMounted(() => {
         aria-live="polite"
       >
         <p v-if="posts.length === 0" :class="['micro', styles['loading']]">Yükleniyor...</p>
-        <div v-for="(post, i) in posts" :key="post.id" :class="styles['bgrid__cell']" data-reveal data-rv-self>
-          <BlogCard :post="post" :eager="i < 3" />
-        </div>
+        <template v-for="(post, i) in posts" :key="post.id">
+          <div :class="styles['bgrid__cell']" data-reveal data-rv-self>
+            <BlogCard :post="post" :eager="i < 3" />
+          </div>
+          <div v-if="(i + 1) % FEED_AD_EVERY === 0 && i < posts.length - 1" :class="styles['bgrid__ad']">
+            <AdSlot kind="feed" />
+          </div>
+        </template>
       </div>
+      <div v-if="posts.length" :class="styles['blog-ads']"><AdSlot kind="multiplex" /></div>
     </div>
   </main>
 </template>

@@ -569,6 +569,81 @@ main {
   opacity: 1;
 }
 
+/* Ads (src/micro-apps/_shared/ads). Display units take their size from these boxes, so the space is reserved
+   before the ad arrives; an unfilled or blocked slot collapses. Never animate them (AdSense policy). */
+.ad-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+}
+.ad-slot__label {
+  align-self: stretch;
+}
+.ad-slot > ins.adsbygoogle {
+  display: block;
+  width: 100%;
+}
+.ad-slot:has(> ins[data-ad-status='unfilled']),
+.ads-off .ad-slot {
+  display: none;
+}
+.ad-slot--inline > ins,
+.ad-slot--feed > ins,
+.ad-slot--sidebar > ins {
+  height: 280px;
+}
+@media (min-width: 768px) {
+  .ad-slot--inline > ins,
+  .ad-slot--feed > ins {
+    height: 250px;
+  }
+}
+/* Sidebar: post-detail aside, a sticky column next to the article above 1000px. */
+@media (min-width: 1001px) {
+  /* The aside is 320px: 9px padding + 1px border leaves exactly 300px for 300x600 / 300x250. */
+  .ad-slot--sidebar {
+    padding-inline: 9px;
+  }
+  .ad-slot--sidebar > ins {
+    height: clamp(250px, calc(100svh - var(--header-h) - 96px), 600px);
+  }
+}
+/* Rails sit centred in the gutters beside `.wrap`, only where a 160x600 (or 300x600) unit fits beside it. */
+.ad-rail {
+  display: none;
+}
+@media (min-width: 1760px) and (min-height: 800px) {
+  .ad-rail {
+    display: flex;
+    position: fixed;
+    z-index: 50;
+    top: calc(var(--header-h) + 24px);
+    width: 190px;
+  }
+  .ad-rail > ins {
+    height: 600px;
+  }
+  .ad-rail--left {
+    left: calc((100vw - var(--wrap)) / 4);
+    transform: translateX(-50%);
+  }
+  .ad-rail--right {
+    right: calc((100vw - var(--wrap)) / 4);
+    transform: translateX(50%);
+  }
+}
+@media (min-width: 2060px) and (min-height: 800px) {
+  .ad-rail {
+    width: 330px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

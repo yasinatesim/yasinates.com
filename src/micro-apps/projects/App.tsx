@@ -2,6 +2,7 @@ import { Component, type CSSProperties, type ReactNode, Suspense } from 'react'
 import { QueryClientProvider, HydrationBoundary, type DehydratedState } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
 import { sharedQueryClient } from '../_shared/queryClient'
+import { AdSlot } from '../_shared/ads/AdSlot'
 import { useGithubRepos, type GithubRepo } from '~/hooks/useGithubRepos'
 import { OTHER_PROJECTS } from '~/constants/projects'
 import { useYoutubeFeed, type YoutubeVideo } from '~/hooks/useYoutubeFeed'
@@ -225,6 +226,8 @@ function ProjelerPage() {
           </div>
         </section>
 
+        <AdSlot kind="inline" />
+
         <section className="section" id="github" aria-labelledby="github-title">
           <div className={styles['list-head']} data-reveal>
             <h2 id="github-title" className={styles['list-head__title']} data-rv>
@@ -245,6 +248,8 @@ function ProjelerPage() {
           </div>
         </section>
 
+        <AdSlot kind="inline" />
+
         <section className="section" id="youtube" aria-labelledby="youtube-title">
           <div className={styles['list-head']} data-reveal>
             <h2 id="youtube-title" className={styles['list-head__title']} data-rv>
@@ -260,6 +265,8 @@ function ProjelerPage() {
             ))}
           </div>
         </section>
+
+        <AdSlot kind="inline" />
       </div>
     </main>
   )

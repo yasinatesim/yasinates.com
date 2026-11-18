@@ -7,6 +7,9 @@ import ArrowLeftIcon from '../../assets/icons/vue/arrow-left.vue'
 import TimeIcon from '../../assets/icons/vue/time.vue'
 import { formatDate, formatShort, normaliseArticle, toPostSummaries } from './posts'
 import { signalArt } from './art'
+import AdSlot from '../_shared/ads/AdSlot.vue'
+import { insertArticleAds } from '../_shared/ads/articleAds'
+import { markAdReady } from '../_shared/ads/runtime'
 
 const props = defineProps<{
   postId: string
@@ -18,12 +21,13 @@ const props = defineProps<{
 const allPosts = computed(() => toPostSummaries(props.mediumPosts, props.devtoPosts))
 const post = computed(() => allPosts.value.find((p) => p.id === props.postId))
 const others = computed(() => allPosts.value.filter((p) => p.id !== props.postId).slice(0, 6))
-const articleHtml = computed(() => normaliseArticle(props.content))
+const articleHtml = computed(() => insertArticleAds(normaliseArticle(props.content)))
 // List covers are 800px card images; the article column is up to 760 CSS px, so ask for a sharper copy.
 const coverSrc = computed(() => (post.value?.cover ? mediumImageUrl(post.value.cover, 1400) : ''))
 
 const article = ref<HTMLElement | null>(null)
 const bar = ref<HTMLElement | null>(null)
+const prose = ref<HTMLElement | null>(null)
 let frame = 0
 
 function updateProgress() {
@@ -42,6 +46,8 @@ function onScroll() {
 
 onMounted(() => {
   updateProgress()
+  // Article ads come from the v-html string, so no AdSlot component marks them.
+  prose.value?.querySelectorAll('ins.adsbygoogle').forEach(markAdReady)
   window.addEventListener('scroll', onScroll, { passive: true })
   window.addEventListener('resize', onScroll, { passive: true })
 })
@@ -87,11 +93,13 @@ onBeforeUnmount(() => {
             <img :src="coverSrc" alt="" referrerpolicy="no-referrer" />
           </figure>
 
-          <section :class="styles['prose']" v-html="articleHtml" />
+          <section ref="prose" :class="styles['prose']" v-html="articleHtml" />
 
           <footer :class="styles['post__foot']">
             <a class="btn btn--ghost btn--sm" href="/blog"><ArrowLeftIcon /> Blog Yazılarım</a>
           </footer>
+
+          <div :class="styles['post__ads']"><AdSlot kind="multiplex" /></div>
         </template>
       </article>
 
@@ -118,6 +126,7 @@ onBeforeUnmount(() => {
             </li>
           </ul>
         </div>
+        <AdSlot v-if="post" kind="sidebar" />
       </aside>
     </div>
   </main>
