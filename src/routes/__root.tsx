@@ -3,8 +3,8 @@ import {
   Outlet,
   Scripts,
   createRootRouteWithContext,
-  redirect,
   useMatches,
+  useRouter,
   useRouterState,
 } from '@tanstack/react-router'
 import * as React from 'react'
@@ -40,6 +40,9 @@ declare module '@tanstack/react-router' {
 const AD_FREE_PATHS: Record<string, true> = { '/github': true, '/youtube': true }
 const isAdFreePath = (pathname: string): boolean => AD_FREE_PATHS[pathname.replace(/\/+$/, '') || '/'] === true
 
+// Set when a client-side navigation has to become a full page load (see the `onBeforeNavigate` effect below).
+let documentReloadPending = false
+
 const stableHref = (url: string): string => (import.meta.env.DEV ? url.replace(/[?&]t=\d+$/, '') : url)
 
 const THEME_BOOT_SCRIPT = `(function(){var d=document.documentElement,t=null;try{t=localStorage.getItem(${JSON.stringify(THEME_STORAGE_KEY)})}catch(e){}if(t!=='light'&&t!=='dark'){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'}d.setAttribute('data-theme',t);var m=document.createElement('meta');m.name='theme-color';m.content=t==='light'?${JSON.stringify(THEME_COLORS.light)}:${JSON.stringify(THEME_COLORS.dark)};document.head.appendChild(m);d.classList.add('motion-ready')})()`
@@ -66,12 +69,9 @@ export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
   staleTime: Infinity,
-  // Auto-ads overlays (anchor, vignette) survive client-side navigation, so once the ad script runs, an ad-free page
-  // is opened with a full page load, which never loads it. Preloads ignore document-reload redirects.
-  beforeLoad: ({ location }) => {
-    if (typeof window !== 'undefined' && isAdFreePath(location.pathname) && adsScriptLoaded()) {
-      throw redirect({ href: location.href, reloadDocument: true })
-    }
+  // While a navigation turns into a full page load, keep the router from rendering the target client-side.
+  beforeLoad: () => {
+    if (documentReloadPending) return new Promise<never>(() => {})
   },
   loader: async () => ({
     footerSsrHtml: await renderSvelteToString(FooterSvelte),
@@ -138,6 +138,24 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     if (adFree) return
     return startAds()
   }, [adFree])
+  // Once ads run, moving to another page is a full page load instead of a client-side navigation. AdSense counts one
+  // page view per document: ad requests made after client-side navigations share the first page's quota, so Google
+  // leaves most of them unfilled and the slots collapse ("ads appear, then vanish"). A fresh document also clears the
+  // overlay ads (anchor, vignette, side rails) before the ad-free pages and lets vignettes show between pages.
+  // Router load events fire for real navigations only (not hover preloads); same-page hash/search changes stay
+  // client-side. The reload waits a task so the router has written the new URL (`#fragment` targets included).
+  const router = useRouter()
+  React.useEffect(() => {
+    // Right after hydration the router has no resolved location yet, so the first navigation reports no `fromLocation`;
+    // the page it leaves is then the one this document was loaded with.
+    const loadedPathname = window.location.pathname
+    // `onBeforeLoad`, not `onBeforeNavigate`: the router skips the latter after any client-side redirect.
+    return router.subscribe('onBeforeLoad', ({ fromLocation, toLocation }) => {
+      if ((fromLocation?.pathname ?? loadedPathname) === toLocation.pathname || !adsScriptLoaded()) return
+      documentReloadPending = true
+      window.setTimeout(() => window.location.reload(), 0)
+    })
+  }, [router])
   React.useEffect(() => {
     if (!import.meta.env.DEV) return
     document.querySelectorAll<HTMLLinkElement>('link[data-route-css]').forEach((link) => {
