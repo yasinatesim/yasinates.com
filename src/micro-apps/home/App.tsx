@@ -41,6 +41,7 @@ export default function HomeApp({
           <Blogs ssrHtml={blogsSsrHtml} mediumPosts={mediumPosts} devtoPosts={devtoPosts} />
           <HomeAd />
           <Contact ssrHtml={ssrHtml} />
+          <HomeAd />
         </Suspense>
       </HydrationBoundary>
     </QueryClientProvider>

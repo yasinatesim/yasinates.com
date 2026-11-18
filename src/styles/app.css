@@ -570,7 +570,9 @@ main {
 }
 
 /* Ads (src/micro-apps/_shared/ads). Display units take their size from these boxes, so the space is reserved
-   before the ad arrives; an unfilled or blocked slot collapses. Never animate them (AdSense policy). */
+   before the ad arrives. The frame and label only show once Google reports `filled`; an unfilled or blocked slot
+   collapses while still invisible. Sizes are fixed per breakpoint: a served creative never resizes, so a box that
+   tracked the container width would let it stick out after a resize. Never animate ad slots (AdSense policy). */
 .ad-slot {
   display: flex;
   flex-direction: column;
@@ -578,69 +580,100 @@ main {
   gap: 10px;
   min-width: 0;
   padding: 12px 12px 14px;
-  border: 1px solid var(--line);
+  border: 1px solid transparent;
   border-radius: var(--r-lg);
+}
+.ad-slot:has(> ins[data-ad-status='filled']) {
+  border-color: var(--line);
   background: var(--surface);
 }
 .ad-slot__label {
   align-self: stretch;
+  visibility: hidden;
+}
+.ad-slot:has(> ins[data-ad-status='filled']) > .ad-slot__label {
+  visibility: visible;
 }
 .ad-slot > ins.adsbygoogle {
   display: block;
+}
+/* Fluid units fill their column; display units get fixed sizes below. */
+.ad-slot--article > ins,
+.ad-slot--infeed > ins,
+.ad-slot--multiplex > ins {
   width: 100%;
 }
 .ad-slot:has(> ins[data-ad-status='unfilled']),
 .ads-off .ad-slot {
   display: none;
 }
-.ad-slot--inline > ins,
-.ad-slot--feed > ins,
-.ad-slot--sidebar > ins {
-  height: 280px;
+/* Display boxes hug their ad: 300x250 on phones, 728x250 on tablets, 970x250 (billboard) on desktops. Widths are
+   plain pixels: a percentage inside a fit-content box would collapse it. */
+.ad-slot--inline,
+.ad-slot--feed,
+.ad-slot--sidebar {
+  width: fit-content;
+  margin-inline: auto;
 }
-@media (min-width: 768px) {
+.ad-slot--inline > ins,
+.ad-slot--feed > ins {
+  width: 300px;
+  height: 250px;
+}
+/* 840, not 820: with a classic 15–17px scrollbar the page is that much narrower than the media query width. */
+@media (min-width: 840px) {
   .ad-slot--inline > ins,
   .ad-slot--feed > ins {
-    height: 250px;
+    width: 728px;
   }
 }
-/* Sidebar: post-detail aside, a sticky column next to the article above 1000px. */
-@media (min-width: 1001px) {
-  /* The aside is 320px: 9px padding + 1px border leaves exactly 300px for 300x600 / 300x250. */
-  .ad-slot--sidebar {
-    padding-inline: 9px;
+@media (min-width: 1100px) {
+  .ad-slot--inline > ins,
+  .ad-slot--feed > ins {
+    width: 970px;
   }
+}
+/* Sidebar: 300x600 next to the article (post-detail aside, 320px), the same size when the aside stacks below. */
+.ad-slot--sidebar {
+  padding-inline: 9px;
+}
+.ad-slot--sidebar > ins {
+  width: 300px;
+  height: 600px;
+}
+/* Phones narrower than 360px cannot fit 300px plus the frame and page gutters. */
+@media (max-width: 359px) {
+  .ad-slot--inline > ins,
+  .ad-slot--feed > ins,
   .ad-slot--sidebar > ins {
-    height: clamp(250px, calc(100svh - var(--header-h) - 96px), 600px);
+    width: 250px;
   }
 }
-/* Rails sit centred in the gutters beside `.wrap`, only where a 160x600 (or 300x600) unit fits beside it. */
-.ad-rail {
-  display: none;
-}
-@media (min-width: 1760px) and (min-height: 800px) {
-  .ad-rail {
-    display: flex;
-    position: fixed;
-    z-index: 50;
-    top: calc(var(--header-h) + 24px);
-    width: 190px;
+/* In-article and multiplex ads go edge to edge on phones (Google widens them to the viewport), so their frame does
+   too instead of letting the ad stick out of it. */
+@media (max-width: 760px) {
+  .ad-slot--article,
+  .ad-slot--multiplex {
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: 0;
+    border-inline: 0;
+    border-radius: 0;
   }
-  .ad-rail > ins {
-    height: 600px;
-  }
-  .ad-rail--left {
-    left: calc((100vw - var(--wrap)) / 4);
-    transform: translateX(-50%);
-  }
-  .ad-rail--right {
-    right: calc((100vw - var(--wrap)) / 4);
-    transform: translateX(50%);
+  .ad-slot--article > .ad-slot__label,
+  .ad-slot--multiplex > .ad-slot__label {
+    padding-inline: var(--gutter);
   }
 }
-@media (min-width: 2060px) and (min-height: 800px) {
-  .ad-rail {
-    width: 330px;
+/* The in-feed card spans the whole width once the blog grid is a single column. */
+@media (max-width: 640px) {
+  .ad-slot--infeed {
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: 0;
+    border-inline: 0;
+    border-radius: 0;
+  }
+  .ad-slot--infeed > .ad-slot__label {
+    padding-inline: var(--gutter);
   }
 }
 

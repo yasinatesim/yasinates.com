@@ -108,9 +108,12 @@
   gap: clamp(28px, 5vw, 80px);
   align-items: start;
 }
-// The profile grid has no section padding of its own; the ad below it gets the gap a `.section` would.
+// The profile grid has no section padding of its own; the ads around it get the gap a `.section` would.
 .profile-ad {
   margin-top: calc(var(--section-gap) / 2);
+}
+.top-ad {
+  margin-bottom: clamp(40px, 6vw, 80px);
 }
 .profile {
   position: sticky;

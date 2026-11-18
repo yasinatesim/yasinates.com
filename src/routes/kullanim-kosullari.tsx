@@ -4,7 +4,6 @@ import { DEFAULT_OG_IMAGE, seo } from '~/utils/seo'
 import LegalApp from '~/micro-apps/legal/App'
 
 export const Route = createFileRoute('/kullanim-kosullari')({
-  staticData: { adRails: true },
   component: () => <TuvixReactApp name="legal-app" App={LegalApp} page="terms" />,
   head: () => ({
     meta: [

@@ -44,9 +44,12 @@
   margin-bottom: 28px;
 }
 
+// Full-width ad rows sit between card rows. `dense` pulls the next card up into any hole they leave: beside the 3rd
+// card with 2 columns, or where an unfilled in-feed card collapsed.
 .bgrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-flow: row dense;
   gap: 16px;
 }
 @media (max-width: 1000px) {
@@ -54,9 +57,13 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+// Single column: only every second display row shows (see `withFeedAds`), to stay under the mobile ad density limit.
 @media (max-width: 640px) {
   .bgrid {
     grid-template-columns: minmax(0, 1fr);
+  }
+  .bgrid__ad--wide {
+    display: none;
   }
 }
 .bgrid__cell {
@@ -66,6 +73,19 @@
   grid-column: 1 / -1;
   min-width: 0;
 }
+.bgrid__cell > :global(.ad-slot) {
+  height: 100%;
+}
+// An ad Google could not fill takes its grid cell or row with it.
+.bgrid__cell:has(> :global(.ad-slot) > ins[data-ad-status='unfilled']),
+.bgrid__ad:has(> :global(.ad-slot) > ins[data-ad-status='unfilled']),
+:global(.ads-off) .bgrid__cell:has(> :global(.ad-slot)),
+:global(.ads-off) .bgrid__ad {
+  display: none;
+}
 .blog-ads {
   margin-top: 40px;
+}
+.blog-top-ad {
+  margin-bottom: 24px;
 }

@@ -9,7 +9,6 @@ import { getMediumPosts } from '~/utils/getMediumPosts'
 import { fetchAllGithubRepos, GITHUB_REPOS_QUERY_KEY } from '~/hooks/useGithubRepos'
 
 export const Route = createFileRoute('/hakkimda')({
-  staticData: { adRails: true },
   loader: async () => {
     const qc = new QueryClient()
     const [medium, devto] = await Promise.allSettled([

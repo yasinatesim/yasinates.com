@@ -4,6 +4,10 @@
   margin-bottom: clamp(40px, 6vw, 80px);
   max-width: 820px;
 }
+// `section--tight` below it has no top padding.
+.top-ad {
+  margin-bottom: clamp(40px, 6vw, 80px);
+}
 .page-head h1 {
   display: flex;
   align-items: center;

@@ -301,6 +301,9 @@
 .post__ads {
   margin-top: 40px;
 }
+.post__top-ad {
+  margin-bottom: 40px;
+}
 .post-aside__inner {
   padding: 22px;
   border-radius: var(--r-lg);
@@ -350,6 +353,9 @@
   .post-layout {
     grid-template-columns: minmax(0, 1fr);
   }
+}
+// A 300x600 that sticks needs the viewport to fit it below the header and above a bottom anchor ad.
+@media (max-width: 1000px), (max-height: 879px) {
   .post-aside > :global(.ad-slot) {
     position: relative;
     top: auto;

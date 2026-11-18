@@ -93,6 +93,8 @@ onBeforeUnmount(() => {
             <img :src="coverSrc" alt="" referrerpolicy="no-referrer" />
           </figure>
 
+          <div :class="styles['post__top-ad']"><AdSlot kind="article" /></div>
+
           <section ref="prose" :class="styles['prose']" v-html="articleHtml" />
 
           <footer :class="styles['post__foot']">

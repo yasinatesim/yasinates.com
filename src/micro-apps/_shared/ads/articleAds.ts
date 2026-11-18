@@ -1,9 +1,9 @@
 import { adSlotHtml } from './config'
 
-// AdSense suggests the first in-article ad two paragraphs into the text; later ones need enough reading between them.
-const FIRST_AFTER_PARAGRAPHS = 2
-const MIN_PARAGRAPHS_BETWEEN = 4
-const MIN_CHARS_BETWEEN = 2500
+// The article opens with an ad right above its text (post-detail `post__top-ad`), so every in-article ad, the first
+// included, needs this much reading since the previous ad.
+const MIN_PARAGRAPHS_BETWEEN = 3
+const MIN_CHARS_BETWEEN = 1500
 // Never right before the end: the article footer is followed by the multiplex unit.
 const MIN_PARAGRAPHS_AFTER = 2
 
@@ -36,12 +36,14 @@ export function insertArticleAds(html: string): string {
   const ends = topLevelParagraphEnds(html)
   const last = ends.length - 1 - MIN_PARAGRAPHS_AFTER
   const at: number[] = []
-  let previous = -1
-  for (let i = FIRST_AFTER_PARAGRAPHS - 1; i <= last; i++) {
-    const first = previous === -1
-    if (!first && (i - previous < MIN_PARAGRAPHS_BETWEEN || ends[i] - ends[previous] < MIN_CHARS_BETWEEN)) continue
+  // The ad above the article counts as one ending before the first paragraph.
+  let previousIndex = -1
+  let previousOffset = 0
+  for (let i = 0; i <= last; i++) {
+    if (i - previousIndex < MIN_PARAGRAPHS_BETWEEN || ends[i] - previousOffset < MIN_CHARS_BETWEEN) continue
     at.push(ends[i])
-    previous = i
+    previousIndex = i
+    previousOffset = ends[i]
   }
   if (at.length === 0) return html
 

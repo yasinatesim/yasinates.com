@@ -5,13 +5,11 @@ import type { MediumPostListItem, DevToPostListItem } from '~/utils/fetchBlogPos
 import BlogCard from './components/BlogCard.vue'
 import TabFilter from './components/TabFilter.vue'
 import AdSlot from '../_shared/ads/AdSlot.vue'
-import { toBlogPosts } from './posts'
+import { toBlogPosts, withFeedAds } from './posts'
 import type { Tab } from './types'
 
 const PANEL_ID = 'posts-panel'
 const SOURCE_PARAM = 'kaynak'
-// A full-width ad row after every N cards: 2 rows on desktop, 3 on tablet, 6 cards on mobile.
-const FEED_AD_EVERY = 6
 
 const props = defineProps<{
   mediumPosts: MediumPostListItem[]
@@ -31,6 +29,8 @@ const counts = computed<Record<Tab, number>>(() => ({
 const posts = computed(() =>
   tab.value === 'all' ? allPosts.value : allPosts.value.filter((p) => p.source === tab.value),
 )
+
+const entries = computed(() => withFeedAds(posts.value))
 
 function selectTab(next: Tab) {
   tab.value = next
@@ -65,6 +65,8 @@ onMounted(() => {
         </p>
       </div>
 
+      <div v-if="posts.length" :class="styles['blog-top-ad']"><AdSlot kind="inline" /></div>
+
       <div
         :id="PANEL_ID"
         :key="tab"
@@ -74,11 +76,14 @@ onMounted(() => {
         aria-live="polite"
       >
         <p v-if="posts.length === 0" :class="['micro', styles['loading']]">Yükleniyor...</p>
-        <template v-for="(post, i) in posts" :key="post.id">
-          <div :class="styles['bgrid__cell']" data-reveal data-rv-self>
-            <BlogCard :post="post" :eager="i < 3" />
+        <template v-for="entry in entries" :key="entry.kind === 'post' ? entry.post.id : entry.key">
+          <div v-if="entry.kind === 'post'" :class="styles['bgrid__cell']" data-reveal data-rv-self>
+            <BlogCard :post="entry.post" :eager="entry.index < 3" />
           </div>
-          <div v-if="(i + 1) % FEED_AD_EVERY === 0 && i < posts.length - 1" :class="styles['bgrid__ad']">
+          <div v-else-if="entry.kind === 'infeed'" :class="styles['bgrid__cell']">
+            <AdSlot kind="infeed" />
+          </div>
+          <div v-else :class="[styles['bgrid__ad'], !entry.mobile && styles['bgrid__ad--wide']]">
             <AdSlot kind="feed" />
           </div>
         </template>

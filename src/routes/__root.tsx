@@ -3,6 +3,7 @@ import {
   Outlet,
   Scripts,
   createRootRouteWithContext,
+  redirect,
   useMatches,
   useRouterState,
 } from '@tanstack/react-router'
@@ -23,19 +24,13 @@ import { getRouteCss } from 'virtual:route-css'
 import { THEME_COLORS, THEME_STORAGE_KEY } from '~/micro-apps/header/runtime/theme'
 import { REVEAL_SCRIPT } from '~/micro-apps/header/runtime/reveal'
 import { ADSENSE_CLIENT } from '~/micro-apps/_shared/ads/config'
-import { startAds } from '~/micro-apps/_shared/ads/runtime'
-import { AdRails } from '~/micro-apps/_shared/ads/AdSlot'
-
-declare module '@tanstack/react-router' {
-  interface StaticDataRouteOption {
-    // Route content stays inside `.wrap`, so the fixed gutter rails never cover it.
-    adRails?: true
-  }
-}
+import { adsScriptLoaded, startAds } from '~/micro-apps/_shared/ads/runtime'
 
 // These pages only list GitHub repos / YouTube videos. AdSense forbids ads on screens whose content
-// comes from elsewhere, so a visit that lands on them never loads the ad script.
+// comes from elsewhere, so a visit that lands on them never loads the ad script (they are also excluded in the
+// AdSense auto-ads settings).
 const AD_FREE_PATHS: Record<string, true> = { '/github': true, '/youtube': true }
+const isAdFreePath = (pathname: string): boolean => AD_FREE_PATHS[pathname.replace(/\/+$/, '') || '/'] === true
 
 const stableHref = (url: string): string => (import.meta.env.DEV ? url.replace(/[?&]t=\d+$/, '') : url)
 
@@ -63,6 +58,13 @@ export const Route = createRootRouteWithContext<{
   queryClient: QueryClient
 }>()({
   staleTime: Infinity,
+  // Auto-ads overlays (anchor, vignette) survive client-side navigation, so once the ad script runs, an ad-free page
+  // is opened with a full page load, which never loads it. Preloads ignore document-reload redirects.
+  beforeLoad: ({ location }) => {
+    if (typeof window !== 'undefined' && isAdFreePath(location.pathname) && adsScriptLoaded()) {
+      throw redirect({ href: location.href, reloadDocument: true })
+    }
+  },
   loader: async () => ({
     footerSsrHtml: await renderSvelteToString(FooterSvelte),
     routeCss: await getRouteCss(),
@@ -121,9 +123,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   const matches = useMatches()
   const [cssLinks] = React.useState(() => [...new Set(matches.flatMap((match) => cssByRoute[match.routeId] ?? []))])
   const pathname = useRouterState({ select: (state) => state.location.pathname })
-  const adFree = AD_FREE_PATHS[pathname.replace(/\/+$/, '') || '/'] === true
-  // Error and 404 screens carry no content of their own, so they get no rails either.
-  const adRails = !adFree && matches.some((match) => match.staticData.adRails) && matches.every((match) => match.status === 'success')
+  const adFree = isAdFreePath(pathname)
   React.useEffect(() => {
     if (adFree) return
     return startAds()
@@ -147,8 +147,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeaderApp />
         {children}
         <FooterApp ssrHtml={footerSsrHtml} />
-        {/* Keyed by the committed leaf match, not the pathname: the location changes while the old page is still shown. */}
-        {adRails && <AdRails key={matches[matches.length - 1]?.id} />}
         <React.Suspense>
           <RouterDevtools position="bottom-right" />
           <QueryDevtools buttonPosition="bottom-left" />

@@ -31,9 +31,11 @@ export function LegalLayout({ badge, title, updatedAt, children }: LegalLayoutPr
               Son güncelleme: {updatedAt}
             </p>
           </header>
+          {/* Fluid units: the 760px column is narrower than the 970px inline box. */}
+          <AdSlot kind="article" className={styles['legal-ad']} />
           <div className={styles['prose']}>{children}</div>
+          <AdSlot kind="article" className={styles['legal-ad']} />
         </article>
-        <AdSlot kind="inline" className={styles['legal-ad']} />
       </div>
     </main>
   )

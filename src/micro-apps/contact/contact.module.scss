@@ -53,6 +53,10 @@
   gap: 16px;
   align-items: stretch;
 }
+// Well clear of the e-mail / LinkedIn buttons above it (AdSense: no ads right next to buttons).
+.contact-ad {
+  margin-top: clamp(56px, 8vw, 96px);
+}
 .contact-card {
   position: relative;
   overflow: hidden;

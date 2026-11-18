@@ -111,6 +111,8 @@ export function Hakkimda({ postCount }: { postCount: number | null }) {
           </p>
         </header>
 
+        <AdSlot kind="inline" className={styles['top-ad']} />
+
         <section className={styles['about-grid']} aria-label="Profil">
           <aside className={styles.profile} data-reveal>
             <div className={`${styles['profile__card']} glass`} data-rv data-spot>

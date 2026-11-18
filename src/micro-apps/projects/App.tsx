@@ -208,6 +208,8 @@ function ProjelerPage() {
           </nav>
         </header>
 
+        <AdSlot kind="inline" className={styles['top-ad']} />
+
         <section className={`section ${styles['section--tight']}`} id="featured" aria-labelledby="featured-title">
           <div className={styles['list-head']} data-reveal>
             <h2 id="featured-title" className={styles['list-head__title']} data-rv>
