@@ -27,9 +27,11 @@ export function adsScriptLoaded(): boolean {
   return document.querySelector('script[src*="adsbygoogle.js"]') !== null
 }
 
-// Loads adsbygoogle.js once and requests an ad for every ready `ins.adsbygoogle`, whichever framework rendered it.
-// Each request names its element, so a slot without a box yet (hidden, or in a collapsed container) is skipped without
-// shifting the queue onto another slot; it is requested once it gets one (checked again on resize).
+// Loads adsbygoogle.js once and requests an ad for every ready `ins.adsbygoogle`, whichever framework rendered it, once
+// it comes within a screen of the viewport. Google answers in a second or two, so a slot it leaves unfilled collapses
+// before the reader gets to it instead of in front of them, and far-away slots don't spend the page's ad budget.
+// Each request names its element; a slot without a box (hidden by a media query) never intersects, so it is requested
+// only once it is shown.
 export function startAds(): () => void {
   if (!adsScriptLoaded()) {
     const script = document.createElement('script')
@@ -51,12 +53,32 @@ export function startAds(): () => void {
     document.body.append(signal)
   }
 
+  const nearViewport = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        const ins = entry.target
+        if (!entry.isIntersecting || !(ins instanceof HTMLElement)) continue
+        nearViewport.unobserve(ins)
+        ins.setAttribute(QUEUED, '')
+        // Read at push time: adsbygoogle.js replaces the plain array once it loads.
+        const queue = (window.adsbygoogle ??= [] as AdRequest[])
+        queue.push({ element: ins })
+      }
+    },
+    { rootMargin: '100% 0px' },
+  )
+  // Slots never scrolled near stay observed; release the ones a navigation removed so their old page can be freed.
+  const watched = new Set<Element>()
   const fill = () => {
-    const queue = (window.adsbygoogle ??= [] as AdRequest[])
+    for (const ins of watched) {
+      if (ins.isConnected && !ins.hasAttribute(QUEUED)) continue
+      nearViewport.unobserve(ins)
+      watched.delete(ins)
+    }
     document.querySelectorAll<HTMLElement>(`ins.adsbygoogle[${READY}]:not([${QUEUED}])`).forEach((ins) => {
-      if (ins.getClientRects().length === 0) return
-      ins.setAttribute(QUEUED, '')
-      queue.push({ element: ins })
+      if (watched.has(ins)) return
+      watched.add(ins)
+      nearViewport.observe(ins)
     })
   }
 
@@ -89,10 +111,7 @@ export function startAds(): () => void {
   let resizeTimer = 0
   const onResize = () => {
     window.clearTimeout(resizeTimer)
-    resizeTimer = window.setTimeout(() => {
-      fill()
-      syncAnchor()
-    }, 200)
+    resizeTimer = window.setTimeout(syncAnchor, 200)
   }
 
   // Slots become ready via `data-ad-ready`; the anchor may get `data-anchor-status` only after it was appended.
@@ -107,6 +126,7 @@ export function startAds(): () => void {
 
   return () => {
     observer.disconnect()
+    nearViewport.disconnect()
     anchor?.removeEventListener('transitionend', syncAnchor)
     bodyChildren.disconnect()
     anchorResize.disconnect()

@@ -717,11 +717,6 @@ main {
     left: calc((100vw + var(--wrap)) / 2 + 24px);
   }
 }
-/* Auto ads (in-page banner / multiplex) that Google drops into a grid take a whole row instead of one cell. */
-.google-auto-placed {
-  grid-column: 1 / -1;
-  max-width: 100%;
-}
 
 @media (prefers-reduced-motion: reduce) {
   *,
