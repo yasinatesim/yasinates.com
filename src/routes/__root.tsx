@@ -25,6 +25,14 @@ import { THEME_COLORS, THEME_STORAGE_KEY } from '~/micro-apps/header/runtime/the
 import { REVEAL_SCRIPT } from '~/micro-apps/header/runtime/reveal'
 import { ADSENSE_CLIENT } from '~/micro-apps/_shared/ads/config'
 import { adsScriptLoaded, startAds } from '~/micro-apps/_shared/ads/runtime'
+import { AdRails } from '~/micro-apps/_shared/ads/AdSlot'
+
+declare module '@tanstack/react-router' {
+  interface StaticDataRouteOption {
+    // Route content stays inside `.wrap`, so the fixed gutter rails never cover it.
+    adRails?: true
+  }
+}
 
 // These pages only list GitHub repos / YouTube videos. AdSense forbids ads on screens whose content
 // comes from elsewhere, so a visit that lands on them never loads the ad script (they are also excluded in the
@@ -124,6 +132,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   const [cssLinks] = React.useState(() => [...new Set(matches.flatMap((match) => cssByRoute[match.routeId] ?? []))])
   const pathname = useRouterState({ select: (state) => state.location.pathname })
   const adFree = isAdFreePath(pathname)
+  // Error and 404 screens carry no content of their own, so they get no rails either.
+  const adRails = !adFree && matches.some((match) => match.staticData.adRails) && matches.every((match) => match.status === 'success')
   React.useEffect(() => {
     if (adFree) return
     return startAds()
@@ -147,6 +157,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <HeaderApp />
         {children}
         <FooterApp ssrHtml={footerSsrHtml} />
+        {/* Keyed by the committed leaf match, not the pathname: the location changes while the old page is still shown. */}
+        {adRails && <AdRails key={matches[matches.length - 1]?.id} />}
         <React.Suspense>
           <RouterDevtools position="bottom-right" />
           <QueryDevtools buttonPosition="bottom-left" />

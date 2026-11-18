@@ -15,3 +15,13 @@ export function AdSlot({ kind, className }: { kind: AdKind; className?: string }
     </div>
   )
 }
+
+// Fixed 160x600 rails beside `.wrap`, one per gutter; app.css shows them only where the gutters fit them.
+export function AdRails() {
+  return (
+    <>
+      <AdSlot kind="rail" className="ad-rail ad-rail--left" />
+      <AdSlot kind="side-rail" className="ad-rail ad-rail--right" />
+    </>
+  )
+}

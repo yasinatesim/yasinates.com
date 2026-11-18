@@ -7,6 +7,7 @@ import { fetchYoutubeVideos, YOUTUBE_QUERY_KEY } from '~/utils/fetchYoutubeVideo
 import { fetchAllGithubRepos, GITHUB_REPOS_QUERY_KEY } from '~/hooks/useGithubRepos'
 
 export const Route = createFileRoute('/projeler')({
+  staticData: { adRails: true },
   loader: async () => {
     const qc = new QueryClient()
     await Promise.allSettled([

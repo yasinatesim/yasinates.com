@@ -80,8 +80,8 @@ onMounted(() => {
           <div v-if="entry.kind === 'post'" :class="styles['bgrid__cell']" data-reveal data-rv-self>
             <BlogCard :post="entry.post" :eager="entry.index < 3" />
           </div>
-          <div v-else-if="entry.kind === 'infeed'" :class="styles['bgrid__cell']">
-            <AdSlot kind="infeed" />
+          <div v-else-if="entry.kind !== 'feed'" :class="styles['bgrid__cell']">
+            <AdSlot :kind="entry.kind" />
           </div>
           <div v-else :class="[styles['bgrid__ad'], !entry.mobile && styles['bgrid__ad--wide']]">
             <AdSlot kind="feed" />

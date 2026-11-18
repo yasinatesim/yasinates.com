@@ -5,6 +5,7 @@ import ContactApp from '~/micro-apps/contact/App'
 import { renderContactStatic } from '~/micro-apps/contact/markup'
 
 export const Route = createFileRoute('/iletisim')({
+  staticData: { adRails: true },
   loader: async () => ({ ssrHtml: renderContactStatic() }),
   head: () => ({
     meta: [

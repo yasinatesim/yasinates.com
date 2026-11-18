@@ -549,7 +549,7 @@ main {
 .toast {
   position: fixed;
   left: 50%;
-  bottom: 24px;
+  bottom: calc(24px + var(--anchor-h, 0px));
   z-index: 120;
   padding: 12px 18px;
   border-radius: 999px;
@@ -675,6 +675,52 @@ main {
   .ad-slot--infeed > .ad-slot__label {
     padding-inline: var(--gutter);
   }
+}
+/* Square: a 300x250 grid cell in the blog list. The cell is narrower than its 326px frame at 641–759px and
+   1001–1099px (and on phones under 360px), so it is 250x250 there. */
+.ad-slot--square {
+  width: fit-content;
+  margin-inline: auto;
+}
+.ad-slot--square > ins {
+  width: 300px;
+  height: 250px;
+}
+@media (max-width: 359px), (min-width: 641px) and (max-width: 759px), (min-width: 1001px) and (max-width: 1099px) {
+  .ad-slot--square > ins {
+    width: 250px;
+  }
+}
+/* Rails: 160x600 in each gutter, 24px off `.wrap` so they also clear the 1360px header bar. They sit above the bottom
+   anchor ad (`--anchor-h`, measured by runtime.ts), but never higher than the top of the viewport. 1780px leaves room
+   for a classic scrollbar, which `100vw` includes. */
+.ad-rail {
+  display: none;
+}
+.ad-rail > ins {
+  width: 160px;
+  height: 600px;
+}
+@media (min-width: 1780px) and (min-height: 760px) {
+  .ad-rail {
+    display: flex;
+    position: fixed;
+    z-index: 50;
+    /* Under the header when there is room, otherwise raised to clear the anchor (655px rail + 16px gap). */
+    top: max(8px, min(calc(var(--header-h) + 24px), calc(100vh - var(--anchor-h, 0px) - 671px)));
+    width: fit-content;
+  }
+  .ad-rail--left {
+    right: calc((100vw + var(--wrap)) / 2 + 24px);
+  }
+  .ad-rail--right {
+    left: calc((100vw + var(--wrap)) / 2 + 24px);
+  }
+}
+/* Auto ads (in-page banner / multiplex) that Google drops into a grid take a whole row instead of one cell. */
+.google-auto-placed {
+  grid-column: 1 / -1;
+  max-width: 100%;
 }
 
 @media (prefers-reduced-motion: reduce) {

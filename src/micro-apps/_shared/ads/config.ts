@@ -1,12 +1,15 @@
 export const ADSENSE_CLIENT = 'ca-pub-5037834528497637'
 
-// Manual ad units created in AdSense (Reklamlar → Reklam birimine göre). Auto ads only run the overlay and
-// intent-driven formats; every in-page ad comes from these units.
+// Manual ad units created in AdSense (Reklamlar → Reklam birimine göre); auto ads run on top of them. Display units
+// are responsive: the `.ad-slot--<kind>` box decides the shape (square, horizontal, vertical) of the ad they show.
 export const AD_SLOTS = {
   inline: '4944894743',
+  square: '7105309170',
   feed: '9980377812',
   infeed: '4218970586',
   sidebar: '3101650832',
+  rail: '3631813075',
+  'side-rail': '1801011607',
   article: '2318731403',
   multiplex: '7489945845',
 } as const

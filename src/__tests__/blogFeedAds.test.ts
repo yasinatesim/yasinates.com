@@ -13,13 +13,13 @@ const post = (i: number): BlogPost => ({
 })
 const layout = (count: number) =>
   withFeedAds(Array.from({ length: count }, (_, i) => post(i)))
-    .map((e) => (e.kind === 'post' ? 'p' : e.kind === 'infeed' ? 'F' : e.mobile ? '|' : ':'))
+    .map((e) => (e.kind === 'feed' ? (e.mobile ? '|' : ':') : e.kind === 'post' ? 'p' : e.kind === 'infeed' ? 'F' : 'S'))
     .join('')
 
 describe('withFeedAds', () => {
-  it('fills every 3-column row before an ad row, with an in-feed card in every second row', () => {
+  it('fills every 3-column row before an ad row, with an in-feed or square card in every second row', () => {
     // `:` rows are hidden on single-column phones, `|` rows show everywhere.
-    expect(layout(12)).toBe('ppp:pFp|ppp:pFp|pp')
+    expect(layout(12)).toBe('ppp:pFp|ppp:pSp|pp')
     for (const row of layout(30).split(/[|:]/).slice(0, -1)) expect(row).toHaveLength(3)
   })
 
@@ -27,7 +27,7 @@ describe('withFeedAds', () => {
     for (let count = 0; count <= 20; count++) {
       const out = layout(count)
       expect(out.replace(/[^p]/g, '')).toHaveLength(count)
-      expect(out).not.toMatch(/[F|:]p?$/)
+      expect(out).not.toMatch(/[FS|:]p?$/)
     }
   })
 })

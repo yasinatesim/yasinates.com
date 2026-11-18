@@ -60,20 +60,59 @@ export function startAds(): () => void {
     })
   }
 
+  // Google's bottom anchor ad (auto ads) covers the bottom of the viewport. `--anchor-h` tells fixed page elements
+  // (gutter rails, toast) how much of it is covered, so they stay above it instead of under it.
+  const root = document.documentElement
+  let anchor: HTMLElement | null = null
+  const syncAnchor = () => {
+    const box = anchor?.getBoundingClientRect()
+    const covered = box && box.height > 0 && box.top < window.innerHeight ? Math.ceil(window.innerHeight - box.top) : 0
+    root.style.setProperty('--anchor-h', `${covered}px`)
+  }
+  const anchorResize = new ResizeObserver(syncAnchor)
+  const anchorChange = new MutationObserver(syncAnchor)
+  const findAnchor = () => {
+    const found = document.querySelector<HTMLElement>('ins.adsbygoogle[data-anchor-status]')
+    if (found && found !== anchor) {
+      anchor = found
+      anchorResize.observe(found)
+      anchorChange.observe(found, { attributes: true })
+      // Collapsing/expanding the anchor slides it with a transform, so measure again once that settles.
+      found.addEventListener('transitionend', syncAnchor)
+    }
+    syncAnchor()
+  }
+  // The anchor is appended straight to <body>.
+  const bodyChildren = new MutationObserver(findAnchor)
+  bodyChildren.observe(document.body, { childList: true })
+
   let resizeTimer = 0
   const onResize = () => {
     window.clearTimeout(resizeTimer)
-    resizeTimer = window.setTimeout(fill, 200)
+    resizeTimer = window.setTimeout(() => {
+      fill()
+      syncAnchor()
+    }, 200)
   }
 
-  const observer = new MutationObserver(fill)
-  observer.observe(document.body, { subtree: true, attributes: true, attributeFilter: [READY] })
+  // Slots become ready via `data-ad-ready`; the anchor may get `data-anchor-status` only after it was appended.
+  const observer = new MutationObserver((records) => {
+    if (records.some((record) => record.attributeName === READY)) fill()
+    if (records.some((record) => record.attributeName === 'data-anchor-status')) findAnchor()
+  })
+  observer.observe(document.body, { subtree: true, attributes: true, attributeFilter: [READY, 'data-anchor-status'] })
   window.addEventListener('resize', onResize, { passive: true })
   fill()
+  findAnchor()
 
   return () => {
     observer.disconnect()
+    anchor?.removeEventListener('transitionend', syncAnchor)
+    bodyChildren.disconnect()
+    anchorResize.disconnect()
+    anchorChange.disconnect()
     window.removeEventListener('resize', onResize)
     window.clearTimeout(resizeTimer)
+    root.style.removeProperty('--anchor-h')
   }
 }
