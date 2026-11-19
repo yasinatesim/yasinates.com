@@ -569,10 +569,7 @@ main {
   opacity: 1;
 }
 
-/* Ads (src/micro-apps/_shared/ads). Display units take their size from these boxes, so the space is reserved
-   before the ad arrives. The frame and label only show once Google reports `filled`; an unfilled or blocked slot
-   collapses while still invisible. Sizes are fixed per breakpoint: a served creative never resizes, so a box that
-   tracked the container width would let it stick out after a resize. Never animate ad slots (AdSense policy). */
+
 .ad-slot {
   display: flex;
   flex-direction: column;
@@ -583,7 +580,7 @@ main {
   border: 1px solid transparent;
   border-radius: var(--r-lg);
 }
-.ad-slot:has(> ins[data-ad-status='filled']) {
+.ad-slot:has(ins[data-ad-status='filled']) {
   border-color: var(--line);
   background: var(--surface);
 }
@@ -591,21 +588,63 @@ main {
   align-self: stretch;
   visibility: hidden;
 }
-.ad-slot:has(> ins[data-ad-status='filled']) > .ad-slot__label {
+.ad-slot:has(ins[data-ad-status='filled']) > .ad-slot__label {
   visibility: visible;
 }
-.ad-slot > ins.adsbygoogle {
-  display: block;
+.ad-slot[data-ad-collapsed] {
+  display: none;
 }
-/* Fluid units fill their column; display units get fixed sizes below. */
-.ad-slot--article > ins,
-.ad-slot--infeed > ins,
-.ad-slot--multiplex > ins {
+
+.ad-slot__box {
+  position: relative;
+  display: grid;
   width: 100%;
 }
-.ad-slot:has(> ins[data-ad-status='unfilled']),
-.ads-off .ad-slot {
+.ad-slot__box::before {
+  content: '';
+  grid-area: 1 / 1;
+  height: var(--ad-h, 0px);
+}
+.ad-slot__unit {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+.ad-slot__unit > ins.adsbygoogle {
+  display: block;
+  width: 100%;
+}
+
+.ad-slot__box:has(> .ad-slot__house) > .ad-slot__unit {
   display: none;
+}
+/* Display units: Google picks the creative from the `ins` size. */
+.ad-slot--inline,
+.ad-slot--feed,
+.ad-slot--square {
+  --ad-h: 250px;
+}
+.ad-slot--sidebar,
+.ad-rail {
+  --ad-h: 600px;
+}
+.ad-slot--inline .ad-slot__unit > ins.adsbygoogle,
+.ad-slot--feed .ad-slot__unit > ins.adsbygoogle,
+.ad-slot--square .ad-slot__unit > ins.adsbygoogle,
+.ad-slot--sidebar .ad-slot__unit > ins.adsbygoogle,
+.ad-rail .ad-slot__unit > ins.adsbygoogle {
+  height: var(--ad-h);
+}
+/* Fluid units fill their column and take the height of the ad Google serves; the box reserves the height it usually
+   serves at that width (in-article: 280px in the 734px article column, about the width on phones). */
+.ad-slot--article,
+.ad-slot--infeed {
+  --ad-h: 280px;
+}
+.ad-slot--infeed > .ad-slot__box {
+  flex: 1;
+}
+.ad-slot--multiplex {
+  --ad-h: 600px;
 }
 /* Display boxes hug their ad: 300x250 on phones, 728x250 on tablets, 970x250 (billboard) on desktops. Widths are
    plain pixels: a percentage inside a fit-content box would collapse it. */
@@ -615,21 +654,20 @@ main {
   width: fit-content;
   margin-inline: auto;
 }
-.ad-slot--inline > ins,
-.ad-slot--feed > ins {
+.ad-slot--inline > .ad-slot__box,
+.ad-slot--feed > .ad-slot__box {
   width: 300px;
-  height: 250px;
 }
 /* 840, not 820: with a classic 15–17px scrollbar the page is that much narrower than the media query width. */
 @media (min-width: 840px) {
-  .ad-slot--inline > ins,
-  .ad-slot--feed > ins {
+  .ad-slot--inline > .ad-slot__box,
+  .ad-slot--feed > .ad-slot__box {
     width: 728px;
   }
 }
 @media (min-width: 1100px) {
-  .ad-slot--inline > ins,
-  .ad-slot--feed > ins {
+  .ad-slot--inline > .ad-slot__box,
+  .ad-slot--feed > .ad-slot__box {
     width: 970px;
   }
 }
@@ -637,15 +675,14 @@ main {
 .ad-slot--sidebar {
   padding-inline: 9px;
 }
-.ad-slot--sidebar > ins {
+.ad-slot--sidebar > .ad-slot__box {
   width: 300px;
-  height: 600px;
 }
 /* Phones narrower than 360px cannot fit 300px plus the frame and page gutters. */
 @media (max-width: 359px) {
-  .ad-slot--inline > ins,
-  .ad-slot--feed > ins,
-  .ad-slot--sidebar > ins {
+  .ad-slot--inline > .ad-slot__box,
+  .ad-slot--feed > .ad-slot__box,
+  .ad-slot--sidebar > .ad-slot__box {
     width: 250px;
   }
 }
@@ -663,6 +700,16 @@ main {
   .ad-slot--multiplex > .ad-slot__label {
     padding-inline: var(--gutter);
   }
+  /* A phone-wide in-article ad is about as tall as it is wide (390x407 at 390px). */
+  .ad-slot--article {
+    --ad-h: min(104vw, 420px);
+  }
+  .ad-slot--article .ad-slot__house,
+  .ad-slot--multiplex .ad-slot__house {
+    padding-inline: var(--gutter);
+    border-inline: 0;
+    border-radius: 0;
+  }
 }
 /* The in-feed card spans the whole width once the blog grid is a single column. */
 @media (max-width: 640px) {
@@ -675,6 +722,14 @@ main {
   .ad-slot--infeed > .ad-slot__label {
     padding-inline: var(--gutter);
   }
+  .ad-slot--infeed {
+    --ad-h: min(100vw, 400px);
+  }
+  .ad-slot--infeed .ad-slot__house {
+    padding-inline: var(--gutter);
+    border-inline: 0;
+    border-radius: 0;
+  }
 }
 /* Square: a 300x250 grid cell in the blog list. The cell is narrower than its 326px frame at 641–759px and
    1001–1099px (and on phones under 360px), so it is 250x250 there. */
@@ -682,31 +737,68 @@ main {
   width: fit-content;
   margin-inline: auto;
 }
-.ad-slot--square > ins {
+.ad-slot--square > .ad-slot__box {
   width: 300px;
-  height: 250px;
 }
 @media (max-width: 359px), (min-width: 641px) and (max-width: 759px), (min-width: 1001px) and (max-width: 1099px) {
-  .ad-slot--square > ins {
+  .ad-slot--square > .ad-slot__box {
     width: 250px;
   }
 }
-/* Rails: 160x600 in each gutter, 24px off `.wrap` so they also clear the 1360px header bar. They sit above the bottom
-   anchor ad (`--anchor-h`, measured by runtime.ts), but never higher than the top of the viewport. 1780px leaves room
-   for a classic scrollbar, which `100vw` includes. */
+/* In place of an unfilled ad (runtime.ts): one of the site's own pages, covering the reserved box exactly. */
+.ad-slot__house {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 20px 24px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.2s var(--ease-out);
+}
+.ad-slot__house:hover,
+.ad-slot__house:focus-visible {
+  border-color: var(--line-strong);
+}
+.ad-slot__house-kicker {
+  color: var(--ink-3);
+}
+.ad-slot__house-title {
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  line-height: 1.25;
+}
+.ad-slot__house-text {
+  max-width: 46ch;
+  color: var(--ink-2);
+  font-size: var(--fs-small);
+  line-height: 1.5;
+}
+.ad-slot__house-cta {
+  margin-top: 4px;
+  color: var(--accent-text);
+  font-size: var(--fs-small);
+  font-weight: 500;
+}
 .ad-rail {
   display: none;
 }
-.ad-rail > ins {
+.ad-rail > .ad-slot__box {
   width: 160px;
-  height: 600px;
 }
 @media (min-width: 1780px) and (min-height: 760px) {
   .ad-rail {
     display: flex;
     position: fixed;
     z-index: 50;
-    /* Under the header when there is room, otherwise raised to clear the anchor (655px rail + 16px gap). */
     top: max(8px, min(calc(var(--header-h) + 24px), calc(100vh - var(--anchor-h, 0px) - 671px)));
     width: fit-content;
   }
@@ -715,6 +807,10 @@ main {
   }
   .ad-rail--right {
     left: calc((100vw + var(--wrap)) / 2 + 24px);
+  }
+  .ad-rail:has(ins[data-ad-status='unfilled']),
+  .ads-off .ad-rail {
+    display: none;
   }
 }
 

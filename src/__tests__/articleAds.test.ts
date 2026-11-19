@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { insertArticleAds } from '~/micro-apps/_shared/ads/articleAds'
 
-const AD = /<div class="ad-slot ad-slot--article">.*?<\/ins><\/div>/g
+const AD = /<div class="ad-slot ad-slot--article">.*?<\/ins><\/div><\/div><\/div>/g
 const p = (text: string) => `<p>${text}</p>`
 // ~700 characters each, so three of them clear the 1500-character spacing.
 const long = (i: number) => p(`paragraph ${i} ${'x'.repeat(700)}`)

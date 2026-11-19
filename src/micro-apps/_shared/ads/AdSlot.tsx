@@ -11,7 +11,11 @@ export function AdSlot({ kind, className }: { kind: AdKind; className?: string }
   return (
     <div className={className ? `ad-slot ad-slot--${kind} ${className}` : `ad-slot ad-slot--${kind}`}>
       <span className="ad-slot__label micro">{AD_LABEL}</span>
-      <ins ref={ins} className="adsbygoogle" {...adInsAttrs(kind)} />
+      <div className="ad-slot__box">
+        <div className="ad-slot__unit">
+          <ins ref={ins} className="adsbygoogle" {...adInsAttrs(kind)} />
+        </div>
+      </div>
     </div>
   )
 }

@@ -44,5 +44,14 @@ export function adSlotHtml(kind: AdKind): string {
   const attrs = Object.entries(adInsAttrs(kind))
     .map(([name, value]) => ` ${name}="${value}"`)
     .join('')
-  return `<div class="ad-slot ad-slot--${kind}"><span class="ad-slot__label micro">${AD_LABEL}</span><ins class="adsbygoogle"${attrs}></ins></div>`
+  return `<div class="ad-slot ad-slot--${kind}"><span class="ad-slot__label micro">${AD_LABEL}</span><div class="ad-slot__box"><div class="ad-slot__unit"><ins class="adsbygoogle"${attrs}></ins></div></div></div>`
 }
+
+export type HousePromo = { href: string; title: string; text: string; cta: string }
+export const HOUSE_PROMOS: readonly HousePromo[] = [
+  { href: '/blog', title: 'Blog yazıları', text: 'Frontend geliştirme, web teknolojileri ve müzik üzerine yazılarım.', cta: 'Yazıları oku' },
+  { href: '/projeler', title: 'Projelerim', text: 'Açık kaynak kodlu projelerim ve geliştirdiğim uygulamalar.', cta: 'Projelere göz at' },
+  { href: '/youtube', title: 'YouTube videolarım', text: 'YouTube kanalımda yayınladığım tüm videolar.', cta: 'Videoları izle' },
+  { href: '/hakkimda', title: 'Hakkımda', text: 'Deneyimlerim ve kullandığım teknolojiler.', cta: 'Tanışalım' },
+  { href: '/iletisim', title: 'İletişim', text: 'Yeni projeler, işbirlikleri ve fikirleriniz için bana ulaşın.', cta: 'Bana ulaş' },
+]

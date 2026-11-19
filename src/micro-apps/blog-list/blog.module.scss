@@ -76,11 +76,10 @@
 .bgrid__cell > :global(.ad-slot) {
   height: 100%;
 }
-// An ad Google could not fill takes its grid cell or row with it.
-.bgrid__cell:has(> :global(.ad-slot) > ins[data-ad-status='unfilled']),
-.bgrid__ad:has(> :global(.ad-slot) > ins[data-ad-status='unfilled']),
-:global(.ads-off) .bgrid__cell:has(> :global(.ad-slot)),
-:global(.ads-off) .bgrid__ad {
+// An ad slot runtime.ts collapsed (unfilled while still below the viewport) takes its grid cell or row with it; one
+// left unfilled on screen keeps its box and shows a link to one of the site's pages, so the grid never reflows there.
+.bgrid__cell:has(> :global(.ad-slot[data-ad-collapsed])),
+.bgrid__ad:has(> :global(.ad-slot[data-ad-collapsed])) {
   display: none;
 }
 .blog-ads {

@@ -16,6 +16,10 @@ onMounted(() => {
 <template>
   <div :class="['ad-slot', `ad-slot--${kind}`]">
     <span class="ad-slot__label micro">{{ AD_LABEL }}</span>
-    <ins ref="ins" class="adsbygoogle" v-bind="attrs" />
+    <div class="ad-slot__box">
+      <div class="ad-slot__unit">
+        <ins ref="ins" class="adsbygoogle" v-bind="attrs" />
+      </div>
+    </div>
   </div>
 </template>
